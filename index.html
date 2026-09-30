@@ -1,0 +1,1032 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PAO Elite — czyszczenie, malowanie i renowacja elewacji oraz dachów · Oleśnica i Dolny Śląsk</title>
+<meta name="description" content="PAO Elite: elewacje i tynki STO, czyszczenie i malowanie dachów, prace dekarskie, dachy płaskie w żywicy, kamienny dywan, odszkodowania. Oleśnica i cały Dolny Śląsk.">
+<style>
+:root{
+  --bg:#f5f4f1;
+  --ink:#1d2126;
+  --muted:#6d7278;
+  --accent:#c05a3c;
+  --accent-d:#a34a30;
+  --accent-l:#e08a68;
+  --line:#e2dfd9;
+  --sky1:#dce4e9;--sky2:#f1efe9;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth;scrollbar-gutter:stable}
+body{font-family:"Inter","Segoe UI",system-ui,-apple-system,sans-serif;background:var(--bg);color:var(--ink);-webkit-font-smoothing:antialiased;overflow-x:hidden}
+::selection{background:var(--accent);color:#fff}
+img,svg,video{display:block}
+button{font-family:inherit}
+
+/* ================= HEADER (2 stany: nad wideo / na stronie) ================= */
+header{position:fixed;top:0;left:0;right:0;z-index:100;height:68px;display:flex;align-items:center;
+  padding:0 clamp(1rem,3vw,2.4rem);gap:2.5rem;transition:background .4s,box-shadow .4s}
+header.onpage{background:rgba(255,255,255,.92);backdrop-filter:blur(12px);box-shadow:0 1px 0 var(--line),0 8px 24px rgba(20,24,30,.05)}
+.brand{display:flex;align-items:center;gap:.7rem;text-decoration:none;color:#fff;margin-right:auto;transition:color .4s}
+header.onpage .brand{color:var(--ink)}
+.brand .mark{width:40px;height:40px;border-radius:9px;background:rgba(20,24,30,.55);border:1px solid rgba(255,255,255,.4);
+  color:#fff;display:flex;align-items:center;justify-content:center;font-family:Georgia,serif;font-style:italic;font-weight:700;font-size:1.25rem;
+  backdrop-filter:blur(6px);transition:background .4s,border-color .4s}
+header.onpage .brand .mark{background:var(--ink);border-color:var(--ink)}
+.brand .bt{display:flex;flex-direction:column;line-height:1.05}
+.brand .bt strong{font-weight:800;letter-spacing:.18em;font-size:.92rem}
+.brand .bt strong b{color:var(--accent-l)}
+header.onpage .brand .bt strong b{color:var(--accent)}
+.brand .bt small{font-size:.6rem;letter-spacing:.14em;text-transform:uppercase;opacity:.75;margin-top:.22rem}
+.mainnav{display:flex;gap:1.9rem}
+.mainnav a{position:relative;font-size:.82rem;font-weight:600;letter-spacing:.05em;color:#fff;text-decoration:none;padding:.3rem 0;
+  text-shadow:0 1px 12px rgba(0,0,0,.35);transition:color .4s,text-shadow .4s}
+header.onpage .mainnav a{color:var(--ink);text-shadow:none}
+.mainnav a::after{content:"";position:absolute;left:0;bottom:0;height:2px;width:0;background:var(--accent);transition:width .3s cubic-bezier(.2,.7,.3,1)}
+.mainnav a:hover::after{width:100%}
+.head-right{display:flex;align-items:center;gap:1.3rem}
+.head-phone{display:flex;align-items:center;gap:.5rem;color:#fff;text-decoration:none;font-weight:700;font-size:.88rem;
+  text-shadow:0 1px 12px rgba(0,0,0,.35);transition:color .4s,text-shadow .4s}
+header.onpage .head-phone{color:var(--ink);text-shadow:none}
+.head-phone svg{width:16px;height:16px;fill:var(--accent-l)}
+header.onpage .head-phone svg{fill:var(--accent)}
+.head-phone:hover{color:var(--accent-l)}
+header.onpage .head-phone:hover{color:var(--accent)}
+.btn{display:inline-block;border:none;cursor:pointer;text-decoration:none;text-align:center;
+  padding:.72rem 1.4rem;border-radius:4px;font-size:.86rem;font-weight:700;letter-spacing:.03em;
+  transition:transform .2s,background .2s,color .2s,box-shadow .2s}
+.btn:hover{transform:translateY(-2px)}
+.btn-accent{background:var(--accent);color:#fff;box-shadow:0 6px 16px rgba(192,90,60,.28)}
+.btn-accent:hover{background:var(--accent-d)}
+.btn-dark{background:var(--ink);color:#fff}
+.btn-ghost{border:1px solid #c9c4bb;color:var(--ink);background:rgba(255,255,255,.5)}
+.btn-ghost:hover{background:var(--ink);border-color:var(--ink);color:#fff}
+.btn-glass{border:1px solid rgba(255,255,255,.5);color:#fff;background:rgba(255,255,255,.1);backdrop-filter:blur(6px)}
+.btn-glass:hover{background:#fff;color:var(--ink)}
+@media(max-width:1020px){.mainnav{display:none}}
+@media(max-width:640px){.head-phone span{display:none}.brand .bt small{display:none}}
+
+/* ================= KINOWA SEKWENCJA WIDEO ================= */
+#vjourney{height:440vh;position:relative;background:#0c0e12}
+#vstage{position:sticky;top:0;height:100vh;overflow:hidden}
+.vscene{position:absolute;inset:0;opacity:0;visibility:hidden}
+.vscene video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.vscene .tint{position:absolute;inset:0;background:
+  radial-gradient(120% 90% at 50% 50%, transparent 40%, rgba(10,13,18,.42) 100%),
+  linear-gradient(180deg, rgba(10,13,18,.28) 0%, transparent 28%, transparent 66%, rgba(10,13,18,.34) 100%)}
+.vov{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:min(94vw,1100px);text-align:center;
+  pointer-events:none;opacity:0;color:#fff}
+.vov .word{font-family:Georgia,"Times New Roman",serif;font-weight:400;font-size:clamp(2.6rem,9vw,7.4rem);
+  letter-spacing:.28em;text-transform:uppercase;line-height:1.06;text-indent:.28em;
+  text-shadow:0 3px 18px rgba(5,8,12,.85),0 10px 70px rgba(5,8,12,.55)}
+#vscrim{position:absolute;inset:0;pointer-events:none;opacity:0;
+  background:radial-gradient(60% 48% at 50% 50%, rgba(8,11,16,.62) 0%, rgba(8,11,16,.34) 55%, rgba(8,11,16,.08) 100%)}
+.vtag{display:inline-block;margin-bottom:1.2rem;padding:.42rem 1rem;border:1px solid #ffffff99;border-radius:2px;
+  font-size:.72rem;letter-spacing:.42em;text-transform:uppercase;font-weight:700;text-indent:.42em;
+  background:rgba(10,13,18,.4);backdrop-filter:blur(4px)}
+.vtag.po{background:var(--accent);border-color:var(--accent)}
+.vov .word b{font-weight:700}
+.vov .rule{width:64px;height:2px;background:#fff;opacity:.7;margin:1.5rem auto 1.1rem}
+.vov .sub{font-size:clamp(.72rem,1.3vw,.95rem);letter-spacing:.4em;text-transform:uppercase;font-weight:500;opacity:.9;
+  text-shadow:0 2px 24px rgba(8,12,18,.6)}
+.vov.small .word{font-size:clamp(1.8rem,5.4vw,4.2rem);letter-spacing:.22em}
+.vov.final .word{font-size:clamp(1.7rem,4.8vw,3.8rem);letter-spacing:.1em;text-transform:none;text-indent:0}
+#handoff{position:absolute;left:0;right:0;bottom:0;height:46vh;pointer-events:none;opacity:0;
+  background:linear-gradient(180deg, rgba(220,228,233,0) 0%, #dce4e9 78%)}
+.vdots{position:absolute;right:1.4rem;top:50%;transform:translateY(-50%);z-index:20;display:flex;flex-direction:column;gap:.7rem}
+.vdots span{width:8px;height:8px;border-radius:50%;background:#ffffff55;transition:background .3s,transform .3s}
+.vdots span.on{background:#fff;transform:scale(1.35)}
+.vhint{position:absolute;bottom:3vh;left:50%;transform:translateX(-50%);z-index:20;color:#fff;font-size:.62rem;
+  letter-spacing:.34em;text-transform:uppercase;display:flex;flex-direction:column;align-items:center;gap:.35rem;
+  text-shadow:0 2px 16px rgba(0,0,0,.5);transition:opacity .4s;pointer-events:none}
+.vhint i{display:block;width:1px;height:26px;background:#fff;animation:vdown 1.7s infinite}
+@keyframes vdown{0%{transform:scaleY(0);transform-origin:top}45%{transform:scaleY(1);transform-origin:top}55%{transform:scaleY(1);transform-origin:bottom}100%{transform:scaleY(0);transform-origin:bottom}}
+.vcredit{position:absolute;left:1rem;bottom:.8rem;z-index:20;font-size:.58rem;letter-spacing:.06em;color:#ffffff70}
+
+/* ================= HERO Z DOMKIEM (stary wygląd) ================= */
+.hero{min-height:100vh;display:flex;flex-direction:column;padding-top:68px;position:relative;overflow:hidden;
+  background:
+    radial-gradient(60% 46% at 22% 8%, rgba(255,244,222,.85) 0%, rgba(255,244,222,0) 60%),
+    linear-gradient(180deg,var(--sky1) 0%,var(--sky2) 58%,var(--bg) 100%)}
+.hero-main{flex:1;display:grid;grid-template-columns:minmax(330px,4fr) 6fr;gap:1.4rem;max-width:1300px;width:100%;margin:0 auto;
+  padding:1rem 1.6rem 0;align-items:center}
+.panel{position:relative;z-index:5;height:520px;display:flex;flex-direction:column;justify-content:center}
+.panel .kicker{font-size:.72rem;letter-spacing:.3em;text-transform:uppercase;color:var(--accent);font-weight:800;margin-bottom:.9rem}
+.panel h1,.panel h2{font-size:clamp(1.55rem,3.1vw,2.5rem);line-height:1.12;font-weight:800;letter-spacing:-.015em}
+.panel .desc{margin-top:1rem;color:var(--muted);line-height:1.62;font-size:.96rem;max-width:440px}
+.panel ul{margin:1rem 0 0;list-style:none}
+.panel li{position:relative;padding-left:1.2rem;margin-bottom:.42rem;font-size:.9rem;color:#3a3f45}
+.panel li::before{content:"";position:absolute;left:0;top:.42em;width:8px;height:8px;background:var(--accent)}
+.panel .ctas{display:flex;gap:.7rem;margin-top:1.5rem;flex-wrap:wrap}
+.panel-content{animation:panelIn .45s cubic-bezier(.2,.7,.3,1)}
+@keyframes panelIn{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+.hint-interact{margin-top:1.7rem;font-size:.78rem;color:var(--muted);display:flex;align-items:center;gap:.55rem}
+.hint-interact .dot{width:10px;height:10px;border-radius:50%;background:var(--accent);animation:pulseDot 1.8s infinite;flex:0 0 auto}
+@keyframes pulseDot{0%,100%{box-shadow:0 0 0 0 rgba(192,90,60,.45)}50%{box-shadow:0 0 0 9px rgba(192,90,60,0)}}
+.house-wrap{position:relative;z-index:2;height:520px;display:flex;align-items:center;justify-content:center}
+.house-wrap svg{width:100%;height:100%;max-height:520px}
+.clouds{position:absolute;inset:0;pointer-events:none;z-index:1}
+.cloud{position:absolute;background:#fff;border-radius:60px;opacity:.6;filter:blur(1px)}
+.cloud::before,.cloud::after{content:"";position:absolute;background:#fff;border-radius:50%}
+.cloud.c1{width:130px;height:34px;top:11%;left:-140px;animation:drift 56s linear infinite}
+.cloud.c1::before{width:52px;height:52px;top:-24px;left:22px}.cloud.c1::after{width:38px;height:38px;top:-16px;left:66px}
+.cloud.c2{width:90px;height:26px;top:24%;left:-100px;animation:drift 78s linear infinite 14s;opacity:.4}
+.cloud.c2::before{width:38px;height:38px;top:-18px;left:16px}.cloud.c2::after{width:28px;height:28px;top:-12px;left:48px}
+@keyframes drift{to{transform:translateX(120vw)}}
+.part{cursor:pointer}
+.part:focus-visible{outline:3px solid var(--accent);outline-offset:4px}
+.hotspot{pointer-events:none}
+.hotspot .ring{fill:none;stroke:var(--accent);stroke-width:2;opacity:.85;animation:ringPulse 2.1s infinite}
+.hotspot .core{fill:var(--accent);stroke:#fff;stroke-width:2}
+@keyframes ringPulse{0%{r:8;opacity:.85}70%{r:17;opacity:0}100%{r:17;opacity:0}}
+.part.hot .hotspot,.part.sel .hotspot{opacity:0;transition:opacity .25s}
+.part-label{font-size:13px;font-weight:700;fill:#fff;pointer-events:none;opacity:0;transition:opacity .25s}
+.label-pill{fill:var(--ink);opacity:0;transition:opacity .25s;pointer-events:none}
+.part.hot .label-pill,.part.sel .label-pill{opacity:.94}
+.part.hot .part-label,.part.sel .part-label{opacity:1}
+.sel-ring{opacity:0;transition:opacity .3s;pointer-events:none}
+.part.sel .sel-ring{opacity:1}
+.roof-old{transition:opacity .5s ease .05s}
+.part-roof.hot .roof-old,.part-roof.sel .roof-old{opacity:0}
+.roof-skel{opacity:0;transition:opacity .4s}
+.part-roof.hot .roof-skel,.part-roof.sel .roof-skel{opacity:1}
+.roof-new rect{opacity:0;transform:translateY(-14px);transition:opacity .4s,transform .4s}
+.part-roof.hot .roof-new rect,.part-roof.sel .roof-new rect{opacity:1;transform:none}
+.roof-new rect:nth-child(1){transition-delay:.35s}
+.roof-new rect:nth-child(2){transition-delay:.5s}
+.roof-new rect:nth-child(3){transition-delay:.65s}
+.roof-new rect:nth-child(4){transition-delay:.8s}
+.roof-new rect:nth-child(5){transition-delay:.95s}
+.facade-clean{clip-path:inset(0 100% 0 0);transition:clip-path 1.1s cubic-bezier(.6,0,.3,1)}
+.part-facade.hot .facade-clean,.part-facade.sel .facade-clean{clip-path:inset(0 0 0 0)}
+.wash-line{opacity:0}
+.part-facade.hot .wash-line,.part-facade.sel .wash-line{opacity:1;animation:wash 1.1s cubic-bezier(.6,0,.3,1) forwards}
+@keyframes wash{from{transform:translateX(0)}to{transform:translateX(345px);opacity:0}}
+.stone-layer{opacity:0;transition:opacity .8s ease .1s}
+.part-terrace.hot .stone-layer,.part-terrace.sel .stone-layer{opacity:1}
+.shine{opacity:0}
+.part-terrace.hot .shine,.part-terrace.sel .shine{animation:shineSweep 1.2s ease .3s forwards}
+@keyframes shineSweep{0%{opacity:.5;transform:translateX(-40px)}100%{opacity:0;transform:translateX(250px)}}
+.part-storm .bolt{opacity:0;transition:opacity .2s}
+.part-storm.hot .bolt,.part-storm.sel .bolt{opacity:1;animation:flash 1.1s infinite}
+@keyframes flash{0%,100%{opacity:1}45%{opacity:.15}55%{opacity:1}}
+.part-storm .rain line{opacity:0;transition:opacity .3s}
+.part-storm.hot .rain line,.part-storm.sel .rain line{opacity:.7}
+.part-storm.hot .storm-body,.part-storm.sel .storm-body{filter:brightness(.82)}
+.strip-zone{position:relative;z-index:5;max-width:1300px;width:100%;margin:0 auto;padding:0 1.6rem .4rem}
+.strip-head{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:.55rem;height:1.1rem}
+.strip-title{font-size:.74rem;letter-spacing:.26em;text-transform:uppercase;font-weight:800;color:var(--ink)}
+.strip-title em{font-style:normal;color:var(--accent)}
+.strip-hint{font-size:.72rem;color:var(--muted)}
+.strip{display:flex;gap:.8rem;overflow-x:auto;overflow-y:hidden;height:174px;cursor:grab;
+  scrollbar-width:thin;scrollbar-color:#c9c4bb transparent;transition:opacity .28s}
+.strip.fading{opacity:0}
+.strip:active{cursor:grabbing}
+.shot{flex:0 0 232px;height:150px;border-radius:5px;position:relative;overflow:hidden;user-select:none;
+  box-shadow:0 8px 20px rgba(20,24,30,.13)}
+.shot .ph{position:absolute;inset:0}
+.shot .cap{position:absolute;left:0;right:0;bottom:0;padding:.45rem .6rem;font-size:.68rem;letter-spacing:.04em;color:#fff;
+  background:linear-gradient(180deg,transparent,rgba(15,18,22,.85))}
+.shot .tag{position:absolute;top:.5rem;left:.5rem;font-size:.6rem;letter-spacing:.12em;text-transform:uppercase;font-weight:700;
+  color:#fff;background:var(--accent);padding:.2rem .45rem;border-radius:2px}
+.ph-roof1{background:linear-gradient(160deg,#8d4f38 0 55%,#a35a3e 55% 100%)}
+.ph-roof2{background:repeating-linear-gradient(115deg,#7c4634 0 18px,#94523a 18px 36px)}
+.ph-roof3{background:linear-gradient(180deg,#5b636b 0 45%,#374049 45%)}
+.ph-fac1{background:linear-gradient(90deg,#b9b3a6 0 50%,#f2efe8 50%)}
+.ph-fac2{background:linear-gradient(160deg,#efece4 0 70%,#ddd8cc 70%)}
+.ph-fac3{background:linear-gradient(90deg,#a8a89e 0 38%,#f5f2ea 38%)}
+.ph-st1{background:radial-gradient(circle at 20% 30%,#c9b8a6 2px,transparent 3px) 0 0/14px 14px,#9c8a77}
+.ph-st2{background:radial-gradient(circle at 60% 60%,#b7a795 2px,transparent 3px) 0 0/12px 12px,#877663}
+.ph-st3{background:radial-gradient(circle at 40% 40%,#d8cabb 2px,transparent 3px) 0 0/16px 16px,#a99a88}
+.ph-dmg1{background:linear-gradient(200deg,#3c434c 0 60%,#59636e 60%)}
+.ph-dmg2{background:linear-gradient(160deg,#2e343b 0 40%,#4a545f 40%)}
+.scroll-ind{position:relative;margin:0 auto;padding:.2rem 0 .8rem;z-index:6;color:var(--muted);font-size:.66rem;
+  letter-spacing:.28em;text-transform:uppercase;display:flex;flex-direction:column;align-items:center;gap:.25rem;pointer-events:none}
+.scroll-ind span{display:block;width:1px;height:22px;background:var(--muted);animation:down 1.6s infinite}
+@keyframes down{0%{transform:scaleY(0);transform-origin:top}45%{transform:scaleY(1);transform-origin:top}55%{transform:scaleY(1);transform-origin:bottom}100%{transform:scaleY(0);transform-origin:bottom}}
+.fallback{max-width:1300px;margin:0 auto;padding:.2rem 1.6rem 1rem;display:none;gap:.5rem;flex-wrap:wrap}
+.fallback a{font-size:.8rem;color:var(--ink);border:1px solid var(--line);background:#fff;padding:.45rem .8rem;border-radius:20px;text-decoration:none}
+.fallback a:hover{border-color:var(--accent);color:var(--accent)}
+body.touch .fallback{display:flex}
+
+/* ================= SEKCJE ================= */
+.tiles-sec{padding:5.5rem 1.6rem;max-width:1300px;margin:0 auto}
+.eyebrow{font-size:.72rem;letter-spacing:.3em;text-transform:uppercase;color:var(--accent);font-weight:800;margin-bottom:.8rem}
+h2.sec{font-size:clamp(1.5rem,2.8vw,2.2rem);font-weight:800;letter-spacing:-.01em;max-width:660px}
+.lead-d{margin-top:1rem;color:var(--muted);max-width:560px;line-height:1.65;font-size:.95rem}
+.tiles{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;margin-top:2.4rem}
+.tile{position:relative;height:300px;border-radius:6px;overflow:hidden;text-decoration:none;color:#fff;display:flex;align-items:flex-end}
+.tile .bgimg{position:absolute;inset:0;transition:transform .6s cubic-bezier(.2,.6,.2,1),filter .4s}
+.tile:hover .bgimg{transform:scale(1.07);filter:brightness(.72)}
+.tile .shade{position:absolute;inset:0;background:linear-gradient(180deg,rgba(18,22,27,.05) 30%,rgba(18,22,27,.82))}
+.tile .tcont{position:relative;padding:1.3rem;width:100%}
+.tile h3{font-size:1.15rem;font-weight:800;letter-spacing:.01em;transition:color .3s}
+.tile:hover h3{color:#ffd9c9}
+.tile p{margin-top:.35rem;font-size:.8rem;color:#ffffffc4;line-height:1.45}
+.tile .go{margin-top:.7rem;display:inline-block;font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;font-weight:700;
+  border-bottom:2px solid var(--accent);padding-bottom:.15rem}
+.bg-fac{background:linear-gradient(120deg,#b7b1a4 0 44%,#f3f0e8 44%)}
+.bg-roof{background:repeating-linear-gradient(112deg,#7c4634 0 22px,#94523a 22px 44px)}
+.bg-floor{background:radial-gradient(circle at 30% 30%,#cbbba9 2.4px,transparent 3.2px) 0 0/15px 15px,#96866f}
+.bg-claim{background:linear-gradient(200deg,#333a43 0 55%,#57616c 55%)}
+@media(max-width:1000px){.tiles{grid-template-columns:1fr 1fr}}
+@media(max-width:560px){.tiles{grid-template-columns:1fr}.tile{height:220px}}
+.why{background:#fff;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.why .in{max-width:1300px;margin:0 auto;padding:4.5rem 1.6rem;display:grid;grid-template-columns:1fr 1fr;gap:3rem;align-items:start}
+.why ol{list-style:none;counter-reset:st;margin-top:1.6rem}
+.why ol li{counter-increment:st;position:relative;padding:0 0 1.3rem 3rem;border-left:1px solid var(--line);margin-left:1rem}
+.why ol li:last-child{padding-bottom:0}
+.why ol li::before{content:counter(st,decimal-leading-zero);position:absolute;left:-1.05rem;top:-.15rem;width:2.1rem;height:2.1rem;
+  background:var(--ink);color:#fff;font-size:.72rem;font-weight:800;display:flex;align-items:center;justify-content:center;border-radius:50%}
+.why ol b{display:block;font-size:.95rem}
+.why ol span{font-size:.85rem;color:var(--muted)}
+.badges{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-top:1.6rem}
+.badge{border:1px solid var(--line);padding:1.1rem;border-radius:5px;background:var(--bg)}
+.badge b{display:block;font-size:.95rem;margin-bottom:.25rem}
+.badge span{font-size:.8rem;color:var(--muted);line-height:1.45}
+@media(max-width:900px){.why .in{grid-template-columns:1fr}}
+.reviews{background:var(--bg)}
+.rgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-top:2.2rem}
+.rev{border:1px solid var(--line);border-radius:6px;padding:1.4rem;background:#fff;display:flex;flex-direction:column;gap:.8rem}
+.rev .stars{color:#e2a33c;letter-spacing:.2em;font-size:.9rem}
+.rev p{font-size:.9rem;line-height:1.6;color:#3a3f45}
+.rev .who{margin-top:auto;display:flex;align-items:center;gap:.7rem}
+.rev .av{width:38px;height:38px;border-radius:50%;background:var(--ink);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:.85rem}
+.rev .who b{display:block;font-size:.85rem}
+.rev .who span{font-size:.72rem;color:var(--muted)}
+.rnote{margin-top:1rem;font-size:.72rem;color:var(--muted);font-style:italic}
+@media(max-width:820px){.rgrid{grid-template-columns:1fr}}
+.faq{background:#fff;border-top:1px solid var(--line)}
+.faq .list{max-width:820px;margin:2.2rem auto 0}
+details{border-bottom:1px solid var(--line)}
+summary{cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center;
+  padding:1.15rem .2rem;font-weight:700;font-size:.98rem;gap:1rem}
+summary::-webkit-details-marker{display:none}
+summary::after{content:"+";font-size:1.3rem;color:var(--accent);font-weight:400;transition:transform .3s}
+details[open] summary::after{transform:rotate(45deg)}
+details .a{padding:0 .2rem 1.2rem;color:var(--muted);font-size:.9rem;line-height:1.65;max-width:700px}
+.ctaband{background:linear-gradient(120deg,#1a1e24,#2a2119);padding:5rem 1.6rem;text-align:center;color:#fff}
+.ctaband .word{font-family:Georgia,serif;font-size:clamp(1.6rem,4vw,2.8rem);font-weight:400;line-height:1.25}
+.ctaband .word b{color:var(--accent-l)}
+.ctaband .btns{margin-top:2rem;display:flex;gap:.9rem;justify-content:center;flex-wrap:wrap}
+.contact{padding:5.5rem 1.6rem;background:var(--ink);color:#fff}
+.contact .in{max-width:1040px;margin:0 auto;display:grid;grid-template-columns:1fr 1.2fr;gap:3rem}
+.contact h2{color:#fff}
+.contact .lead{margin-top:1rem;color:#ffffffa8;line-height:1.6;font-size:.95rem;max-width:400px}
+.contact .direct{margin-top:1.8rem;display:flex;flex-direction:column;gap:.7rem;font-size:.95rem}
+.contact .direct a{color:#fff;text-decoration:none;font-weight:700}
+.contact .direct a:hover{color:#ffb397}
+.contact .direct small{display:block;color:#ffffff77;font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;margin-bottom:.15rem;font-weight:400}
+form{display:flex;flex-direction:column;gap:.9rem}
+.frow{display:grid;grid-template-columns:1fr 1fr;gap:.9rem}
+label{font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;color:#ffffff90;font-weight:700;display:block;margin-bottom:.35rem}
+input,select,textarea{width:100%;padding:.8rem .9rem;background:#272d34;border:1px solid #3a424b;border-radius:4px;color:#fff;
+  font-size:.92rem;font-family:inherit;transition:border-color .25s}
+input:focus,select:focus,textarea:focus{outline:none;border-color:var(--accent)}
+textarea{min-height:110px;resize:vertical}
+.rodo{display:flex;gap:.6rem;align-items:flex-start;font-size:.72rem;color:#ffffff85;line-height:1.5}
+.rodo input{width:auto;margin-top:.15rem}
+.form-ok{display:none;background:#1f7a45;color:#fff;padding:.9rem 1rem;border-radius:4px;font-size:.88rem}
+@media(max-width:860px){.contact .in{grid-template-columns:1fr}.frow{grid-template-columns:1fr}}
+footer{padding:2rem 1.6rem;text-align:center;font-size:.75rem;color:var(--muted)}
+footer b{color:var(--ink)}
+@media(max-width:900px){
+  .hero{min-height:auto}
+  .hero-main{grid-template-columns:1fr;padding-top:.4rem}
+  .house-wrap{order:1;height:auto}
+  .house-wrap svg{max-height:42vh}
+  .panel{order:2;height:auto;min-height:0;padding-bottom:.6rem}
+  .scroll-ind{display:none}
+}
+@media (prefers-reduced-motion: reduce){
+  #vjourney{height:100vh}
+  .vov{opacity:1 !important}
+  *{animation:none !important}
+}
+</style>
+</head>
+<body>
+
+<header id="hd">
+  <a class="brand" href="#" aria-label="PAO Elite — strona główna">
+    <span class="mark"><i>P</i></span>
+    <span class="bt"><strong>PAO <b>ELITE</b></strong><small>Renowacja elewacji i dachów</small></span>
+  </a>
+  <nav class="mainnav" aria-label="Nawigacja główna">
+    <a href="#uslugi">Usługi</a>
+    <a href="#realizacje">Realizacje</a>
+    <a href="#proces">Jak pracujemy</a>
+    <a href="#faq">FAQ</a>
+    <a href="#kontakt">Kontakt</a>
+  </nav>
+  <div class="head-right">
+    <a class="head-phone" href="tel:+48608355327">
+      <svg viewBox="0 0 24 24"><path d="M6.6 10.8c1.4 2.8 3.8 5.1 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1C10.6 21 3 13.4 3 4c0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.2.2 2.4.6 3.6.1.3 0 .7-.2 1l-2.3 2.2z"/></svg>
+      <span>608 355 327</span>
+    </a>
+    <a class="btn btn-accent" href="#kontakt">Bezpłatna wycena</a>
+  </div>
+</header>
+
+<!-- ==================== KINOWA SEKWENCJA WIDEO ==================== -->
+<div id="vjourney" aria-label="Prezentacja PAO Elite">
+  <div id="vstage">
+
+    <!-- V0: luksusowe wnętrze -->
+    <section class="vscene" id="v0">
+      <video muted loop playsinline preload="auto"
+        poster="https://images.pexels.com/videos/7578546/apartment-at-home-business-buy-7578546.jpeg?auto=compress&w=1600">
+        <source src="https://videos.pexels.com/video-files/7578546/7578546-hd_1920_1080_30fps.mp4" type="video/mp4">
+        <source src="https://videos.pexels.com/video-files/7578546/7578546-uhd_2560_1440_30fps.mp4" type="video/mp4">
+      </video>
+      <div class="tint"></div>
+    </section>
+
+    <!-- V1: dron nad dachami -->
+    <section class="vscene" id="v1">
+      <video muted loop playsinline preload="metadata"
+        poster="https://images.pexels.com/videos/9700224/aerial-aerial-photography-aerial-view-architecture-9700224.jpeg?auto=compress&w=1600">
+        <source src="https://videos.pexels.com/video-files/9700224/9700224-hd_1920_1080_30fps.mp4" type="video/mp4">
+        <source src="https://videos.pexels.com/video-files/9700224/9700224-uhd_2560_1440_30fps.mp4" type="video/mp4">
+      </video>
+      <div class="tint"></div>
+    </section>
+
+    <!-- V2: PRZED — dom w kiepskim stanie -->
+    <section class="vscene" id="v2">
+      <video muted loop playsinline preload="metadata"
+        poster="https://images.pexels.com/videos/2691467/free-video-2691467.jpg?auto=compress&w=1600">
+        <source src="https://videos.pexels.com/video-files/2691467/2691467-hd_1920_1080_30fps.mp4" type="video/mp4">
+        <source src="https://videos.pexels.com/video-files/2691467/2691467-uhd_2560_1440_30fps.mp4" type="video/mp4">
+      </video>
+      <div class="tint"></div>
+    </section>
+
+    <!-- V3: PO — dron nad zadbanym domem -->
+    <section class="vscene" id="v3">
+      <video muted loop playsinline preload="metadata"
+        poster="https://images.pexels.com/videos/17224715/architectural-design-architectural-designs-beautiful-home-building-exterior-17224715.jpeg?auto=compress&w=1600">
+        <source src="https://videos.pexels.com/video-files/17224715/17224715-hd_1920_1080_30fps.mp4" type="video/mp4">
+        <source src="https://videos.pexels.com/video-files/17224715/17224715-uhd_2560_1440_30fps.mp4" type="video/mp4">
+      </video>
+      <div class="tint"></div>
+      <div id="handoff"></div>
+    </section>
+
+    <div id="vscrim"></div>
+
+    <!-- typografia -->
+    <div class="vov" id="t0">
+      <div class="word">PAO <b>ELITE</b></div>
+      <div class="rule"></div>
+      <div class="sub">Renowacja elewacji i dachów · Oleśnica</div>
+    </div>
+    <div class="vov small" id="t1">
+      <div class="word">Elewacje · Dachy<br>Kamienny dywan</div>
+      <div class="rule"></div>
+      <div class="sub">Systemy STO · Żywice · Odszkodowania</div>
+    </div>
+    <div class="vov final" id="t2">
+      <div class="vtag">Przed</div>
+      <div class="word">Lata zaniedbania<br><b>robią swoje.</b></div>
+      <div class="rule"></div>
+      <div class="sub">Brud · Algi · Wilgoć · Korozja</div>
+    </div>
+    <div class="vov final" id="t3">
+      <div class="vtag po">Po</div>
+      <div class="word">Widać różnicę<br><b>po jednym dniu pracy.</b></div>
+      <div class="rule"></div>
+      <div class="sub">Oleśnica i cały Dolny Śląsk</div>
+    </div>
+
+    <div class="vdots" id="vdots" aria-hidden="true"><span></span><span></span><span></span><span></span></div>
+    <div class="vhint" id="vhint">przewiń lub obejrzyj<i></i></div>
+    <div class="vcredit">wideo: Pexels (Kindel Media · Matthias Groeneveld · Hamza Awan) — wersja demo</div>
+  </div>
+</div>
+
+<!-- ==================== HERO Z INTERAKTYWNYM DOMKIEM ==================== -->
+<section class="hero" id="dom">
+  <div class="clouds"><div class="cloud c1"></div><div class="cloud c2"></div></div>
+
+  <div class="hero-main">
+    <div class="panel" id="panel" aria-live="polite">
+      <div class="panel-content" id="panelContent">
+        <div class="kicker">Oleśnica · Dolny Śląsk</div>
+        <h1>Twój dom mówi<br>o Tobie wszystko.</h1>
+        <p class="desc">Czyszczenie, malowanie i renowacja elewacji oraz dachów w systemach STO.
+          Kamienny dywan, dachy płaskie w żywicy, prace dekarskie i pomoc w odszkodowaniach.</p>
+        <div class="ctas">
+          <a class="btn btn-accent" href="#kontakt">Bezpłatna wycena</a>
+          <a class="btn btn-ghost" href="#uslugi">Zobacz usługi</a>
+        </div>
+        <div class="hint-interact"><span class="dot"></span> Najedź lub kliknij część domu, aby zobaczyć, co robimy</div>
+      </div>
+    </div>
+
+    <div class="house-wrap">
+      <svg viewBox="0 0 920 640" role="img" aria-label="Interaktywny dom — wybierz dach, elewację, taras lub chmurę burzową">
+        <defs>
+          <clipPath id="roofClip"><polygon points="200,310 410,140 620,310"/></clipPath>
+          <clipPath id="facadeClip"><rect x="230" y="310" width="360" height="250"/></clipPath>
+          <pattern id="stone" width="13" height="13" patternUnits="userSpaceOnUse">
+            <rect width="13" height="13" fill="#9c8a77"/>
+            <circle cx="4" cy="4" r="2.1" fill="#c9b8a6"/>
+            <circle cx="10" cy="9" r="1.7" fill="#b3a08c"/>
+          </pattern>
+          <linearGradient id="glass" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0" stop-color="#cfe0e9"/><stop offset=".55" stop-color="#a9bfcc"/><stop offset="1" stop-color="#8fa7b5"/>
+          </linearGradient>
+          <linearGradient id="roofShade" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stop-color="#000" stop-opacity=".22"/><stop offset="1" stop-color="#000" stop-opacity="0"/>
+          </linearGradient>
+          <linearGradient id="cleanWall" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stop-color="#f7f4ec"/><stop offset="1" stop-color="#eeeade"/>
+          </linearGradient>
+          <linearGradient id="dirtyWall" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stop-color="#b8b2a5"/><stop offset="1" stop-color="#a49e90"/>
+          </linearGradient>
+        </defs>
+
+        <rect x="0" y="560" width="920" height="80" fill="#e7e3d9"/>
+        <rect x="0" y="558" width="920" height="4" fill="#d9d4c8"/>
+        <ellipse cx="470" cy="566" rx="330" ry="13" fill="#141820" opacity=".08"/>
+
+        <g opacity=".95">
+          <rect x="856" y="470" width="10" height="92" rx="4" fill="#7a6a52"/>
+          <circle cx="861" cy="440" r="40" fill="#8aa07c"/>
+          <circle cx="836" cy="466" r="26" fill="#7b9270"/>
+          <circle cx="886" cy="468" r="24" fill="#94a988"/>
+          <ellipse cx="861" cy="566" rx="46" ry="7" fill="#141820" opacity=".07"/>
+        </g>
+        <g>
+          <circle cx="180" cy="540" r="26" fill="#8aa07c"/>
+          <circle cx="152" cy="550" r="18" fill="#7b9270"/>
+          <circle cx="206" cy="551" r="16" fill="#94a988"/>
+        </g>
+
+        <g class="part part-storm" id="p-szkody" tabindex="0" role="button" aria-label="Szkody i odszkodowania — zobacz usługę">
+          <g class="storm-body">
+            <ellipse cx="775" cy="98" rx="64" ry="30" fill="#7d8791"/>
+            <ellipse cx="726" cy="112" rx="44" ry="25" fill="#8b949d"/>
+            <ellipse cx="820" cy="114" rx="40" ry="22" fill="#6f7982"/>
+            <ellipse cx="775" cy="116" rx="58" ry="20" fill="#828c96"/>
+          </g>
+          <g class="rain" stroke="#7d8791" stroke-width="3" stroke-linecap="round">
+            <line x1="734" y1="146" x2="726" y2="168"/>
+            <line x1="800" y1="148" x2="792" y2="170"/>
+            <line x1="822" y1="140" x2="814" y2="160"/>
+          </g>
+          <polygon class="bolt" points="772,130 754,170 768,170 750,208 786,160 772,160 788,130" fill="#f2b23c"/>
+          <g class="hotspot"><circle class="ring" cx="775" cy="98" r="8"/><circle class="core" cx="775" cy="98" r="6"/></g>
+          <g>
+            <rect class="label-pill" x="686" y="34" rx="13" width="178" height="26"/>
+            <text class="part-label" x="775" y="52" text-anchor="middle">Szkody i odszkodowania</text>
+          </g>
+        </g>
+
+        <g>
+          <rect x="510" y="182" width="36" height="100" fill="#9a927f"/>
+          <rect x="510" y="182" width="36" height="10" fill="#88816f"/>
+          <rect x="503" y="172" width="50" height="12" rx="2" fill="#6e675c"/>
+        </g>
+
+        <g class="part part-roof" id="p-dach" tabindex="0" role="button" aria-label="Dach — zobacz usługi dachowe">
+          <polygon points="200,310 410,140 620,310" fill="#4c545d"/>
+          <g clip-path="url(#roofClip)">
+            <g class="roof-skel" stroke="#8a6b4f" stroke-width="7">
+              <line x1="410" y1="140" x2="224" y2="310"/><line x1="410" y1="140" x2="317" y2="310"/>
+              <line x1="410" y1="140" x2="410" y2="310"/><line x1="410" y1="140" x2="503" y2="310"/>
+              <line x1="410" y1="140" x2="596" y2="310"/>
+              <line x1="244" y1="276" x2="576" y2="276" stroke-width="5"/>
+              <line x1="282" y1="242" x2="538" y2="242" stroke-width="5"/>
+              <line x1="320" y1="208" x2="500" y2="208" stroke-width="5"/>
+            </g>
+            <g class="roof-old">
+              <polygon points="200,310 410,140 620,310" fill="#707a72"/>
+              <g stroke="#616b64" stroke-width="3">
+                <line x1="212" y1="296" x2="608" y2="296"/><line x1="234" y1="276" x2="586" y2="276"/>
+                <line x1="260" y1="254" x2="560" y2="254"/><line x1="286" y1="232" x2="534" y2="232"/>
+                <line x1="312" y1="210" x2="508" y2="210"/><line x1="338" y1="188" x2="482" y2="188"/>
+                <line x1="364" y1="166" x2="456" y2="166"/>
+              </g>
+              <ellipse cx="310" cy="264" rx="30" ry="12" fill="#5d6b53" opacity=".7"/>
+              <ellipse cx="490" cy="234" rx="24" ry="10" fill="#5d6b53" opacity=".55"/>
+              <ellipse cx="400" cy="290" rx="34" ry="10" fill="#55624c" opacity=".55"/>
+              <polygon points="200,310 410,140 620,310" fill="url(#roofShade)" opacity=".35"/>
+            </g>
+            <g class="roof-new">
+              <rect x="196" y="284" width="440" height="32" fill="#b1583a"/>
+              <rect x="196" y="252" width="440" height="32" fill="#a95336"/>
+              <rect x="196" y="220" width="440" height="32" fill="#b1583a"/>
+              <rect x="196" y="184" width="440" height="36" fill="#a04e33"/>
+              <rect x="196" y="136" width="440" height="48" fill="#b1583a"/>
+            </g>
+          </g>
+          <line x1="200" y1="310" x2="410" y2="140" stroke="#3b434b" stroke-width="7" stroke-linecap="round"/>
+          <line x1="620" y1="310" x2="410" y2="140" stroke="#3b434b" stroke-width="7" stroke-linecap="round"/>
+          <rect x="186" y="304" width="448" height="13" rx="6" fill="#39414a"/>
+          <g class="hotspot"><circle class="ring" cx="410" cy="215" r="8"/><circle class="core" cx="410" cy="215" r="6"/></g>
+          <g>
+            <rect class="label-pill" x="362" y="98" rx="13" width="96" height="26"/>
+            <text class="part-label" x="410" y="116" text-anchor="middle">Dach</text>
+          </g>
+          <polygon class="sel-ring" points="200,310 410,140 620,310" fill="none" stroke="#c05a3c" stroke-width="4" stroke-dasharray="10 7"/>
+        </g>
+
+        <g class="part part-facade" id="p-elewacja" tabindex="0" role="button" aria-label="Elewacja — zobacz usługę czyszczenia i malowania">
+          <g>
+            <rect x="230" y="310" width="360" height="250" fill="url(#dirtyWall)"/>
+            <ellipse cx="270" cy="345" rx="34" ry="16" fill="#8f8a7d" opacity=".55"/>
+            <ellipse cx="560" cy="330" rx="30" ry="14" fill="#8f8a7d" opacity=".5"/>
+            <ellipse cx="250" cy="540" rx="40" ry="18" fill="#84806f" opacity=".6"/>
+            <ellipse cx="430" cy="552" rx="60" ry="14" fill="#84806f" opacity=".45"/>
+            <ellipse cx="575" cy="520" rx="26" ry="30" fill="#8f8a7d" opacity=".5"/>
+            <path d="M238 310 q6 60 -2 120" stroke="#84806f" stroke-width="6" fill="none" opacity=".5"/>
+            <path d="M585 310 q-5 50 2 110" stroke="#84806f" stroke-width="5" fill="none" opacity=".45"/>
+          </g>
+          <g class="facade-clean">
+            <rect x="230" y="310" width="360" height="250" fill="url(#cleanWall)"/>
+          </g>
+          <rect x="230" y="310" width="360" height="24" fill="url(#roofShade)"/>
+          <rect x="230" y="536" width="360" height="24" fill="#cfc9bc"/>
+          <rect x="230" y="534" width="360" height="3" fill="#bdb7a9"/>
+          <g class="wash-line" clip-path="url(#facadeClip)">
+            <rect x="222" y="310" width="15" height="250" fill="#ffffff" opacity=".9"/>
+            <rect x="216" y="310" width="4" height="250" fill="#cde4ef"/>
+          </g>
+          <rect x="596" y="317" width="9" height="243" rx="4" fill="#8b939c"/>
+          <g>
+            <rect x="262" y="344" width="76" height="90" rx="3" fill="#2a3138"/>
+            <rect x="267" y="349" width="66" height="80" fill="url(#glass)"/>
+            <line x1="300" y1="349" x2="300" y2="429" stroke="#2a3138" stroke-width="4"/>
+            <line x1="267" y1="389" x2="333" y2="389" stroke="#2a3138" stroke-width="3"/>
+            <polygon points="270,352 296,352 274,384" fill="#fff" opacity=".28"/>
+            <rect x="256" y="434" width="88" height="9" rx="2" fill="#d9d4c8"/>
+            <rect x="376" y="344" width="76" height="90" rx="3" fill="#2a3138"/>
+            <rect x="381" y="349" width="66" height="80" fill="url(#glass)"/>
+            <line x1="414" y1="349" x2="414" y2="429" stroke="#2a3138" stroke-width="4"/>
+            <line x1="381" y1="389" x2="447" y2="389" stroke="#2a3138" stroke-width="3"/>
+            <polygon points="384,352 410,352 388,384" fill="#fff" opacity=".28"/>
+            <rect x="370" y="434" width="88" height="9" rx="2" fill="#d9d4c8"/>
+            <rect x="472" y="414" width="106" height="11" rx="4" fill="#39414a"/>
+            <line x1="480" y1="425" x2="490" y2="440" stroke="#39414a" stroke-width="4"/>
+            <line x1="570" y1="425" x2="560" y2="440" stroke="#39414a" stroke-width="4"/>
+            <rect x="486" y="430" width="78" height="130" rx="2" fill="#2a3138"/>
+            <rect x="492" y="436" width="66" height="124" fill="#55402e"/>
+            <rect x="500" y="446" width="50" height="42" rx="2" fill="#4a3728"/>
+            <rect x="500" y="498" width="50" height="52" rx="2" fill="#4a3728"/>
+            <circle cx="546" cy="500" r="4.2" fill="#d8b171"/>
+            <circle cx="466" cy="452" r="6" fill="#f2d7a0" stroke="#39414a" stroke-width="2"/>
+          </g>
+          <g class="hotspot"><circle class="ring" cx="300" cy="500" r="8"/><circle class="core" cx="300" cy="500" r="6"/></g>
+          <g>
+            <rect class="label-pill" x="245" y="576" rx="13" width="110" height="26"/>
+            <text class="part-label" x="300" y="594" text-anchor="middle">Elewacja</text>
+          </g>
+          <rect class="sel-ring" x="230" y="310" width="360" height="250" fill="none" stroke="#c05a3c" stroke-width="4" stroke-dasharray="10 7"/>
+        </g>
+
+        <polygon points="492,560 558,560 576,600 474,600" fill="#d8d3c6"/>
+        <line x1="500" y1="573" x2="550" y2="573" stroke="#c7c2b4" stroke-width="3"/>
+        <line x1="494" y1="587" x2="556" y2="587" stroke="#c7c2b4" stroke-width="3"/>
+
+        <g class="part part-terrace" id="p-posadzki" tabindex="0" role="button" aria-label="Taras, schody i posadzki — zobacz usługę">
+          <g>
+            <rect x="610" y="500" width="196" height="60" rx="2" fill="#c2bdb2"/>
+            <rect x="610" y="500" width="196" height="7" fill="#b3aea2"/>
+            <path d="M634 512 l26 16 m-8 -22 l14 28 M718 508 l22 24 M762 516 l-16 22" stroke="#a49f93" stroke-width="2.5" fill="none"/>
+            <rect x="806" y="516" width="50" height="15" fill="#b5b0a4"/>
+            <rect x="806" y="531" width="50" height="15" fill="#a8a397"/>
+            <rect x="806" y="546" width="50" height="14" fill="#9b968a"/>
+          </g>
+          <g class="stone-layer">
+            <rect x="610" y="500" width="196" height="60" rx="2" fill="url(#stone)"/>
+            <rect x="610" y="500" width="196" height="6" fill="#c05a3c"/>
+            <rect x="806" y="516" width="50" height="15" fill="url(#stone)"/>
+            <rect x="806" y="531" width="50" height="15" fill="url(#stone)"/>
+            <rect x="806" y="546" width="50" height="14" fill="url(#stone)"/>
+          </g>
+          <rect class="shine" x="618" y="500" width="26" height="60" fill="#fff" opacity="0"/>
+          <g stroke="#39414a" stroke-linecap="round">
+            <line x1="618" y1="500" x2="618" y2="462" stroke-width="4"/>
+            <line x1="664" y1="500" x2="664" y2="462" stroke-width="4"/>
+            <line x1="710" y1="500" x2="710" y2="462" stroke-width="4"/>
+            <line x1="756" y1="500" x2="756" y2="462" stroke-width="4"/>
+            <line x1="798" y1="500" x2="798" y2="462" stroke-width="4"/>
+            <line x1="612" y1="460" x2="804" y2="460" stroke-width="6"/>
+          </g>
+          <g>
+            <rect x="768" y="478" width="24" height="20" rx="3" fill="#7a6a52"/>
+            <circle cx="780" cy="470" r="12" fill="#8aa07c"/>
+          </g>
+          <g class="hotspot"><circle class="ring" cx="706" cy="530" r="8"/><circle class="core" cx="706" cy="530" r="6"/></g>
+          <g>
+            <rect class="label-pill" x="622" y="576" rx="13" width="168" height="26"/>
+            <text class="part-label" x="706" y="594" text-anchor="middle">Taras · schody · posadzki</text>
+          </g>
+          <rect class="sel-ring" x="606" y="454" width="256" height="112" fill="none" stroke="#c05a3c" stroke-width="4" stroke-dasharray="10 7"/>
+        </g>
+      </svg>
+    </div>
+  </div>
+
+  <nav class="fallback" aria-label="Usługi — nawigacja alternatywna">
+    <a href="#" data-part="dach">Dachy</a>
+    <a href="#" data-part="elewacja">Elewacje</a>
+    <a href="#" data-part="posadzki">Taras i posadzki</a>
+    <a href="#" data-part="szkody">Odszkodowania</a>
+  </nav>
+
+  <div class="strip-zone" id="realizacje">
+    <div class="strip-head">
+      <div class="strip-title">Realizacje · <em id="stripCat">wszystkie</em></div>
+      <div class="strip-hint">przeciągnij, aby przeglądać →</div>
+    </div>
+    <div class="strip" id="strip" aria-live="polite"></div>
+  </div>
+
+  <div class="scroll-ind">przewiń<span></span></div>
+</section>
+
+<!-- ==================== KAFELKI ==================== -->
+<section class="tiles-sec" id="uslugi">
+  <div class="eyebrow">Usługi</div>
+  <h2 class="sec">Cztery specjalizacje. Jeden standard wykonania.</h2>
+  <p class="lead-d">Od mycia elewacji po kompletną wymianę dachu — dobieramy technologię do podłoża, nie odwrotnie.</p>
+  <div class="tiles">
+    <a class="tile" href="#kontakt" data-service="Elewacje">
+      <div class="bgimg bg-fac"></div><div class="shade"></div>
+      <div class="tcont"><h3>Elewacje</h3><p>Czyszczenie i malowanie żywicą na szczepie silikonowym STO, tynki strukturalne.</p><span class="go">Dowiedz się więcej</span></div>
+    </a>
+    <a class="tile" href="#kontakt" data-service="Dachy">
+      <div class="bgimg bg-roof"></div><div class="shade"></div>
+      <div class="tcont"><h3>Dachy</h3><p>Czyszczenie i malowanie (blacha, ceramika, cement), dekarstwo, wymiana, eternit, dachy płaskie.</p><span class="go">Dowiedz się więcej</span></div>
+    </a>
+    <a class="tile" href="#kontakt" data-service="Posadzki i schody">
+      <div class="bgimg bg-floor"></div><div class="shade"></div>
+      <div class="tcont"><h3>Posadzki i schody</h3><p>Żywica na posadzki i schody, kamienny dywan na tarasy i balkony.</p><span class="go">Dowiedz się więcej</span></div>
+    </a>
+    <a class="tile" href="#kontakt" data-service="Odszkodowania">
+      <div class="bgimg bg-claim"></div><div class="shade"></div>
+      <div class="tcont"><h3>Odszkodowania</h3><p>Wsparcie w uzyskaniu odszkodowania i likwidacja szkód (Kuna).</p><span class="go">Dowiedz się więcej</span></div>
+    </a>
+  </div>
+</section>
+
+<!-- ==================== PROCES / DLACZEGO ==================== -->
+<section class="why" id="proces">
+  <div class="in">
+    <div>
+      <div class="eyebrow">Jak pracujemy</div>
+      <h2 class="sec">Od oględzin do gwarancji — bez niespodzianek.</h2>
+      <ol>
+        <li><b>Bezpłatne oględziny i wycena</b><span>Przyjeżdżamy, mierzymy, oceniamy stan techniczny. Wycena w 24 h.</span></li>
+        <li><b>Dobór technologii</b><span>Systemy STO i żywice dopasowane do podłoża — nie odwrotnie.</span></li>
+        <li><b>Realizacja z foto-raportem</b><span>Dokumentujemy każdy etap. Teren posprzątany po każdym dniu pracy.</span></li>
+        <li><b>Odbiór i gwarancja</b><span>Protokół odbioru, pisemna gwarancja i kontakt po realizacji.</span></li>
+      </ol>
+    </div>
+    <div>
+      <div class="eyebrow">Dlaczego PAO Elite</div>
+      <h2 class="sec">Widać różnicę po jednym dniu pracy.</h2>
+      <div class="badges">
+        <div class="badge"><b>Systemy STO</b><span>Renomowane materiały elewacyjne — trwałość i odporność na algi oraz UV.</span></div>
+        <div class="badge"><b>Pisemna gwarancja</b><span>Na wykonanie i zastosowany system — czarno na białym.</span></div>
+        <div class="badge"><b>Oleśnica i Dolny Śląsk</b><span>Działamy lokalnie — dojazd i oględziny bez kosztów.</span></div>
+        <div class="badge"><b>Odszkodowania (Kuna)</b><span>Pomagamy uzyskać odszkodowanie i naprawiamy szkody kompleksowo.</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== OPINIE ==================== -->
+<section class="reviews">
+  <div class="tiles-sec" style="padding-top:4.8rem;padding-bottom:4.8rem">
+    <div class="eyebrow">Opinie</div>
+    <h2 class="sec">Klienci polecają nas sąsiadom.</h2>
+    <div class="rgrid">
+      <div class="rev"><div class="stars">★★★★★</div>
+        <p>„Dach wyglądał na 20 lat, po jednym dniu mycia i malowania — jak nowy. Ekipa punktualna, teren posprzątany."</p>
+        <div class="who"><div class="av">M</div><div><b>Marta</b><span>Oleśnica · dach ceramiczny</span></div></div></div>
+      <div class="rev"><div class="stars">★★★★★</div>
+        <p>„Elewacja była zielona od alg. Po czyszczeniu i malowaniu STO dom wygląda lepiej niż po budowie."</p>
+        <div class="who"><div class="av">T</div><div><b>Tomasz</b><span>Twardogóra · elewacja</span></div></div></div>
+      <div class="rev"><div class="stars">★★★★★</div>
+        <p>„Kamienny dywan na tarasie i schodach — zero śliskości zimą, świetne wykończenie krawędzi."</p>
+        <div class="who"><div class="av">A</div><div><b>Anna</b><span>Syców · taras</span></div></div></div>
+    </div>
+    <div class="rnote">* Opinie przykładowe (demo) — do podmiany na prawdziwe recenzje Google po uruchomieniu wizytówki.</div>
+  </div>
+</section>
+
+<!-- ==================== FAQ ==================== -->
+<section class="faq" id="faq">
+  <div class="tiles-sec" style="padding-top:4.8rem;padding-bottom:4.8rem">
+    <div class="eyebrow">FAQ</div>
+    <h2 class="sec">Najczęstsze pytania</h2>
+    <div class="list">
+      <details open><summary>Ile kosztuje malowanie dachu lub elewacji?</summary>
+        <div class="a">Cena zależy od powierzchni, stanu podłoża i wybranego systemu. Po bezpłatnych oględzinach otrzymasz wycenę w 24 h — stałą, bez dopisków na koniec. Możesz też wysłać zdjęcia na WhatsApp, a oddzwonimy z widełkami.</div></details>
+      <details><summary>Czy malowanie dachu ma sens zamiast wymiany?</summary>
+        <div class="a">W większości przypadków tak — jeśli pokrycie jest technicznie sprawne, czyszczenie, impregnacja i malowanie kosztują ułamek wymiany i przedłużają żywotność dachu o lata. Podczas oględzin uczciwie powiemy, kiedy renowacja się nie opłaca.</div></details>
+      <details><summary>Jak długo trwa realizacja?</summary>
+        <div class="a">Standardowy dom jednorodzinny: mycie i malowanie elewacji lub dachu to zwykle 1–3 dni robocze, kamienny dywan na tarasie 1–2 dni (plus czas wiązania żywicy). Termin blokujemy w umowie.</div></details>
+      <details><summary>Jaką gwarancję otrzymam?</summary>
+        <div class="a">Pisemną — na wykonanie oraz zastosowany system materiałowy. Zakres i okres gwarancji zależą od technologii; wszystko czarno na białym w protokole odbioru.</div></details>
+      <details><summary>Jak działa pomoc w odszkodowaniach (Kuna)?</summary>
+        <div class="a">Po szkodzie (wichura, grad, zalanie) dokumentujemy zniszczenia, pomagamy w zgłoszeniu i uzyskaniu odszkodowania, a następnie wykonujemy naprawę kompleksowo — jeden kontakt zamiast pięciu firm.</div></details>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== CTA ==================== -->
+<div class="ctaband">
+  <div class="word">Twój dom zasługuje na <b>więcej</b>.<br>Zacznij od bezpłatnej wyceny.</div>
+  <div class="btns">
+    <a class="btn btn-accent" href="#kontakt">Wyceń swój projekt</a>
+    <a class="btn btn-glass" href="tel:+48608355327">Zadzwoń: 608 355 327</a>
+  </div>
+</div>
+
+<!-- ==================== KONTAKT ==================== -->
+<section class="contact" id="kontakt">
+  <div class="in">
+    <div>
+      <div class="eyebrow" style="color:#e08a68">Kontakt</div>
+      <h2 class="sec">Wyceń swój projekt.<br>Odpowiadamy w 24 h.</h2>
+      <p class="lead">Możesz też po prostu wysłać nam zdjęcia dachu, elewacji lub tarasu na WhatsApp — oddzwonimy z wyceną.</p>
+      <div class="direct">
+        <div><small>Telefon / WhatsApp</small><a href="tel:+48608355327">+48 608 355 327</a></div>
+        <div><small>E-mail</small><a href="mailto:p.obrusnik@wp.pl">p.obrusnik@wp.pl</a></div>
+        <div><small>Obszar działania</small>Oleśnica i cały Dolny Śląsk</div>
+      </div>
+    </div>
+    <form id="quoteForm" novalidate>
+      <div class="frow">
+        <div><label for="fName">Imię</label><input id="fName" name="name" required autocomplete="name"></div>
+        <div><label for="fPhone">Telefon / e-mail</label><input id="fPhone" name="contact" required autocomplete="tel"></div>
+      </div>
+      <div><label for="fService">Usługa</label>
+        <select id="fService" name="service">
+          <option>Elewacje</option>
+          <option>Dachy</option>
+          <option>Posadzki i schody</option>
+          <option>Odszkodowania</option>
+          <option>Inne / nie wiem</option>
+        </select>
+      </div>
+      <div><label for="fMsg">Wiadomość</label><textarea id="fMsg" name="message" placeholder="Opisz krótko, co chcesz odnowić (możesz podać adres i metraż)…"></textarea></div>
+      <label class="rodo"><input type="checkbox" id="fRodo" required>
+        Wyrażam zgodę na przetwarzanie moich danych osobowych przez PAO Elite w celu udzielenia odpowiedzi na zapytanie (RODO, art. 6 ust. 1 lit. a).</label>
+      <button class="btn btn-accent" type="submit">Wyślij zapytanie</button>
+      <div class="form-ok" id="formOk">Dziękujemy! Odezwiemy się w ciągu 24 godzin.</div>
+    </form>
+  </div>
+</section>
+
+<footer>
+  <b>PAO Elite</b> · Oleśnica · prototyp — sekwencja wideo na klipach demo z Pexels (docelowo: własne ujęcia realizacji)
+</footer>
+
+<script>
+/* ============================================================
+   1) KINOWA SEKWENCJA WIDEO (scroll-scrub przez 3 sceny)
+============================================================ */
+const clampN=(v,a,b)=>Math.min(b,Math.max(a,v));
+const rampN=(p,a,b)=>clampN((p-a)/(b-a),0,1);
+
+const vjourney=document.getElementById('vjourney');
+const vscenes=[document.getElementById('v0'),document.getElementById('v1'),document.getElementById('v2'),document.getElementById('v3')];
+const vids=vscenes.map(s=>s.querySelector('video'));
+const tovs=[document.getElementById('t0'),document.getElementById('t1'),document.getElementById('t2'),document.getElementById('t3')];
+const vdots=[...document.querySelectorAll('#vdots span')];
+const vhint=document.getElementById('vhint');
+const handoff=document.getElementById('handoff');
+const vscrim=document.getElementById('vscrim');
+const hd=document.getElementById('hd');
+let vTarget=0,vCur=0;
+
+/* starty scen (przenikanie ADDYTYWNE: nowa scena wjeżdża NA poprzednią —
+   spód zostaje w pełnej nieprzezroczystości, więc nie ma ciemnego mrugnięcia) */
+const VS=[0,0.30,0.55,0.78];
+const FW=0.10; /* szerokość przenikania */
+const TXT=[[0.02,0.26],[0.34,0.51],[0.59,0.74],[0.82,0.97]];
+
+function vOnScroll(){
+  const r=vjourney.getBoundingClientRect();
+  const total=vjourney.offsetHeight-innerHeight;
+  vTarget=clampN(-r.top/total,0,1);
+  hd.classList.toggle('onpage', r.bottom<innerHeight*0.55);
+}
+addEventListener('scroll',vOnScroll,{passive:true});vOnScroll();
+
+function vFrame(){
+  vCur+=(vTarget-vCur)*0.16;
+  if(Math.abs(vTarget-vCur)<0.0005)vCur=vTarget;
+  const p=vCur;
+
+  for(let i=0;i<4;i++){
+    const op = i===0 ? 1 : rampN(p,VS[i],VS[i]+FW);
+    const nextOp = i<3 ? rampN(p,VS[i+1],VS[i+1]+FW) : 0;
+    const visible = op>0.001 && nextOp<0.999;
+    const sc=vscenes[i];
+    sc.style.opacity=op.toFixed(3);
+    sc.style.visibility=visible?'visible':'hidden';
+    const segA=VS[i], segB=(i<3?VS[i+1]+FW:1);
+    const t=rampN(p,segA,segB);
+    vids[i].style.transform=`scale(${(1.10-0.10*t).toFixed(4)})`;
+    if(visible&&vids[i].paused){vids[i].play().catch(()=>{})}
+    else if(!visible&&!vids[i].paused){vids[i].pause()}
+  }
+
+  let maxT=0;
+  TXT.forEach(([a,b],i)=>{
+    const o=rampN(p,a,a+0.05)-rampN(p,b-0.05,b);
+    maxT=Math.max(maxT,o);
+    tovs[i].style.opacity=o.toFixed(3);
+    tovs[i].style.transform=`translate(-50%,-50%) translateY(${((1-rampN(p,a,a+0.18))*4).toFixed(2)}vh)`;
+  });
+  vscrim.style.opacity=(maxT*0.9).toFixed(3);
+
+  handoff.style.opacity=rampN(p,0.9,1);
+  vhint.style.opacity=p>0.03?0:1;
+  let act=0;VS.forEach((a,i)=>{if(p>=a+0.04)act=i});
+  vdots.forEach((d,i)=>d.classList.toggle('on',i===act));
+
+  requestAnimationFrame(vFrame);
+}
+if(!matchMedia('(prefers-reduced-motion: reduce)').matches){
+  requestAnimationFrame(vFrame);
+}else{
+  vscenes[0].style.opacity=1;vscenes[0].style.visibility='visible';
+  tovs[0].style.opacity=1;hd.classList.add('onpage');
+}
+
+/* ---- AUTO-ODTWARZANIE: jeśli użytkownik nie scrolluje, sekwencja płynie sama ---- */
+let autoOn=false,autoStopped=false;
+function stopAuto(){autoStopped=true;autoOn=false;document.documentElement.style.scrollBehavior=''}
+['wheel','touchstart','keydown','pointerdown'].forEach(ev=>addEventListener(ev,stopAuto,{passive:true}));
+setTimeout(()=>{
+  if(!autoStopped&&scrollY<40&&!matchMedia('(prefers-reduced-motion: reduce)').matches){
+    autoOn=true;
+    document.documentElement.style.scrollBehavior='auto';
+    requestAnimationFrame(autoTick);
+  }
+},1600);
+function autoTick(){
+  if(!autoOn)return;
+  const total=vjourney.offsetHeight-innerHeight;
+  const maxY=vjourney.offsetTop+total;
+  const step=total/(32*60);            /* pełna sekwencja ≈ 32 s */
+  const ny=Math.min(scrollY+step,maxY);
+  scrollTo({top:ny,behavior:'instant'});
+  if(ny>=maxY-1){stopAuto();return}
+  requestAnimationFrame(autoTick);
+}
+
+/* ============================================================
+   2) INTERAKTYWNY DOMEK + PASEK REALIZACJI (stary wygląd)
+============================================================ */
+const SERVICES = {
+  dach:{
+    title:"Dachy — czyszczenie, malowanie, dekarstwo",
+    kicker:"Usługa · Dachy",
+    desc:"Przywracamy dachom kolor i szczelność — bez kosztów pełnej wymiany, a gdy trzeba, wymieniamy pokrycie kompleksowo.",
+    bullets:["Czyszczenie i malowanie: blacha, ceramika, cement","Prace dekarskie i wymiana dachu","Demontaż eternitu i azbestu","Dachy płaskie w technologii żywicznej"],
+    service:"Dachy", cat:"dachy",
+    photos:[["Dach ceramiczny · malowanie","ph-roof1"],["Blachodachówka · przed/po","ph-roof2"],["Dach płaski · żywica","ph-roof3"],["Wymiana pokrycia","ph-roof2"],["Czyszczenie dachówki","ph-roof1"]]
+  },
+  elewacja:{
+    title:"Elewacje — czyszczenie i malowanie STO",
+    kicker:"Usługa · Elewacje",
+    desc:"Zmywamy lata zabrudzeń i malujemy żywicą na szczepie silikonowym STO. Efekt widać po jednym dniu pracy.",
+    bullets:["Czyszczenie elewacji z alg i zabrudzeń","Malowanie żywicą silikonową STO","Tynki strukturalne żywiczne silikonowe","Ochrona przed wilgocią i UV na lata"],
+    service:"Elewacje", cat:"elewacje",
+    photos:[["Elewacja · przed/po","ph-fac1"],["Dom jednorodzinny · STO","ph-fac2"],["Czyszczenie elewacji","ph-fac3"],["Tynk strukturalny","ph-fac2"],["Malowanie elewacji","ph-fac1"]]
+  },
+  posadzki:{
+    title:"Tarasy, schody i posadzki",
+    kicker:"Usługa · Posadzki i kamienny dywan",
+    desc:"Kamienny dywan i żywice — trwała, antypoślizgowa i estetyczna powierzchnia na taras, schody, balkon i garaż.",
+    bullets:["Kamienny dywan na tarasy i balkony","Żywica na posadzki i schody","Powierzchnia odporna na mróz i ścieranie","Bez skuwania — aplikacja na istniejące podłoże"],
+    service:"Posadzki i schody", cat:"posadzki",
+    photos:[["Kamienny dywan · taras","ph-st1"],["Schody zewnętrzne · żywica","ph-st2"],["Balkon · kamienny dywan","ph-st3"],["Posadzka garażu","ph-st2"],["Taras · przed/po","ph-st1"]]
+  },
+  szkody:{
+    title:"Szkody i odszkodowania (Kuna)",
+    kicker:"Usługa · Odszkodowania",
+    desc:"Wichura, grad, zalanie? Pomagamy uzyskać odszkodowanie i naprawiamy szkodę kompleksowo — od dokumentacji po remont.",
+    bullets:["Wsparcie w uzyskaniu odszkodowania","Likwidacja szkód — kompleksowo (Kuna)","Dokumentacja i wycena szkody","Naprawa dachu i elewacji po szkodzie"],
+    service:"Odszkodowania", cat:"odszkodowania",
+    photos:[["Szkoda po wichurze · naprawa","ph-dmg1"],["Dach po gradobiciu","ph-dmg2"],["Likwidacja szkody · dokumentacja","ph-dmg1"],["Remont po zalaniu","ph-dmg2"]]
+  }
+};
+const DEFAULT_PHOTOS=[["Elewacja · przed/po","ph-fac1"],["Dach ceramiczny · malowanie","ph-roof1"],["Kamienny dywan · taras","ph-st1"],["Blachodachówka · przed/po","ph-roof2"],["Dom jednorodzinny · STO","ph-fac2"],["Schody · żywica","ph-st2"],["Naprawa po wichurze","ph-dmg1"]];
+const DEFAULT_PANEL=document.getElementById('panelContent').innerHTML;
+
+const strip=document.getElementById('strip'), stripCat=document.getElementById('stripCat');
+const panel=document.getElementById('panelContent');
+const parts={dach:'p-dach',elewacja:'p-elewacja',posadzki:'p-posadzki',szkody:'p-szkody'};
+let selected=null, hoverTimer=null, currentCat=null;
+const canHover=matchMedia('(hover:hover)').matches;
+if(!canHover) document.body.classList.add('touch');
+
+function renderStrip(list,label){
+  if(currentCat===label) return;
+  currentCat=label;
+  strip.classList.add('fading');
+  setTimeout(()=>{
+    if(currentCat!==label) return;
+    strip.innerHTML=list.map(([cap,cls])=>`
+      <div class="shot"><div class="ph ${cls}"></div>
+        <span class="tag">${label==='wszystkie'?'realizacja':label}</span>
+        <div class="cap">${cap}</div></div>`).join('');
+    stripCat.textContent=label;
+    strip.scrollLeft=0;
+    strip.classList.remove('fading');
+  },200);
+}
+renderStrip(DEFAULT_PHOTOS,'wszystkie');
+
+let dragging=false,startX=0,startL=0;
+strip.addEventListener('pointerdown',e=>{dragging=true;startX=e.clientX;startL=strip.scrollLeft});
+addEventListener('pointerup',()=>dragging=false);
+addEventListener('pointermove',e=>{if(dragging){strip.scrollLeft=startL-(e.clientX-startX)}});
+
+function showService(key){
+  const s=SERVICES[key];
+  panel.innerHTML=`
+    <div class="kicker">${s.kicker}</div>
+    <h2>${s.title}</h2>
+    <p class="desc">${s.desc}</p>
+    <ul>${s.bullets.map(b=>`<li>${b}</li>`).join('')}</ul>
+    <div class="ctas">
+      <a class="btn btn-dark" href="#uslugi">Dowiedz się więcej</a>
+      <button class="btn btn-accent" onclick="gotoForm('${s.service}')">Wyceń</button>
+      <button class="btn btn-ghost" onclick="resetAll()">← Wróć</button>
+    </div>`;
+  panel.classList.remove('panel-content');void panel.offsetWidth;panel.classList.add('panel-content');
+}
+function resetAll(){
+  selected=null;
+  Object.values(parts).forEach(id=>document.getElementById(id).classList.remove('sel','hot'));
+  panel.innerHTML=DEFAULT_PANEL;
+  panel.classList.remove('panel-content');void panel.offsetWidth;panel.classList.add('panel-content');
+  renderStrip(DEFAULT_PHOTOS,'wszystkie');
+}
+function gotoForm(service){
+  document.getElementById('fService').value=service;
+  document.getElementById('kontakt').scrollIntoView({behavior:'smooth'});
+}
+
+Object.entries(parts).forEach(([key,id])=>{
+  const el=document.getElementById(id);
+  if(canHover){
+    el.addEventListener('pointerenter',()=>{
+      clearTimeout(hoverTimer);
+      el.classList.add('hot');
+      if(!selected){renderStrip(SERVICES[key].photos,SERVICES[key].cat)}
+    });
+    el.addEventListener('pointerleave',()=>{
+      el.classList.remove('hot');
+      if(!selected){hoverTimer=setTimeout(()=>renderStrip(DEFAULT_PHOTOS,'wszystkie'),900)}
+    });
+  }
+  const activate=()=>{
+    selected=key;
+    Object.values(parts).forEach(pid=>document.getElementById(pid).classList.remove('sel'));
+    el.classList.add('sel');
+    showService(key);
+    renderStrip(SERVICES[key].photos,SERVICES[key].cat);
+  };
+  el.addEventListener('click',activate);
+  el.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();activate()}});
+});
+
+document.querySelectorAll('.fallback a').forEach(a=>{
+  a.addEventListener('click',e=>{e.preventDefault();
+    const k=a.dataset.part;selected=k;
+    Object.values(parts).forEach(pid=>document.getElementById(pid).classList.remove('sel'));
+    document.getElementById(parts[k]).classList.add('sel');
+    showService(k);renderStrip(SERVICES[k].photos,SERVICES[k].cat);
+    document.getElementById('panel').scrollIntoView({behavior:'smooth',block:'center'});
+  });
+});
+
+document.querySelectorAll('.tile').forEach(tl=>{
+  tl.addEventListener('click',()=>{document.getElementById('fService').value=tl.dataset.service});
+});
+
+document.getElementById('quoteForm').addEventListener('submit',e=>{
+  e.preventDefault();
+  const f=e.target;
+  if(!f.name.value.trim()||!f.contact.value.trim()||!document.getElementById('fRodo').checked){
+    f.reportValidity();return;
+  }
+  document.getElementById('formOk').style.display='block';
+  f.querySelector('button[type=submit]').disabled=true;
+});
+</script>
+</body>
+</html>

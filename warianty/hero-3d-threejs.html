@@ -1,0 +1,783 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PAO Elite — renowacja elewacji i dachów · Oleśnica i Dolny Śląsk</title>
+<meta name="description" content="PAO Elite: elewacje i tynki STO, czyszczenie i malowanie dachów, kamienny dywan, dachy płaskie w żywicy, odszkodowania. Oleśnica i cały Dolny Śląsk.">
+<style>
+:root{--ink:#14171c;--paper:#f5f4f1;--accent:#c05a3c;--accent-l:#e08a68;--line:#e2dfd9;--muted:#6d7278}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:"Inter","Segoe UI",system-ui,sans-serif;background:var(--ink);color:#fff;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+::selection{background:var(--accent);color:#fff}
+button{font-family:inherit}
+
+/* ===== HEADER ===== */
+header{position:fixed;top:0;left:0;right:0;z-index:100;height:64px;display:flex;align-items:center;
+  padding:0 clamp(1rem,3vw,2.4rem);gap:2rem;transition:background .4s,box-shadow .4s}
+header.solid{background:rgba(16,19,24,.72);backdrop-filter:blur(14px);box-shadow:0 1px 0 rgba(255,255,255,.06)}
+.brand{display:flex;align-items:center;gap:.65rem;text-decoration:none;color:#fff;margin-right:auto}
+.brand .mark{width:37px;height:37px;border-radius:9px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.3);
+  display:flex;align-items:center;justify-content:center;font-family:Georgia,serif;font-style:italic;font-weight:700;font-size:1.15rem;backdrop-filter:blur(6px)}
+.brand strong{font-weight:800;letter-spacing:.2em;font-size:.86rem}
+.brand strong b{color:var(--accent-l)}
+.mainnav{display:flex;gap:1.7rem}
+.mainnav a{position:relative;font-size:.8rem;font-weight:600;letter-spacing:.06em;color:#ffffffd9;text-decoration:none;padding:.3rem 0}
+.mainnav a::after{content:"";position:absolute;left:0;bottom:0;height:2px;width:0;background:var(--accent-l);transition:width .3s}
+.mainnav a:hover::after{width:100%}
+.btn{display:inline-block;border:none;cursor:pointer;text-decoration:none;text-align:center;
+  padding:.7rem 1.45rem;border-radius:4px;font-size:.85rem;font-weight:700;letter-spacing:.04em;transition:transform .2s,background .2s,color .2s}
+.btn:hover{transform:translateY(-2px)}
+.btn-accent{background:var(--accent);color:#fff;box-shadow:0 8px 22px rgba(192,90,60,.35)}
+.btn-accent:hover{background:#a94b2f}
+.btn-glass{border:1px solid rgba(255,255,255,.45);color:#fff;background:rgba(255,255,255,.08);backdrop-filter:blur(6px)}
+.btn-glass:hover{background:#fff;color:var(--ink)}
+.btn-dark{background:var(--ink);color:#fff}
+.btn-ghostd{border:1px solid #c9c4bb;color:var(--ink);background:transparent}
+.btn-ghostd:hover{background:var(--ink);color:#fff;border-color:var(--ink)}
+@media(max-width:1020px){.mainnav{display:none}}
+
+/* ===== 3D JOURNEY ===== */
+#journey{height:560vh;position:relative}
+#stage{position:sticky;top:0;height:100vh;overflow:hidden}
+#gl{position:absolute;inset:0}
+#vignette{position:absolute;inset:0;pointer-events:none;box-shadow:inset 0 0 34vmin 4vmin rgba(10,14,20,.32)}
+#flash{position:absolute;inset:0;background:#fff;opacity:0;pointer-events:none}
+.ov{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:min(94vw,1100px);text-align:center;pointer-events:none;opacity:0}
+.ov .word{font-family:Georgia,"Times New Roman",serif;font-weight:400;font-size:clamp(2.8rem,10vw,8rem);
+  letter-spacing:.3em;text-transform:uppercase;line-height:1;text-indent:.3em;text-shadow:0 6px 60px rgba(20,26,34,.35)}
+.ov .word b{font-weight:700}
+.ov .rule{width:64px;height:2px;background:currentColor;opacity:.65;margin:1.5rem auto 1.1rem}
+.ov .sub{font-size:clamp(.72rem,1.3vw,.95rem);letter-spacing:.42em;text-transform:uppercase;font-weight:500;opacity:.85}
+.ov .cta{margin-top:2rem;display:flex;gap:.8rem;justify-content:center;pointer-events:auto;opacity:0}
+#ov0{color:#f4ede2;text-shadow:0 4px 40px rgba(0,0,0,.5)}
+#ov1{color:#fff}
+#ov2{color:#fff}
+.scrollhint{position:absolute;bottom:3.2vh;left:50%;transform:translateX(-50%);z-index:20;color:#e8dfd2;font-size:.62rem;
+  letter-spacing:.34em;text-transform:uppercase;display:flex;flex-direction:column;align-items:center;gap:.35rem;transition:opacity .4s;pointer-events:none}
+.scrollhint i{display:block;width:1px;height:26px;background:currentColor;animation:down 1.7s infinite}
+@keyframes down{0%{transform:scaleY(0);transform-origin:top}45%{transform:scaleY(1);transform-origin:top}55%{transform:scaleY(1);transform-origin:bottom}100%{transform:scaleY(0);transform-origin:bottom}}
+#loadveil{position:absolute;inset:0;background:#191512;z-index:30;transition:opacity 1.2s;pointer-events:none}
+
+/* ===== SEKCJE PO PODRÓŻY ===== */
+.after{background:var(--paper);color:var(--ink);position:relative;z-index:5}
+.sec-pad{padding:5.5rem 1.6rem;max-width:1280px;margin:0 auto}
+.eyebrow{font-size:.72rem;letter-spacing:.3em;text-transform:uppercase;color:var(--accent);font-weight:800;margin-bottom:.8rem}
+h2.sec{font-size:clamp(1.5rem,2.8vw,2.2rem);font-weight:800;letter-spacing:-.01em;max-width:660px}
+.lead-d{margin-top:1rem;color:var(--muted);max-width:560px;line-height:1.65;font-size:.95rem}
+
+/* pasek liczb */
+.stats{background:#fff;border-bottom:1px solid var(--line)}
+.stats .in{max-width:1280px;margin:0 auto;display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;padding:2.4rem 1.6rem;text-align:center}
+.stat b{display:block;font-size:1.9rem;font-weight:800}
+.stat b i{font-style:normal;color:var(--accent)}
+.stat span{font-size:.76rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+@media(max-width:720px){.stats .in{grid-template-columns:1fr 1fr;gap:1.6rem}}
+
+/* kafelki */
+.tiles{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;margin-top:2.4rem}
+.tile{position:relative;height:290px;border-radius:6px;overflow:hidden;text-decoration:none;color:#fff;display:flex;align-items:flex-end}
+.tile .bgimg{position:absolute;inset:0;transition:transform .6s cubic-bezier(.2,.6,.2,1),filter .4s}
+.tile:hover .bgimg{transform:scale(1.07);filter:brightness(.72)}
+.tile .shade{position:absolute;inset:0;background:linear-gradient(180deg,rgba(18,22,27,.05) 30%,rgba(18,22,27,.82))}
+.tile .tc{position:relative;padding:1.25rem;width:100%}
+.tile h3{font-size:1.1rem;font-weight:800}
+.tile p{margin-top:.3rem;font-size:.79rem;color:#ffffffc4;line-height:1.45}
+.tile .go{margin-top:.65rem;display:inline-block;font-size:.7rem;letter-spacing:.14em;text-transform:uppercase;font-weight:700;border-bottom:2px solid var(--accent);padding-bottom:.15rem}
+.bg-fac{background:linear-gradient(120deg,#b7b1a4 0 44%,#f3f0e8 44%)}
+.bg-roof{background:repeating-linear-gradient(112deg,#7c4634 0 22px,#94523a 22px 44px)}
+.bg-floor{background:radial-gradient(circle at 30% 30%,#cbbba9 2.4px,transparent 3.2px) 0 0/15px 15px,#96866f}
+.bg-claim{background:linear-gradient(200deg,#333a43 0 55%,#57616c 55%)}
+@media(max-width:1000px){.tiles{grid-template-columns:1fr 1fr}}
+@media(max-width:560px){.tiles{grid-template-columns:1fr}.tile{height:210px}}
+
+/* realizacje: przed/po + siatka */
+.works{background:#fff;border-top:1px solid var(--line)}
+.ba{margin-top:2.4rem;position:relative;height:400px;border:1px solid var(--line);border-radius:6px;overflow:hidden;background:#fff;user-select:none}
+.ba .half{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-weight:800;letter-spacing:.3em;font-size:1rem}
+.ba .before{background:repeating-linear-gradient(135deg,#d8d4cc 0 14px,#c9c3b6 14px 28px);color:#8a857b}
+.ba .after-l{background:linear-gradient(135deg,#f4f0e6,#e8e2d2);color:#7d7466;clip-path:inset(0 0 0 50%)}
+.ba .handle{position:absolute;top:0;bottom:0;left:50%;width:2px;background:var(--accent);cursor:ew-resize}
+.ba .handle::after{content:"⇔";position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
+  width:46px;height:46px;background:var(--accent);color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.15rem;box-shadow:0 6px 18px rgba(192,90,60,.4)}
+.ba .tag{position:absolute;bottom:1rem;font-size:.68rem;letter-spacing:.2em;padding:.35rem .7rem;background:#ffffffd9;color:var(--ink);border-radius:2px}
+.ba .tag.l{left:1rem}.ba .tag.r{right:1rem;background:#15181dd9;color:#fff}
+.wgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-top:1.6rem}
+.wshot{position:relative;height:190px;border-radius:5px;overflow:hidden;box-shadow:0 8px 20px rgba(20,24,30,.1)}
+.wshot .ph{position:absolute;inset:0;transition:transform .5s}
+.wshot:hover .ph{transform:scale(1.06)}
+.wshot .cap{position:absolute;left:0;right:0;bottom:0;padding:.5rem .7rem;font-size:.7rem;color:#fff;background:linear-gradient(180deg,transparent,rgba(15,18,22,.85))}
+.ph-a{background:linear-gradient(160deg,#8d4f38 0 55%,#a35a3e 55%)}
+.ph-b{background:linear-gradient(90deg,#b9b3a6 0 50%,#f2efe8 50%)}
+.ph-c{background:radial-gradient(circle at 20% 30%,#c9b8a6 2px,transparent 3px) 0 0/14px 14px,#9c8a77}
+.ph-d{background:repeating-linear-gradient(115deg,#7c4634 0 18px,#94523a 18px 36px)}
+.ph-e{background:linear-gradient(160deg,#efece4 0 70%,#ddd8cc 70%)}
+.ph-f{background:linear-gradient(200deg,#3c434c 0 60%,#59636e 60%)}
+@media(max-width:820px){.wgrid{grid-template-columns:1fr 1fr}}
+@media(max-width:560px){.wgrid{grid-template-columns:1fr}}
+
+/* proces + dlaczego */
+.why{background:var(--paper);border-top:1px solid var(--line)}
+.why .in{max-width:1280px;margin:0 auto;padding:4.8rem 1.6rem;display:grid;grid-template-columns:1fr 1fr;gap:3rem;align-items:start}
+.why ol{list-style:none;counter-reset:st;margin-top:1.6rem}
+.why ol li{counter-increment:st;position:relative;padding:0 0 1.3rem 3rem;border-left:1px solid #d8d4ca;margin-left:1rem}
+.why ol li:last-child{padding-bottom:0}
+.why ol li::before{content:counter(st,decimal-leading-zero);position:absolute;left:-1.05rem;top:-.15rem;width:2.1rem;height:2.1rem;
+  background:var(--ink);color:#fff;font-size:.72rem;font-weight:800;display:flex;align-items:center;justify-content:center;border-radius:50%}
+.why ol b{display:block;font-size:.95rem}
+.why ol span{font-size:.85rem;color:var(--muted)}
+.badges{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-top:1.6rem}
+.badge{border:1px solid var(--line);padding:1.1rem;border-radius:5px;background:#fff}
+.badge b{display:block;font-size:.95rem;margin-bottom:.25rem}
+.badge span{font-size:.8rem;color:var(--muted);line-height:1.45}
+@media(max-width:900px){.why .in{grid-template-columns:1fr}}
+
+/* opinie */
+.reviews{background:#fff;border-top:1px solid var(--line)}
+.rgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-top:2.2rem}
+.rev{border:1px solid var(--line);border-radius:6px;padding:1.4rem;background:var(--paper);display:flex;flex-direction:column;gap:.8rem}
+.rev .stars{color:#e2a33c;letter-spacing:.2em;font-size:.9rem}
+.rev p{font-size:.9rem;line-height:1.6;color:#3a3f45}
+.rev .who{margin-top:auto;display:flex;align-items:center;gap:.7rem}
+.rev .av{width:38px;height:38px;border-radius:50%;background:var(--ink);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:.85rem}
+.rev .who b{display:block;font-size:.85rem}
+.rev .who span{font-size:.72rem;color:var(--muted)}
+.rnote{margin-top:1rem;font-size:.72rem;color:var(--muted);font-style:italic}
+@media(max-width:820px){.rgrid{grid-template-columns:1fr}}
+
+/* FAQ */
+.faq{background:var(--paper);border-top:1px solid var(--line)}
+.faq .list{max-width:820px;margin:2.2rem auto 0}
+details{border-bottom:1px solid var(--line)}
+summary{cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center;
+  padding:1.15rem .2rem;font-weight:700;font-size:.98rem;gap:1rem}
+summary::-webkit-details-marker{display:none}
+summary::after{content:"+";font-size:1.3rem;color:var(--accent);font-weight:400;transition:transform .3s}
+details[open] summary::after{transform:rotate(45deg)}
+details .a{padding:0 .2rem 1.2rem;color:var(--muted);font-size:.9rem;line-height:1.65;max-width:700px}
+
+/* CTA banner */
+.ctaband{background:linear-gradient(120deg,#1a1e24,#2a2119);padding:5rem 1.6rem;text-align:center;color:#fff}
+.ctaband .word{font-family:Georgia,serif;font-size:clamp(1.6rem,4vw,2.8rem);font-weight:400;line-height:1.25}
+.ctaband .word b{color:var(--accent-l)}
+.ctaband .btns{margin-top:2rem;display:flex;gap:.9rem;justify-content:center;flex-wrap:wrap}
+
+/* kontakt */
+.contact{padding:5.5rem 1.6rem;background:var(--ink);color:#fff}
+.contact .in{max-width:1040px;margin:0 auto;display:grid;grid-template-columns:1fr 1.2fr;gap:3rem}
+.contact .lead{margin-top:1rem;color:#ffffffa8;line-height:1.6;font-size:.95rem;max-width:400px}
+.contact .direct{margin-top:1.8rem;display:flex;flex-direction:column;gap:.7rem;font-size:.95rem}
+.contact .direct a{color:#fff;text-decoration:none;font-weight:700}
+.contact .direct a:hover{color:#ffb397}
+.contact .direct small{display:block;color:#ffffff77;font-size:.7rem;letter-spacing:.14em;text-transform:uppercase;margin-bottom:.15rem}
+form{display:flex;flex-direction:column;gap:.9rem}
+.frow{display:grid;grid-template-columns:1fr 1fr;gap:.9rem}
+label{font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;color:#ffffff90;font-weight:700;display:block;margin-bottom:.35rem}
+input,select,textarea{width:100%;padding:.8rem .9rem;background:#272d34;border:1px solid #3a424b;border-radius:4px;color:#fff;font-size:.92rem;font-family:inherit}
+input:focus,select:focus,textarea:focus{outline:none;border-color:var(--accent)}
+textarea{min-height:104px;resize:vertical}
+.rodo{display:flex;gap:.6rem;align-items:flex-start;font-size:.7rem;color:#ffffff85;line-height:1.5}
+.rodo input{width:auto;margin-top:.15rem}
+.form-ok{display:none;background:#1f7a45;color:#fff;padding:.9rem 1rem;border-radius:4px;font-size:.88rem}
+@media(max-width:860px){.contact .in{grid-template-columns:1fr}.frow{grid-template-columns:1fr}}
+footer{padding:2rem 1.6rem;text-align:center;font-size:.74rem;color:#8a8f96;background:var(--ink)}
+footer b{color:#fff}
+</style>
+</head>
+<body>
+
+<header id="hd">
+  <a class="brand" href="#"><span class="mark"><i>P</i></span><strong>PAO <b>ELITE</b></strong></a>
+  <nav class="mainnav">
+    <a href="#uslugi">Usługi</a><a href="#realizacje">Realizacje</a><a href="#proces">Jak pracujemy</a><a href="#faq">FAQ</a><a href="#kontakt">Kontakt</a>
+  </nav>
+  <div style="display:flex;gap:1rem">
+    <a class="btn btn-glass" href="tel:+48608355327">608 355 327</a>
+    <a class="btn btn-accent" href="#kontakt">Bezpłatna wycena</a>
+  </div>
+</header>
+
+<!-- ================= 3D ================= -->
+<div id="journey">
+  <div id="stage">
+    <canvas id="gl"></canvas>
+    <div id="vignette"></div>
+    <div id="flash"></div>
+
+    <div class="ov" id="ov0">
+      <div class="word">PAO <b>ELITE</b></div>
+      <div class="rule"></div>
+      <div class="sub">Renowacja elewacji i dachów · Oleśnica</div>
+    </div>
+
+    <div class="ov" id="ov1">
+      <div class="word" style="font-size:clamp(1.8rem,5.6vw,4.2rem);letter-spacing:.24em">Elewacje · Dachy<br>Kamienny dywan</div>
+      <div class="rule"></div>
+      <div class="sub">Systemy STO · Żywice · Odszkodowania</div>
+    </div>
+
+    <div class="ov" id="ov2">
+      <div class="word" style="font-size:clamp(1.7rem,5vw,3.8rem);letter-spacing:.14em;text-transform:none;text-indent:0">
+        Widać różnicę<br><b>po jednym dniu pracy.</b></div>
+      <div class="rule"></div>
+      <div class="sub">Oleśnica i cały Dolny Śląsk</div>
+      <div class="cta" id="cta2">
+        <a class="btn btn-accent" href="#kontakt">Bezpłatna wycena w 24 h</a>
+        <a class="btn btn-glass" href="#uslugi">Zobacz usługi</a>
+      </div>
+    </div>
+
+    <div class="scrollhint" id="shint">przewiń<i></i></div>
+    <div id="loadveil"></div>
+  </div>
+</div>
+
+<!-- ================= SEKCJE ================= -->
+<div class="after">
+
+  <div class="stats">
+    <div class="in">
+      <div class="stat"><b>1 <i>dzień</i></b><span>i widać różnicę</span></div>
+      <div class="stat"><b>24 h</b><span>na bezpłatną wycenę</span></div>
+      <div class="stat"><b>STO</b><span>systemy elewacyjne</span></div>
+      <div class="stat"><b>100%</b><span>pisemna gwarancja</span></div>
+    </div>
+  </div>
+
+  <section class="sec-pad" id="uslugi">
+    <div class="eyebrow">Usługi</div>
+    <h2 class="sec">Cztery specjalizacje. Jeden standard wykonania.</h2>
+    <p class="lead-d">Od mycia elewacji po kompletną wymianę dachu — dobieramy technologię do podłoża, nie odwrotnie.</p>
+    <div class="tiles">
+      <a class="tile" href="#kontakt" data-service="Elewacje"><div class="bgimg bg-fac"></div><div class="shade"></div>
+        <div class="tc"><h3>Elewacje</h3><p>Czyszczenie i malowanie żywicą na szczepie silikonowym STO, tynki strukturalne.</p><span class="go">Dowiedz się więcej</span></div></a>
+      <a class="tile" href="#kontakt" data-service="Dachy"><div class="bgimg bg-roof"></div><div class="shade"></div>
+        <div class="tc"><h3>Dachy</h3><p>Czyszczenie i malowanie (blacha, ceramika, cement), dekarstwo, wymiana, eternit, dachy płaskie w żywicy.</p><span class="go">Dowiedz się więcej</span></div></a>
+      <a class="tile" href="#kontakt" data-service="Posadzki i schody"><div class="bgimg bg-floor"></div><div class="shade"></div>
+        <div class="tc"><h3>Posadzki i schody</h3><p>Żywica i kamienny dywan na tarasy, schody i balkony — bez skuwania podłoża.</p><span class="go">Dowiedz się więcej</span></div></a>
+      <a class="tile" href="#kontakt" data-service="Odszkodowania"><div class="bgimg bg-claim"></div><div class="shade"></div>
+        <div class="tc"><h3>Odszkodowania</h3><p>Wsparcie w uzyskaniu odszkodowania i likwidacja szkód (Kuna).</p><span class="go">Dowiedz się więcej</span></div></a>
+    </div>
+  </section>
+
+  <section class="works" id="realizacje">
+    <div class="sec-pad">
+      <div class="eyebrow">Realizacje</div>
+      <h2 class="sec">Efekt, który widać. Dowód, który można sprawdzić.</h2>
+      <p class="lead-d">Każda realizacja z metryczką: miejsce, powierzchnia, system, czas i gwarancja. Wyłącznie prawdziwe zdjęcia.</p>
+      <div class="ba" id="ba">
+        <div class="half before">PRZED</div>
+        <div class="half after-l" id="baAfter">PO</div>
+        <div class="handle" id="baHandle"></div>
+        <div class="tag l">PRZED</div>
+        <div class="tag r">PO · Oleśnica · elewacja 180 m² · STO · 2 dni</div>
+      </div>
+      <div class="wgrid">
+        <div class="wshot"><div class="ph ph-a"></div><div class="cap">Dach ceramiczny · czyszczenie i malowanie · Oleśnica</div></div>
+        <div class="wshot"><div class="ph ph-b"></div><div class="cap">Elewacja · przed/po · Twardogóra</div></div>
+        <div class="wshot"><div class="ph ph-c"></div><div class="cap">Kamienny dywan · taras 46 m² · Syców</div></div>
+        <div class="wshot"><div class="ph ph-d"></div><div class="cap">Blachodachówka · malowanie · Bierutów</div></div>
+        <div class="wshot"><div class="ph ph-e"></div><div class="cap">Tynk strukturalny STO · Oleśnica</div></div>
+        <div class="wshot"><div class="ph ph-f"></div><div class="cap">Naprawa dachu po wichurze · Dobroszyce</div></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="why" id="proces">
+    <div class="in">
+      <div>
+        <div class="eyebrow">Jak pracujemy</div>
+        <h2 class="sec">Od oględzin do gwarancji — bez niespodzianek.</h2>
+        <ol>
+          <li><b>Bezpłatne oględziny i wycena</b><span>Przyjeżdżamy, mierzymy, oceniamy stan techniczny. Wycena w 24 h.</span></li>
+          <li><b>Dobór technologii</b><span>Systemy STO i żywice dopasowane do podłoża — nie odwrotnie.</span></li>
+          <li><b>Realizacja z foto-raportem</b><span>Dokumentujemy każdy etap. Teren posprzątany po każdym dniu pracy.</span></li>
+          <li><b>Odbiór i gwarancja</b><span>Protokół odbioru, pisemna gwarancja i kontakt po realizacji.</span></li>
+        </ol>
+      </div>
+      <div>
+        <div class="eyebrow">Dlaczego PAO Elite</div>
+        <h2 class="sec">Solidność, którą widać z ulicy.</h2>
+        <div class="badges">
+          <div class="badge"><b>Systemy STO</b><span>Renomowane materiały — trwałość i odporność na algi oraz UV.</span></div>
+          <div class="badge"><b>Pisemna gwarancja</b><span>Na wykonanie i zastosowany system — czarno na białym.</span></div>
+          <div class="badge"><b>Oleśnica i Dolny Śląsk</b><span>Działamy lokalnie — dojazd i oględziny bez kosztów.</span></div>
+          <div class="badge"><b>Odszkodowania (Kuna)</b><span>Od dokumentacji szkody po kompletny remont.</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="reviews">
+    <div class="sec-pad">
+      <div class="eyebrow">Opinie</div>
+      <h2 class="sec">Klienci polecają nas sąsiadom.</h2>
+      <div class="rgrid">
+        <div class="rev"><div class="stars">★★★★★</div>
+          <p>„Dach wyglądał na 20 lat, po jednym dniu mycia i malowania — jak nowy. Ekipa punktualna, teren posprzątany."</p>
+          <div class="who"><div class="av">M</div><div><b>Marta</b><span>Oleśnica · dach ceramiczny</span></div></div></div>
+        <div class="rev"><div class="stars">★★★★★</div>
+          <p>„Elewacja była zielona od alg. Po czyszczeniu i malowaniu STO dom wygląda lepiej niż po budowie."</p>
+          <div class="who"><div class="av">T</div><div><b>Tomasz</b><span>Twardogóra · elewacja</span></div></div></div>
+        <div class="rev"><div class="stars">★★★★★</div>
+          <p>„Kamienny dywan na tarasie i schodach — zero śliskości zimą, świetne wykończenie krawędzi."</p>
+          <div class="who"><div class="av">A</div><div><b>Anna</b><span>Syców · taras</span></div></div></div>
+      </div>
+      <div class="rnote">* Opinie przykładowe (demo) — do podmiany na prawdziwe recenzje Google po uruchomieniu wizytówki.</div>
+    </div>
+  </section>
+
+  <section class="faq" id="faq">
+    <div class="sec-pad">
+      <div class="eyebrow">FAQ</div>
+      <h2 class="sec">Najczęstsze pytania</h2>
+      <div class="list">
+        <details open><summary>Ile kosztuje malowanie dachu lub elewacji?</summary>
+          <div class="a">Cena zależy od powierzchni, stanu podłoża i wybranego systemu. Po bezpłatnych oględzinach otrzymasz wycenę w 24 h — stałą, bez dopisków na koniec. Możesz też wysłać zdjęcia na WhatsApp, a oddzwonimy z widełkami.</div></details>
+        <details><summary>Czy malowanie dachu ma sens zamiast wymiany?</summary>
+          <div class="a">W większości przypadków tak — jeśli pokrycie jest technicznie sprawne, czyszczenie, impregnacja i malowanie kosztują ułamek wymiany i przedłużają żywotność dachu o lata. Podczas oględzin uczciwie powiemy, kiedy renowacja się nie opłaca.</div></details>
+        <details><summary>Jak długo trwa realizacja?</summary>
+          <div class="a">Standardowy dom jednorodzinny: mycie i malowanie elewacji lub dachu to zwykle 1–3 dni robocze, kamienny dywan na tarasie 1–2 dni (plus czas wiązania żywicy). Termin blokujemy w umowie.</div></details>
+        <details><summary>Jaką gwarancję otrzymam?</summary>
+          <div class="a">Pisemną — na wykonanie oraz zastosowany system materiałowy. Zakres i okres gwarancji zależą od technologii; wszystko czarno na białym w protokole odbioru.</div></details>
+        <details><summary>Jak działa pomoc w odszkodowaniach (Kuna)?</summary>
+          <div class="a">Po szkodzie (wichura, grad, zalanie) dokumentujemy zniszczenia, pomagamy w zgłoszeniu i uzyskaniu odszkodowania, a następnie wykonujemy naprawę kompleksowo — jeden kontakt zamiast pięciu firm.</div></details>
+      </div>
+    </div>
+  </section>
+
+  <div class="ctaband">
+    <div class="word">Twój dom zasługuje na <b>więcej</b>.<br>Zacznij od bezpłatnej wyceny.</div>
+    <div class="btns">
+      <a class="btn btn-accent" href="#kontakt">Wyceń swój projekt</a>
+      <a class="btn btn-glass" href="tel:+48608355327">Zadzwoń: 608 355 327</a>
+    </div>
+  </div>
+
+  <section class="contact" id="kontakt">
+    <div class="in">
+      <div>
+        <div class="eyebrow" style="color:#e08a68">Kontakt</div>
+        <h2 class="sec" style="color:#fff">Wyceń swój projekt.<br>Odpowiadamy w 24 h.</h2>
+        <p class="lead">Wyślij zdjęcia dachu, elewacji lub tarasu na WhatsApp — oddzwonimy z wyceną.</p>
+        <div class="direct">
+          <div><small>Telefon / WhatsApp</small><a href="tel:+48608355327">+48 608 355 327</a></div>
+          <div><small>E-mail</small><a href="mailto:p.obrusnik@wp.pl">p.obrusnik@wp.pl</a></div>
+          <div><small>Obszar działania</small>Oleśnica i cały Dolny Śląsk</div>
+        </div>
+      </div>
+      <form id="quoteForm" novalidate>
+        <div class="frow">
+          <div><label for="fName">Imię</label><input id="fName" required></div>
+          <div><label for="fPhone">Telefon / e-mail</label><input id="fPhone" required></div>
+        </div>
+        <div><label for="fService">Usługa</label>
+          <select id="fService"><option>Elewacje</option><option>Dachy</option><option>Posadzki i schody</option><option>Odszkodowania</option><option>Inne / nie wiem</option></select></div>
+        <div><label for="fMsg">Wiadomość</label><textarea id="fMsg" placeholder="Opisz krótko, co chcesz odnowić…"></textarea></div>
+        <label class="rodo"><input type="checkbox" id="fRodo" required> Wyrażam zgodę na przetwarzanie danych osobowych w celu odpowiedzi na zapytanie (RODO, art. 6 ust. 1 lit. a).</label>
+        <button class="btn btn-accent" type="submit">Wyślij zapytanie</button>
+        <div class="form-ok" id="formOk">Dziękujemy! Odezwiemy się w ciągu 24 godzin.</div>
+      </form>
+    </div>
+  </section>
+  <footer><b>PAO Elite</b> · Oleśnica · prototyp 3D (WebGL) — sceny docelowo z materiałami wideo z realizacji</footer>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script>
+/* ============================================================
+   PAO ELITE 3D v2:
+   luksusowe wnętrze → wylot przez okno → chmury → dom z lotu
+============================================================ */
+const clamp=(v,a,b)=>Math.min(b,Math.max(a,v));
+const lerp=(a,b,t)=>a+(b-a)*t;
+const ramp=(p,a,b)=>clamp((p-a)/(b-a),0,1);
+const smooth=t=>t*t*(3-2*t);
+
+const canvas=document.getElementById('gl');
+const renderer=new THREE.WebGLRenderer({canvas,antialias:true});
+renderer.setPixelRatio(Math.min(devicePixelRatio,1.6));
+renderer.outputEncoding=THREE.sRGBEncoding;
+renderer.toneMapping=THREE.ACESFilmicToneMapping;
+renderer.toneMappingExposure=1.0;
+
+const scene=new THREE.Scene();
+const camera=new THREE.PerspectiveCamera(58,1,0.1,7000);
+
+/* ---------- NIEBO ---------- */
+const skyUni={
+  topA:{value:new THREE.Color(0x7fa6cd)},
+  botA:{value:new THREE.Color(0xeef0ee)},
+  topB:{value:new THREE.Color(0xa9bfd0)},
+  botB:{value:new THREE.Color(0xe3e8e6)},
+  mixAB:{value:0}
+};
+const sky=new THREE.Mesh(new THREE.SphereGeometry(3400,32,20),
+  new THREE.ShaderMaterial({side:THREE.BackSide,depthWrite:false,uniforms:skyUni,
+    vertexShader:`varying vec3 vPos;void main(){vPos=position;gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.);}`,
+    fragmentShader:`varying vec3 vPos;uniform vec3 topA,botA,topB,botB;uniform float mixAB;
+      void main(){float h=clamp(normalize(vPos).y*.5+.5,0.,1.);
+        vec3 top=mix(topA,topB,mixAB),bot=mix(botA,botB,mixAB);
+        gl_FragColor=vec4(mix(bot,top,pow(h,1.35)),1.);}`}));
+scene.add(sky);
+
+function radialTex(stops,size=256){
+  const c=document.createElement('canvas');c.width=c.height=size;
+  const ctx=c.getContext('2d');
+  const g=ctx.createRadialGradient(size/2,size/2,0,size/2,size/2,size/2);
+  stops.forEach(([o,col])=>g.addColorStop(o,col));
+  ctx.fillStyle=g;ctx.fillRect(0,0,size,size);
+  const t=new THREE.CanvasTexture(c);t.encoding=THREE.sRGBEncoding;return t;
+}
+const sun=new THREE.Sprite(new THREE.SpriteMaterial({
+  map:radialTex([[0,'rgba(255,253,244,1)'],[0.16,'rgba(255,244,214,.95)'],[0.45,'rgba(255,236,196,.32)'],[1,'rgba(255,236,196,0)']]),
+  depthWrite:false,depthTest:false,transparent:true}));
+sun.scale.set(1500,1500,1);sun.position.set(340,300,-2300);scene.add(sun);
+
+/* ---------- ŚWIATŁA ---------- */
+const hemi=new THREE.HemisphereLight(0xe3ecf4,0x8a8474,0.95);scene.add(hemi);
+const dir=new THREE.DirectionalLight(0xfff0d4,1.05);dir.position.set(300,420,-600);scene.add(dir);
+/* wnętrze: ciepłe punktowe */
+const lampLight=new THREE.PointLight(0xffd9a3,1.5,520,2);lampLight.position.set(120,260,780);scene.add(lampLight);
+const roomFill=new THREE.PointLight(0xffe7c9,0.9,700,2);roomFill.position.set(-60,286,840);scene.add(roomFill);
+
+/* ---------- CHMURY (białe!) ---------- */
+function cloudTexture(){
+  const s=256,c=document.createElement('canvas');c.width=c.height=s;
+  const ctx=c.getContext('2d');
+  for(let i=0;i<26;i++){
+    const x=s/2+(Math.random()-0.5)*s*0.55,y=s/2+(Math.random()-0.5)*s*0.38,r=s*(0.10+Math.random()*0.16);
+    const g=ctx.createRadialGradient(x,y,0,x,y,r);
+    g.addColorStop(0,'rgba(255,255,255,.16)');g.addColorStop(1,'rgba(255,255,255,0)');
+    ctx.fillStyle=g;ctx.beginPath();ctx.arc(x,y,r,0,7);ctx.fill();
+  }
+  const t=new THREE.CanvasTexture(c);t.encoding=THREE.sRGBEncoding;return t;
+}
+const cloudTex=cloudTexture();
+const clouds=[];
+function addCloud(x,y,z,s,o){
+  const m=new THREE.SpriteMaterial({map:cloudTex,transparent:true,opacity:o,depthWrite:false,color:0xffffff});
+  const sp=new THREE.Sprite(m);
+  sp.position.set(x,y,z);sp.scale.set(s,s*0.62,1);
+  sp.userData={base:o,drift:(Math.random()-0.5)*0.9,rot:(Math.random()-0.5)};
+  scene.add(sp);clouds.push(sp);
+}
+for(let i=0;i<190;i++) addCloud((Math.random()-0.5)*2600,-20+Math.random()*110,-1500+Math.random()*1800,360+Math.random()*560,0.5+Math.random()*0.45);
+for(let i=0;i<50;i++)  addCloud((Math.random()-0.5)*3200,170+Math.random()*170,-2300+Math.random()*2200,500+Math.random()*700,0.13+Math.random()*0.15);
+for(let i=0;i<36;i++)  addCloud((Math.random()-0.5)*2000,-380+Math.random()*70,-1300+Math.random()*1300,420+Math.random()*420,0.14+Math.random()*0.18);
+
+/* ---------- ZIEMIA + DOM ---------- */
+const GROUND_Y=-430;
+const world=new THREE.Group();scene.add(world);
+const ground=new THREE.Mesh(new THREE.CircleGeometry(2600,48),new THREE.MeshLambertMaterial({color:0x8aa07c}));
+ground.rotation.x=-Math.PI/2;ground.position.y=GROUND_Y;world.add(ground);
+
+const cream=new THREE.MeshLambertMaterial({color:0xf3efe3});
+const dark=new THREE.MeshLambertMaterial({color:0x2b3138});
+const wood=new THREE.MeshLambertMaterial({color:0x5a4433});
+const terra=new THREE.MeshLambertMaterial({color:0xb1583a});
+
+const house=new THREE.Group();
+const body=new THREE.Mesh(new THREE.BoxGeometry(130,64,86),cream);body.position.y=32;house.add(body);
+const roofShape=new THREE.Shape();
+roofShape.moveTo(-75,0);roofShape.lineTo(0,46);roofShape.lineTo(75,0);roofShape.lineTo(-75,0);
+const roof=new THREE.Mesh(new THREE.ExtrudeGeometry(roofShape,{depth:96,bevelEnabled:false}),terra);
+roof.position.set(0,64,-48);house.add(roof);
+const eave=new THREE.Mesh(new THREE.BoxGeometry(158,4,100),dark);eave.position.y=64;house.add(eave);
+const chim=new THREE.Mesh(new THREE.BoxGeometry(12,30,12),new THREE.MeshLambertMaterial({color:0x8f8674}));
+chim.position.set(36,96,-6);house.add(chim);
+function pane(w,h,x,y){
+  const f=new THREE.Mesh(new THREE.BoxGeometry(w,h,2),dark);f.position.set(x,y,43.5);house.add(f);
+  const g=new THREE.Mesh(new THREE.BoxGeometry(w-4,h-4,2),new THREE.MeshLambertMaterial({color:0xa9c2cf}));
+  g.position.set(x,y,44.2);house.add(g);
+}
+pane(26,26,-38,36);pane(26,26,0,36);
+const doorF=new THREE.Mesh(new THREE.BoxGeometry(24,42,2),dark);doorF.position.set(40,21,43.5);house.add(doorF);
+const doorP=new THREE.Mesh(new THREE.BoxGeometry(20,38,2),wood);doorP.position.set(40,19,44.2);house.add(doorP);
+const terrSlab=new THREE.Mesh(new THREE.BoxGeometry(70,3,50),new THREE.MeshLambertMaterial({color:0x9c8a74}));
+terrSlab.position.set(100,1.5,20);house.add(terrSlab);
+house.position.set(0,GROUND_Y,-560);world.add(house);
+
+function tree(x,z,s=1){
+  const g=new THREE.Group();
+  const trunk=new THREE.Mesh(new THREE.CylinderGeometry(3*s,4*s,26*s,6),wood);trunk.position.y=13*s;g.add(trunk);
+  const fol=new THREE.Mesh(new THREE.SphereGeometry(20*s,10,8),new THREE.MeshLambertMaterial({color:0x6f8a63}));
+  fol.position.y=38*s;fol.scale.y=1.15;g.add(fol);
+  g.position.set(x,GROUND_Y,z);world.add(g);
+}
+tree(-190,-640,1.3);tree(220,-700,1.1);tree(-140,-460,0.8);tree(320,-520,0.9);tree(-320,-580,1.0);
+for(let i=0;i<7;i++){
+  const b=new THREE.Mesh(new THREE.SphereGeometry(12,8,6),new THREE.MeshLambertMaterial({color:0x7b9270}));
+  b.position.set(-120+i*40,GROUND_Y+8,-470);b.scale.y=0.8;world.add(b);
+}
+const path=new THREE.Mesh(new THREE.PlaneGeometry(26,150),new THREE.MeshLambertMaterial({color:0xd8d3c6}));
+path.rotation.x=-Math.PI/2;path.position.set(40,GROUND_Y+0.3,-440);world.add(path);
+
+/* ============================================================
+   LUKSUSOWE WNĘTRZE (scena otwarcia)
+   pokój: x∈[-190,190], y∈[168,292], z∈[560,980]; okno w z=560
+============================================================ */
+const room=new THREE.Group();scene.add(room);
+const RY0=168,RY1=292,RZ0=560,RZ1=980,RX=190;
+
+/* parkiet (tekstura desek) */
+function parquetTex(){
+  const c=document.createElement('canvas');c.width=512;c.height=512;
+  const ctx=c.getContext('2d');
+  const cols=['#a8825c','#9c7752','#b08a62','#a37e57'];
+  for(let y=0;y<8;y++)for(let x=0;x<4;x++){
+    ctx.fillStyle=cols[(x+y)%cols.length];
+    ctx.fillRect(x*128+(y%2?64:0)-64,y*64,128,62);
+  }
+  ctx.fillStyle='rgba(60,40,20,.18)';
+  for(let y=0;y<8;y++)ctx.fillRect(0,y*64+62,512,2);
+  const t=new THREE.CanvasTexture(c);t.wrapS=t.wrapT=THREE.RepeatWrapping;t.repeat.set(3,3);t.encoding=THREE.sRGBEncoding;return t;
+}
+const floor=new THREE.Mesh(new THREE.PlaneGeometry(RX*2,RZ1-RZ0),
+  new THREE.MeshLambertMaterial({map:parquetTex()}));
+floor.rotation.x=-Math.PI/2;floor.position.set(0,RY0,(RZ0+RZ1)/2);room.add(floor);
+
+/* sufit + ściany (kremowe) */
+const wallMat=new THREE.MeshLambertMaterial({color:0xefe9dc,side:THREE.DoubleSide});
+const ceil=new THREE.Mesh(new THREE.PlaneGeometry(RX*2,RZ1-RZ0),wallMat);
+ceil.rotation.x=Math.PI/2;ceil.position.set(0,RY1,(RZ0+RZ1)/2);room.add(ceil);
+const wallL=new THREE.Mesh(new THREE.PlaneGeometry(RZ1-RZ0,RY1-RY0),wallMat);
+wallL.rotation.y=Math.PI/2;wallL.position.set(-RX,(RY0+RY1)/2,(RZ0+RZ1)/2);room.add(wallL);
+const wallR=new THREE.Mesh(new THREE.PlaneGeometry(RZ1-RZ0,RY1-RY0),wallMat);
+wallR.rotation.y=-Math.PI/2;wallR.position.set(RX,(RY0+RY1)/2,(RZ0+RZ1)/2);room.add(wallR);
+const wallBack=new THREE.Mesh(new THREE.PlaneGeometry(RX*2,RY1-RY0),wallMat);
+wallBack.rotation.y=Math.PI;wallBack.position.set(0,(RY0+RY1)/2,RZ1);room.add(wallBack);
+
+/* ściana okienna: pasy wokół wielkiej szyby */
+const winMat=new THREE.MeshLambertMaterial({color:0xe9e2d2,side:THREE.DoubleSide});
+function wseg(w,h,x,y){const m=new THREE.Mesh(new THREE.PlaneGeometry(w,h),winMat);m.position.set(x,y,RZ0);room.add(m);}
+wseg(60,RY1-RY0,-160,(RY0+RY1)/2);   /* lewy filar  x -190..-130 */
+wseg(60,RY1-RY0, 160,(RY0+RY1)/2);   /* prawy filar x 130..190 */
+wseg(260,14,0,RY1-7);                /* nadproże */
+wseg(260,10,0,RY0+5);                /* cokolik */
+/* mulliony */
+const mullMat=new THREE.MeshLambertMaterial({color:0x2b3138});
+for(const mx of [-65,0,65]){
+  const m=new THREE.Mesh(new THREE.BoxGeometry(3.4,RY1-RY0-24,4),mullMat);
+  m.position.set(mx,(RY0+RY1)/2,RZ0);room.add(m);
+}
+const sillB=new THREE.Mesh(new THREE.BoxGeometry(264,4,10),mullMat);sillB.position.set(0,RY0+11,RZ0);room.add(sillB);
+const headB=new THREE.Mesh(new THREE.BoxGeometry(264,4,10),mullMat);headB.position.set(0,RY1-15,RZ0);room.add(headB);
+/* delikatna szyba */
+const glass=new THREE.Mesh(new THREE.PlaneGeometry(260,RY1-RY0-26),
+  new THREE.MeshLambertMaterial({color:0xdfeaf2,transparent:true,opacity:0.07,side:THREE.DoubleSide}));
+glass.position.set(0,(RY0+RY1)/2,RZ0+0.5);room.add(glass);
+
+/* zasłony */
+const curtMat=new THREE.MeshLambertMaterial({color:0xe6dcc8});
+for(const cx of [-118,118]){
+  const c=new THREE.Mesh(new THREE.BoxGeometry(26,RY1-RY0-14,8),curtMat);
+  c.position.set(cx,(RY0+RY1)/2,RZ0+16);room.add(c);
+}
+
+/* dywan */
+const rug=new THREE.Mesh(new THREE.CircleGeometry(92,40),new THREE.MeshLambertMaterial({color:0xded5c2}));
+rug.rotation.x=-Math.PI/2;rug.position.set(-20,RY0+0.5,770);room.add(rug);
+
+/* sofa (grafit) */
+const sofaMat=new THREE.MeshLambertMaterial({color:0x39404a});
+const sofa=new THREE.Group();
+const sBase=new THREE.Mesh(new THREE.BoxGeometry(150,22,58),sofaMat);sBase.position.y=17;sofa.add(sBase);
+const sBack=new THREE.Mesh(new THREE.BoxGeometry(150,34,14),sofaMat);sBack.position.set(0,42,-24);sofa.add(sBack);
+for(const ax of [-71,71]){const arm=new THREE.Mesh(new THREE.BoxGeometry(12,34,58),sofaMat);arm.position.set(ax,26,0);sofa.add(arm);}
+for(let i=0;i<3;i++){
+  const cu=new THREE.Mesh(new THREE.BoxGeometry(42,10,44),new THREE.MeshLambertMaterial({color:0x454d58}));
+  cu.position.set(-44+i*44,31,2);sofa.add(cu);
+}
+const pil1=new THREE.Mesh(new THREE.BoxGeometry(20,18,8),terra);pil1.position.set(-50,42,-14);pil1.rotation.z=0.15;sofa.add(pil1);
+const pil2=new THREE.Mesh(new THREE.BoxGeometry(20,18,8),new THREE.MeshLambertMaterial({color:0xd9cfba}));
+pil2.position.set(52,42,-14);pil2.rotation.z=-0.12;sofa.add(pil2);
+sofa.position.set(-88,RY0,790);sofa.rotation.y=Math.PI/2.35;room.add(sofa);
+
+/* stolik kawowy */
+const table=new THREE.Group();
+const tableTop=new THREE.Mesh(new THREE.CylinderGeometry(30,30,3.4,28),new THREE.MeshLambertMaterial({color:0x4a3a2b}));
+tableTop.position.y=26;table.add(tableTop);
+const leg=new THREE.Mesh(new THREE.CylinderGeometry(2.5,3.5,26,10),dark);leg.position.y=13;table.add(leg);
+const book=new THREE.Mesh(new THREE.BoxGeometry(16,2,11),terra);book.position.set(6,29,2);book.rotation.y=0.4;table.add(book);
+const vase=new THREE.Mesh(new THREE.CylinderGeometry(3,4.5,10,10),new THREE.MeshLambertMaterial({color:0xd9cfba}));
+vase.position.set(-8,33,-4);table.add(vase);
+table.position.set(-12,RY0,762);room.add(table);
+
+/* fotel */
+const chair=new THREE.Group();
+const cBase=new THREE.Mesh(new THREE.BoxGeometry(52,20,50),new THREE.MeshLambertMaterial({color:0xcbbfa6}));
+cBase.position.y=16;chair.add(cBase);
+const cBack=new THREE.Mesh(new THREE.BoxGeometry(52,30,12),new THREE.MeshLambertMaterial({color:0xcbbfa6}));
+cBack.position.set(0,38,-20);cBack.rotation.x=-0.12;chair.add(cBack);
+chair.position.set(66,RY0,742);chair.rotation.y=-Math.PI/3.4;room.add(chair);
+
+/* lampa podłogowa (świeci) */
+const lamp=new THREE.Group();
+const pole=new THREE.Mesh(new THREE.CylinderGeometry(1.6,1.6,96,8),dark);pole.position.y=48;lamp.add(pole);
+const shade=new THREE.Mesh(new THREE.CylinderGeometry(14,18,20,16,1,true),
+  new THREE.MeshLambertMaterial({color:0xf2dcae,emissive:0xffca7a,emissiveIntensity:.7,side:THREE.DoubleSide}));
+shade.position.y=100;lamp.add(shade);
+const bulbGlow=new THREE.Sprite(new THREE.SpriteMaterial({
+  map:radialTex([[0,'rgba(255,220,160,.9)'],[1,'rgba(255,220,160,0)']]),transparent:true,depthWrite:false,opacity:.85}));
+bulbGlow.scale.set(90,90,1);bulbGlow.position.y=98;lamp.add(bulbGlow);
+lamp.position.set(122,RY0,798);room.add(lamp);
+
+/* obrazy na ścianie */
+function art(x,z,w,h,rotY,col){
+  const g=new THREE.Group();
+  const fr=new THREE.Mesh(new THREE.BoxGeometry(w+6,h+6,2),dark);g.add(fr);
+  const cv=new THREE.Mesh(new THREE.BoxGeometry(w,h,2.4),new THREE.MeshLambertMaterial({color:col}));g.add(cv);
+  g.position.set(x,232,z);g.rotation.y=rotY;room.add(g);
+}
+art(-RX+2,760,52,38,Math.PI/2,0xc05a3c);
+art(-RX+2,846,36,48,Math.PI/2,0x8a9a86);
+art(RX-2,820,60,42,-Math.PI/2,0xd9cfba);
+
+/* roślina */
+const plant=new THREE.Group();
+const pot=new THREE.Mesh(new THREE.CylinderGeometry(10,8,16,10),new THREE.MeshLambertMaterial({color:0x7a6a52}));
+pot.position.y=8;plant.add(pot);
+for(let i=0;i<5;i++){
+  const leaf=new THREE.Mesh(new THREE.ConeGeometry(4,26,6),new THREE.MeshLambertMaterial({color:0x6f8a63}));
+  leaf.position.set(Math.sin(i*1.3)*6,28,Math.cos(i*1.3)*6);
+  leaf.rotation.set(Math.sin(i)*0.5,0,Math.cos(i)*0.5);plant.add(leaf);
+}
+plant.position.set(-150,RY0,608);room.add(plant);
+
+/* smuga słońca wpadająca przez okno */
+const shaft=new THREE.Mesh(new THREE.PlaneGeometry(210,150),
+  new THREE.MeshBasicMaterial({color:0xffe9bf,transparent:true,opacity:0.10,depthWrite:false}));
+shaft.rotation.x=-Math.PI/2;shaft.position.set(10,RY0+1.2,660);room.add(shaft);
+
+/* ============================================================
+   SCROLL → KAMERA
+============================================================ */
+const journey=document.getElementById('journey');
+const ovs=[document.getElementById('ov0'),document.getElementById('ov1'),document.getElementById('ov2')];
+const cta2=document.getElementById('cta2');
+const shint=document.getElementById('shint');
+const flash=document.getElementById('flash');
+let target=0,cur=0,mx=0,my=0;
+
+function onScroll(){
+  const r=journey.getBoundingClientRect();
+  const total=journey.offsetHeight-innerHeight;
+  target=clamp(-r.top/total,0,1);
+  document.getElementById('hd').classList.toggle('solid',scrollY>40);
+}
+addEventListener('scroll',onScroll,{passive:true});onScroll();
+addEventListener('pointermove',e=>{mx=e.clientX/innerWidth-0.5;my=e.clientY/innerHeight-0.5;},{passive:true});
+
+/* Etapy: 0–0.28 wnętrze → okno · 0.28–0.75 chmury → zejście · 0.75–1 dolot do domu */
+const EXIT=0.28;
+function cameraPath(p){
+  if(p<EXIT){
+    const t=smooth(p/EXIT);
+    return new THREE.Vector3(lerp(-40,0,t), lerp(224,228,t), lerp(936,548,t));
+  }
+  const t=smooth(ramp(p,EXIT,1));
+  return new THREE.Vector3(Math.sin(t*Math.PI)*46, lerp(228,GROUND_Y+95,t), lerp(548,-300,t));
+}
+function lookPath(p){
+  if(p<EXIT){
+    const t=smooth(p/EXIT);
+    /* z wnętrza patrzymy lekko na salon, potem prosto w okno */
+    const a=new THREE.Vector3(-30,214,560);
+    const b=new THREE.Vector3(0,210,-400);
+    return a.lerp(b,t);
+  }
+  const t=smooth(ramp(p,EXIT,0.8));
+  const a=new THREE.Vector3(40,150,-1400);
+  const b=new THREE.Vector3(0,GROUND_Y+55,-560);
+  return a.lerp(b,t);
+}
+
+const _look=new THREE.Vector3();
+function render(){
+  cur+=(target-cur)*0.075;
+  if(Math.abs(target-cur)<0.0004)cur=target;
+  const p=cur;
+
+  const pos=cameraPath(p);
+  camera.position.set(pos.x+mx*22,pos.y+my*-12,pos.z);
+  _look.copy(lookPath(p));
+  camera.lookAt(_look);
+  camera.rotation.z=Math.sin(p*Math.PI*2)*0.012+mx*0.02;
+
+  /* przejście przez szybę: krótki rozbłysk */
+  const fl=Math.max(0,1-Math.abs(p-EXIT)/0.035);
+  flash.style.opacity=(fl*0.85).toFixed(3);
+
+  /* atmosfera zależna od etapu */
+  const inside=1-smooth(ramp(p,EXIT-0.06,EXIT+0.04));
+  const below=ramp(p,0.42,0.72);
+  skyUni.mixAB.value=below;
+  scene.fog=scene.fog||new THREE.Fog(0xe9eef3,700,3000);
+  scene.fog.color.setHex(below>0.5?0xe2e8e3:0xe9eef3);
+  scene.fog.near=lerp(lerp(900,700,1-inside),300,below);
+  scene.fog.far=lerp(3200,1700,below);
+  renderer.toneMappingExposure=lerp(1.0,1.1,1-inside)-below*0.1;
+  sun.material.opacity=(1-below*0.7)*(1-inside*0.5);
+  lampLight.intensity=1.5*inside;roomFill.intensity=0.9*inside;
+  room.visible=p<EXIT+0.1;
+
+  /* chmury: dryf + miękkie przenikanie przy kamerze */
+  const t=performance.now()*0.00004;
+  for(const c of clouds){
+    c.position.x+=Math.sin(t*40+c.userData.drift*8)*0.03*c.userData.drift;
+    c.material.rotation=c.userData.rot*0.2;
+    const d=Math.abs(c.position.y-camera.position.y);
+    c.material.opacity=c.userData.base*clamp(d/70,0.25,1);
+  }
+
+  /* typografia */
+  const o0=ramp(p,0.015,0.05)-ramp(p,0.16,0.24);
+  ovs[0].style.opacity=o0;
+  ovs[0].style.transform=`translate(-50%,-50%) translateY(${-ramp(p,0.05,0.24)*14}vh) scale(${1+ramp(p,0.05,0.24)*0.12})`;
+  const o1=ramp(p,0.4,0.5)-ramp(p,0.62,0.72);
+  ovs[1].style.opacity=o1;
+  ovs[1].style.transform=`translate(-50%,-50%) translateY(${(1-ramp(p,0.4,0.56))*6}vh)`;
+  const o2=ramp(p,0.82,0.93);
+  ovs[2].style.opacity=o2;
+  ovs[2].style.transform=`translate(-50%,-50%) translateY(${(1-smooth(ramp(p,0.82,0.98)))*5}vh)`;
+  cta2.style.opacity=ramp(p,0.9,0.98);
+  shint.style.opacity=p>0.03?0:1;
+
+  renderer.render(scene,camera);
+  requestAnimationFrame(render);
+}
+function resize(){renderer.setSize(innerWidth,innerHeight,false);camera.aspect=innerWidth/innerHeight;camera.updateProjectionMatrix();}
+addEventListener('resize',resize);resize();
+requestAnimationFrame(render);
+setTimeout(()=>{document.getElementById('loadveil').style.opacity=0},300);
+if(matchMedia('(prefers-reduced-motion: reduce)').matches){journey.style.height='100vh';}
+
+/* ===== suwak przed/po ===== */
+const ba=document.getElementById('ba'),baAfter=document.getElementById('baAfter'),baHandle=document.getElementById('baHandle');
+function setBA(x){
+  const r=ba.getBoundingClientRect();
+  const q=clamp((x-r.left)/r.width,0.05,0.95)*100;
+  baAfter.style.clipPath=`inset(0 0 0 ${q}%)`;baHandle.style.left=q+'%';
+}
+let bdrag=false;
+baHandle.addEventListener('pointerdown',()=>bdrag=true);
+addEventListener('pointerup',()=>bdrag=false);
+addEventListener('pointermove',e=>{if(bdrag)setBA(e.clientX)});
+ba.addEventListener('click',e=>setBA(e.clientX));
+
+/* kafelki → pre-wybór usługi */
+document.querySelectorAll('.tile').forEach(tl=>{
+  tl.addEventListener('click',()=>{document.getElementById('fService').value=tl.dataset.service});
+});
+
+/* formularz (demo) */
+document.getElementById('quoteForm').addEventListener('submit',e=>{
+  e.preventDefault();
+  if(!document.getElementById('fName').value.trim()||!document.getElementById('fPhone').value.trim()||!document.getElementById('fRodo').checked){e.target.reportValidity();return}
+  document.getElementById('formOk').style.display='block';
+  e.target.querySelector('button[type=submit]').disabled=true;
+});
+</script>
+</body>
+</html>

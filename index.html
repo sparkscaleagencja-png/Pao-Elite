@@ -232,6 +232,13 @@ body.touch .fallback{display:flex}
 
 /* ================= SEKCJE ================= */
 .tiles-sec{padding:5.5rem 1.6rem;max-width:1300px;margin:0 auto}
+/* sekcja Uslugi: belka w kolorach loga PAO Elite (antracyt #3d3d3d, biel, jasnoszary #d3d3d3) na cala szerokosc ekranu */
+.fsoc{margin-top:.7rem;display:flex;gap:1.2rem;justify-content:center;flex-wrap:wrap}.fsoc a,footer a{color:inherit;text-decoration:none;font-weight:600}.fsoc a:hover,footer a:hover{color:var(--accent)}
+.uslugi-band{width:100%;background:#3d3d3d;color:#fff}
+.uslugi-band .eyebrow{color:#d3d3d3}
+.uslugi-band h2.sec{color:#fff}
+.uslugi-band .lead-d{color:#d3d3d3}
+.uslugi-band .tile{box-shadow:0 12px 30px rgba(0,0,0,.35),inset 0 0 0 1px rgba(255,255,255,.08)}
 .eyebrow{font-size:.72rem;letter-spacing:.3em;text-transform:uppercase;color:var(--accent);font-weight:800;margin-bottom:.8rem}
 h2.sec{font-size:clamp(1.5rem,2.8vw,2.2rem);font-weight:800;letter-spacing:-.01em;max-width:660px}
 .lead-d{margin-top:1rem;color:var(--muted);max-width:560px;line-height:1.65;font-size:.95rem}
@@ -410,7 +417,8 @@ footer b{color:var(--ink)}
 </section>
 
 <!-- ==================== KAFELKI ==================== -->
-<section class="tiles-sec" id="uslugi">
+<section class="uslugi-band" id="uslugi">
+<div class="tiles-sec">
   <div class="eyebrow">Usługi</div>
   <h2 class="sec">Osiem usług. Jeden standard wykonania.</h2>
   <p class="lead-d">Od mycia elewacji po kompletną wymianę dachu — dobieramy technologię do podłoża, nie odwrotnie. Pracujemy na systemach Sto i sprawdzonych żywicach.</p>
@@ -448,6 +456,7 @@ footer b{color:var(--ink)}
       <div class="tcont"><h3>Likwidacja kuny i naprawa</h3><p>Usuwamy skutki bytowania kuny: zniszczoną wełnę i membranę, naprawiamy poddasze i zabezpieczamy okapy.</p><span class="go">Zapytaj o wycenę</span></div>
     </a>
   </div>
+</div>
 </section>
 
 <!-- ==================== PROCES / DLACZEGO ==================== -->
@@ -574,7 +583,8 @@ footer b{color:var(--ink)}
 </section>
 
 <footer>
-  <b>PAO Elite</b> · Oleśnica · prototyp — sekwencja wideo na klipach demo z Pexels (docelowo: własne ujęcia realizacji)
+  <b>PAO Elite</b> · Oleśnica i Dolny Śląsk · <a href="tel:+48608355327">608 355 327</a>
+  <div class="fsoc"><a href="https://www.instagram.com/paoelite/" target="_blank" rel="noopener">Instagram</a><a href="https://www.facebook.com/profile.php?id=61561366204165" target="_blank" rel="noopener">Facebook</a><a href="https://www.tiktok.com/@paoelitepl" target="_blank" rel="noopener">TikTok</a><a href="realizacje.html">Realizacje</a></div>
 </footer>
 
 <script>

@@ -142,6 +142,43 @@ ul.layers li small{margin-left:auto;color:var(--muted);font-size:.7rem}
   font-size:.8rem;font-weight:700;color:var(--ink);line-height:1.3;transition:all .2s var(--ease)}
 .svc button small{display:block;font-weight:500;color:var(--muted);font-size:.7rem;margin-top:.2rem}
 .svc button:hover{border-color:var(--accent);transform:translateY(-2px);box-shadow:0 8px 18px rgba(20,24,30,.08)}
+/* callout: zdjecie + krotki opis "tak robimy" (lewy gorny rog sceny) + linia do klikniętej warstwy */
+.callout{position:absolute;left:14px;top:66px;width:236px;z-index:2;color:var(--ink);animation:wej .35s var(--ease)}
+.callout[hidden]{display:none}
+.co-foto{width:100%;aspect-ratio:4/3;border-radius:50% / 44%;background:#efede8;box-shadow:inset 0 0 0 2px var(--ink);overflow:hidden;position:relative}
+.co-foto img{width:100%;height:100%;object-fit:cover;display:block}
+.co-tyt{margin:.6rem 0 .25rem;font-size:1.05rem;font-weight:800;line-height:1.2}
+.co-txt{margin:0;font-size:.8rem;line-height:1.45;color:#3a4047}
+.co-x{position:absolute;right:-6px;top:-6px;width:24px;height:24px;border:none;border-radius:50%;background:var(--ink);color:#fff;cursor:pointer;font-size:.9rem;line-height:1}
+.co-x:hover{background:var(--accent)}
+.lead-line{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:1;overflow:visible}
+.lead-line path{fill:none;stroke:var(--ink);stroke-width:1.6;stroke-linejoin:round}
+.lead-line circle{fill:var(--accent);stroke:#fff;stroke-width:2}
+@media(max-width:700px){.callout{width:150px;top:62px}.co-foto{display:none}.co-txt{font-size:.72rem}}
+/* galeria wykonu (pasek na dole, przewijany, dowolnie dluga) */
+.gal-sec{margin-top:16px;background:var(--panel);border-radius:12px;box-shadow:inset 0 0 0 1px var(--line);padding:14px 14px 16px}
+.gal-head{display:flex;align-items:baseline;gap:.7rem;margin-bottom:10px;flex-wrap:wrap}
+.gal-head b{font-size:.95rem;font-weight:800}
+.gal-head small{color:var(--muted);font-size:.74rem}
+.gal-head .arr{margin-left:auto;display:flex;gap:6px}
+.gal-head .arr button{width:32px;height:32px;border:none;border-radius:50%;background:var(--chip);cursor:pointer;font-size:1rem;color:var(--ink)}
+.gal-head .arr button:hover{background:var(--accent);color:#fff}
+.gal-strip{display:flex;gap:10px;overflow-x:auto;scroll-snap-type:x proximity;padding-bottom:6px;scrollbar-width:thin}
+.gi{flex:none;width:200px;aspect-ratio:4/3;border:none;padding:0;border-radius:8px;overflow:hidden;position:relative;cursor:pointer;scroll-snap-align:start;
+  background:#efede8;box-shadow:inset 0 0 0 1px var(--line);transition:transform .2s var(--ease), box-shadow .2s}
+.gi:hover{transform:translateY(-2px);box-shadow:inset 0 0 0 1px var(--accent), 0 8px 18px rgba(20,24,30,.12)}
+.gi img,.gi video{width:100%;height:100%;object-fit:cover;display:block}
+.gi .play{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:44px;height:44px;border-radius:50%;background:rgba(29,33,38,.75);color:#fff;
+  display:flex;align-items:center;justify-content:center;font-size:1rem;padding-left:3px}
+.gi .cap{position:absolute;left:0;right:0;bottom:0;padding:.5rem .6rem;font-size:.7rem;color:#fff;background:linear-gradient(0deg,rgba(0,0,0,.65),transparent);text-align:left}
+.gi.pusty{cursor:default;pointer-events:none}
+.lb{position:fixed;inset:0;z-index:99;background:rgba(10,12,15,.9);display:flex;align-items:center;justify-content:center;padding:24px}
+.lb[hidden]{display:none}
+.lb img,.lb video{max-width:100%;max-height:100%;border-radius:6px;background:#000}
+.lb button{position:absolute;border:none;background:rgba(255,255,255,.14);color:#fff;width:44px;height:44px;border-radius:50%;font-size:1.3rem;cursor:pointer}
+.lb button:hover{background:var(--accent)}
+.lb .lbx{right:18px;top:16px}.lb .lbp{left:16px;top:50%}.lb .lbn{right:16px;top:50%}
+.lb .lbc{position:absolute;left:0;right:0;bottom:16px;text-align:center;color:#fff;font-size:.85rem}
 .note{font-size:.7rem;color:var(--muted);margin-top:14px;line-height:1.45}
 </style>
 </head>
@@ -159,6 +196,8 @@ ul.layers li small{margin-left:auto;color:var(--muted);font-size:.7rem}
       <div class="stage" id="stage">
         <canvas id="cv" aria-label="Model 3D domu — kliknij część, aby zobaczyć usługę"></canvas>
         <div class="labels" id="labels"></div>
+        <svg class="lead-line" id="leadLine" hidden><path id="leadPath" d=""/><circle id="leadDot" r="5"/></svg>
+        <div class="callout" id="callout" hidden></div>
         <div class="mode-title" id="modeTitle"></div>
         <button class="nav-back off" id="navBack" type="button" aria-label="Wstecz — poprzedni widok" title="Wstecz">←</button>
         <div class="stage-tip" id="tip">przeciągnij, aby obrócić · kliknij część domu</div>
@@ -167,6 +206,8 @@ ul.layers li small{margin-left:auto;color:var(--muted);font-size:.7rem}
     </div>
     <aside class="panel" id="panel" aria-live="polite"></aside>
   </div>
+  <section class="gal-sec" id="galSec" aria-label="Galeria realizacji"></section>
+  <div class="lb" id="lb" hidden><button class="lbx" type="button" aria-label="Zamknij">×</button><button class="lbp" type="button" aria-label="Poprzednie">‹</button><button class="lbn" type="button" aria-label="Następne">›</button><div id="lbBody"></div><div class="lbc" id="lbCap"></div></div>
 </section>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
@@ -214,7 +255,6 @@ const WALL_LAYERS = [
   {id:"farba",  nazwa:"Żywica silikonowa Sto — 2 warstwy",          th:.006, kol:"#f2f0ea"}
 ];
 
-const GAL = '<div class="sec"><h4>Zdjęcia i filmy z realizacji</h4><div class="gal"><div></div><div></div><div></div><div></div><div></div><div></div></div></div>';
 const STO = '<div class="sto"><span class="logo" id="stoLogo">Sto</span><span>Pracujemy na systemach i produktach Sto</span></div>';
 
 /* =========================================================== RENDERER / SCENA */
@@ -490,7 +530,7 @@ const FZ = D / 2;                      // zewnetrzna powierzchnia elewacji front
   WALL_LAYERS.forEach((L, i) => {
     const geo = new THREE.ExtrudeGeometry(frontShape(), {depth:L.th, bevelEnabled:false});
     const mesh = reg("elewacja", ink(new THREE.Mesh(geo, M[L.id]), i < 6));
-    const g = new THREE.Group(); g.add(mesh); g.position.set(HX, 0, z); g.userData = {base:z, idx:i, id:L.id};
+    const g = new THREE.Group(); g.add(mesh); g.position.set(HX, 0, z); g.userData = {base:z, idx:i, id:L.id, warstwa:"sciana-" + L.id};
     house.add(g); wallLayers.push(g); z += L.th;
   });
   // stolarka (zostaje przy murze): grafitowe ramy + szklo; [1] = drzwi wejsciowe drewniane
@@ -614,7 +654,7 @@ function buildSlope(phi, d, W0, W1){
   const kal = reg("dach", ink(box(W0 + .24, .22, .12, M.kalenica))); kal.position.set(0, L - .06, .37); layers[6].add(kal);
   // rynna (zostaje na budynku)
   const ry = reg("dach", ink(box(W0, .14, .16, phi > 0 ? M.rynnaWym : M.rynna))); ry.position.set(0, -.04, .14); sg.add(ry);
-  layers.forEach((l, i) => { l.userData = {idx:i}; });
+  layers.forEach((l, i) => { l.userData = {idx:i, warstwa:"dach-" + ROOF_LAYERS[i].id}; });
   // podbitka: deski pod okapem (pas wzdluz okapu) i pod wiatrownica od frontu — zostaja na budynku
   const vOv = OV / Math.cos(PITCH), nb = 4, bw = vOv / nb, R2 = rng(Math.round(phi * 10) + 3);
   for (let i = 0; i < nb; i++){
@@ -823,11 +863,13 @@ function setResin(p){ resinState.p = p; redraw(texResinMask); const k = Math.max
 function setWoolDamaged(d){ redraw(texWoolMap, texWool(d)); }
 
 let hlLayer = null;
+let sel = null;      // zaznaczona warstwa: {id, key, nazwa, obj}
 function highlightLayer(id){
-  if (hlLayer && M[hlLayer]) M[hlLayer].emissive.set(0x000000);
-  hlLayer = id;
-  if (id && M[id]) M[id].emissive.copy(HL).multiplyScalar(.35);
-  document.querySelectorAll("[data-layer]").forEach(e => e.classList.toggle("on", e.dataset.layer === id));
+  const eff = id || (sel ? sel.id : null);
+  if (hlLayer && M[hlLayer] && hlLayer !== eff) M[hlLayer].emissive.set(0x000000);
+  hlLayer = eff;
+  if (eff && M[eff]) M[eff].emissive.copy(HL).multiplyScalar(.35);
+  document.querySelectorAll("[data-layer]").forEach(e => e.classList.toggle("on", e.dataset.layer === eff));
 }
 
 let hoverPart = null, focusParts = [];
@@ -857,7 +899,7 @@ MODES.podbitka = {part:"elewacja", krotko:"Podbitka", kicker:"Podbitka dachowa",
   exit(){ tw("podb", 0, 500); },
   panel(){ return head(this) + '<div class="act"><button class="btn btn-g" id="bPodb">▶ Pokaż jeszcze raz</button></div>' +
     steps(["Oględziny i wskazanie zniszczonych desek", "Demontaż wyszczerbionych i spróchniałych elementów", "Montaż nowych desek", "Oczyszczenie i zmatowienie całej podbitki", "Impregnacja — nowe i stare deski w jednym kolorze"]) +
-    why(["Drewno chronione przed wilgocią, grzybem i UV", "Szara, wyblakła podbitka znów wygląda jak nowa", "Można zrobić osobno albo przy okazji odnowy elewacji"]) + GAL + CTA; },
+    why(["Drewno chronione przed wilgocią, grzybem i UV", "Szara, wyblakła podbitka znów wygląda jak nowa", "Można zrobić osobno albo przy okazji odnowy elewacji"]) + CTA; },
   bar:null};
 
 MODES.wymiana = {part:"dach", krotko:"Wymiana dachu", kicker:"Dach · wymiana połaci", cam:"dach",
@@ -868,7 +910,7 @@ MODES.wymiana = {part:"dach", krotko:"Wymiana dachu", kicker:"Dach · wymiana po
   panel(){ return head(this) + layersList(roofLayersData(), "Z czego składa się dach (od środka)") +
     '<div class="act"><button class="btn btn-g" id="bEternit">▶ Pokaż demontaż eternitu</button><button class="btn btn-g" id="bZloz">Złóż / rozłóż dach</button></div>' +
     steps(["Demontaż starego pokrycia — eternit usuwamy i utylizujemy zgodnie z przepisami", "Przegląd więźby, wymiana lub wzmocnienie uszkodzonych elementów", "Deskowanie i membrana dachowa", "Kontrłaty i łaty — wentylowana szczelina pod pokryciem", "Nowe pokrycie: ceramika, cement albo blachodachówka", "Obróbki, gąsiory, rynny i odbiór"]) +
-    why(["Jeden wykonawca od demontażu po rynny", "Eternit znika z Twojego dachu na dobre", "Nowa warstwa ochronna pod pokryciem"]) + GAL + CTA; },
+    why(["Jeden wykonawca od demontażu po rynny", "Eternit znika z Twojego dachu na dobre", "Nowa warstwa ochronna pod pokryciem"]) + CTA; },
   bar:"pokrycie"};
 
 MODES.dachowka = {part:"dach", krotko:"Konserwacja dachu", kicker:"Dach · renowacja", cam:"dachowka",
@@ -878,7 +920,7 @@ MODES.dachowka = {part:"dach", krotko:"Konserwacja dachu", kicker:"Dach · renow
   exit(){ setDirtRoof(0); },
   panel(){ return head(this) + baSlider("baRoof", 0) +
     steps(["Mycie dachu myjką wysokociśnieniową", "Usunięcie mchu, porostów i zabrudzeń", "Przegląd i wymiana uszkodzonych dachówek", "Malowanie w wybranym kolorze"]) +
-    why(["Dach wygląda jak nowy bez wymiany pokrycia", "Mech nie zatrzymuje wody na dachówkach", "Zmiana koloru całego domu w kilka dni"]) + GAL + CTA; },
+    why(["Dach wygląda jak nowy bez wymiany pokrycia", "Mech nie zatrzymuje wody na dachówkach", "Zmiana koloru całego domu w kilka dni"]) + CTA; },
   bar:"pokrycie"};
 
 MODES.kuna = {part:"dach", krotko:"Kuna", kicker:"Dach · poddasze", cam:"kuna",
@@ -888,7 +930,7 @@ MODES.kuna = {part:"dach", krotko:"Kuna", kicker:"Dach · poddasze", cam:"kuna",
   exit(){ setWoolDamaged(false); tw("roofT", 0, 1100); },
   panel(){ return head(this) + layersList(roofLayersData().slice(0, 4), "Warstwy, które niszczy kuna") +
     steps(["Lokalizacja wejść i miejsc bytowania", "Usunięcie zniszczonej wełny i zanieczyszczeń", "Uzupełnienie ocieplenia i naprawa membrany", "Zabezpieczenie okapów i szczelin przed powrotem"]) +
-    why(["Ciepło zostaje w domu — wełna znów działa", "Koniec z hałasem i zapachem na poddaszu", "Zabezpieczenie, żeby kuna nie wróciła"]) + GAL + CTA; },
+    why(["Ciepło zostaje w domu — wełna znów działa", "Koniec z hałasem i zapachem na poddaszu", "Zabezpieczenie, żeby kuna nie wróciła"]) + CTA; },
   bar:null};
 
 MODES.odnowa = {part:"elewacja", krotko:"Odnowa elewacji", kicker:"Elewacja · kompleksowo", cam:"elewacja",
@@ -900,7 +942,7 @@ MODES.odnowa = {part:"elewacja", krotko:"Odnowa elewacji", kicker:"Elewacja · k
   panel(){ return head(this) + baSlider("baFacade", 0) + STO +
     steps(["Czyszczenie myjką wysokociśnieniową", "Naprawa pęknięć i ubytków", "Nowa struktura tynku", "Dwukrotne malowanie żywicą silikonową Sto", "Zabezpieczenie okien i drzwi akrylem"]) +
     why(["Dom wygląda jak nowy bez skuwania starego tynku", "Powłoka silikonowa ogranicza nasiąkanie i osiadanie brudu", "Okna i drzwi uszczelnione na styku z elewacją"]) +
-    '<div class="act"><button class="btn btn-g" id="bAkryl">▶ Pokaż akrylowanie okien i drzwi</button><button class="btn btn-g" data-go="docieplanie">Pokaż warstwy ściany →</button></div>' + GAL + CTA; },
+    '<div class="act"><button class="btn btn-g" id="bAkryl">▶ Pokaż akrylowanie okien i drzwi</button><button class="btn btn-g" data-go="docieplanie">Pokaż warstwy ściany →</button></div>' + CTA; },
   bar:"fasada"};
 
 MODES.docieplanie = {part:"elewacja", krotko:"Docieplanie", kicker:"Elewacja · ocieplenie", cam:"docieplanie",
@@ -910,7 +952,7 @@ MODES.docieplanie = {part:"elewacja", krotko:"Docieplanie", kicker:"Elewacja · 
   exit(){ tw("wallT", 0, 1100); },
   panel(){ return head(this) + layersList(WALL_LAYERS, "Warstwy ściany (od muru)") + STO +
     steps(["Przygotowanie i gruntowanie muru", "Klejenie płyt ocieplenia", "Warstwa zbrojona: zaprawa klejowa + siatka", "Grunt i tynk Sto", "Malowanie żywicą silikonową Sto"]) +
-    why(["Niższe rachunki za ogrzewanie", "Cieplejsze ściany — mniej wilgoci i pleśni w środku", "Przy okazji zupełnie nowa elewacja"]) + GAL + CTA; },
+    why(["Niższe rachunki za ogrzewanie", "Cieplejsze ściany — mniej wilgoci i pleśni w środku", "Przy okazji zupełnie nowa elewacja"]) + CTA; },
   bar:"fasada"};
 
 MODES.hydro = {part:"garaz-dach", krotko:"Hydroizolacja", kicker:"Dach płaski", cam:"hydro",
@@ -920,7 +962,7 @@ MODES.hydro = {part:"garaz-dach", krotko:"Hydroizolacja", kicker:"Dach płaski",
   exit(){ setResin(1); },
   panel(){ return head(this) + '<div class="act"><button class="btn btn-g" id="bWylej">▶ Wylej żywicę jeszcze raz</button></div>' +
     steps(["Oczyszczenie i przygotowanie podłoża", "Gruntowanie", "Wzmocnienie narożników, krawędzi i przejść", "Wylanie żywicy poliuretanowej na całą powierzchnię", "Kontrola szczelności"]) +
-    why(["Powłoka bez łączeń i zakładów — woda nie ma którędy wejść", "Elastyczna — pracuje razem z dachem", "Można wykonać na istniejącym podłożu po przygotowaniu"]) + GAL + CTA; },
+    why(["Powłoka bez łączeń i zakładów — woda nie ma którędy wejść", "Elastyczna — pracuje razem z dachem", "Można wykonać na istniejącym podłożu po przygotowaniu"]) + CTA; },
   bar:null};
 
 MODES.posadzka = {part:"garaz", krotko:"Posadzki", kicker:"Garaż · posadzka żywiczna", cam:"garazPrzed",
@@ -931,7 +973,7 @@ MODES.posadzka = {part:"garaz", krotko:"Posadzki", kicker:"Garaż · posadzka ż
   exit(){ setTimeout(() => { if (mode !== "posadzka") tw("doorUp", 0, 1300); }, 1100); tweenVal(() => garLight.intensity, v => garLight.intensity = v, 0, 900); },
   panel(){ return head(this) +
     steps(["Szlifowanie i odpylenie betonu", "Naprawa pęknięć i ubytków", "Gruntowanie", "Warstwa żywicy w wybranym kolorze z posypką", "Lakier zamykający"]) +
-    why(["Łatwa do umycia — olej i błoto nie wsiąkają", "Koniec z pylącym betonem", "Garaż, który wygląda jak salon samochodowy"]) + GAL + CTA; },
+    why(["Łatwa do umycia — olej i błoto nie wsiąkają", "Koniec z pylącym betonem", "Garaż, który wygląda jak salon samochodowy"]) + CTA; },
   bar:"posadzka"};
 
 MODES.taras = {part:"taras", krotko:"Kamienny dywan", kicker:"Taras i schody", cam:"taras",
@@ -941,7 +983,7 @@ MODES.taras = {part:"taras", krotko:"Kamienny dywan", kicker:"Taras i schody", c
   exit(){ tw("glow", 0, 600); },
   panel(){ return head(this) +
     steps(["Przygotowanie i oczyszczenie podłoża", "Gruntowanie", "Ułożenie mieszanki kruszywa z żywicą", "Wykończenie krawędzi i stopni"]) +
-    why(["Antypoślizgowa nawierzchnia, także na schodach", "Woda nie stoi na powierzchni", "Dziesiątki kolorów kruszywa do wyboru"]) + GAL + CTA; },
+    why(["Antypoślizgowa nawierzchnia, także na schodach", "Woda nie stoi na powierzchni", "Dziesiątki kolorów kruszywa do wyboru"]) + CTA; },
   bar:"kamien"};
 Object.keys(MODES).forEach(k => MODES[k].id = k);
 
@@ -987,7 +1029,7 @@ function go(next, fromBack){
   if (next === mode) return;
   if (next === "dom") hist.length = 0; else if (!fromBack) hist.push(mode);
   if (mode !== "dom") MODES[mode].exit();
-  highlightLayer(null);
+  sel = null; highlightLayer(null);
   mode = next;
   if (mode !== "dom"){ MODES[mode].enter(); camGo(MODES[mode].cam); }
   else camGo("dom");
@@ -997,7 +1039,7 @@ function go(next, fromBack){
     t.innerHTML = list.map(m => `<button type="button" data-go="${m}" class="${m === mode ? "on" : ""}">${MODES[m].krotko}</button>`).join(""); }
   $("#navBack").classList.toggle("off", mode === "dom");
   $("#tip").textContent = mode === "posadzka" ? "zmieniaj kolor posadzki pod sceną" : "przeciągnij, aby obrócić · kliknij część domu";
-  renderPanel(); renderBar();
+  renderPanel(); renderBar(); renderCallout(); renderGal();
 }
 
 /* ---------- zdarzenia UI */
@@ -1009,6 +1051,10 @@ document.addEventListener("click", e => {
   const fl = e.target.closest("[data-flo]"); if (fl){ setFloor(fl.dataset.flo); renderBar(); return; }
   const st = e.target.closest("[data-stone]"); if (st){ setStone(KAMIEN[+st.dataset.stone][1]); renderBar(); return; }
   if (e.target.closest("#navBack")){ back(); return; }
+  if (e.target.closest(".co-x")){ selectLayer(null); return; }
+  const lw = e.target.closest("[data-layer]"); if (lw){ selectLayer(lw.dataset.layer); return; }
+  const gi = e.target.closest(".gi[data-i]"); if (gi){ otworzLb(+gi.dataset.i); return; }
+  if (e.target.closest(".gal-head .arr button")){ const st = $("#galStrip"); if (st) st.scrollBy({left:(e.target.dataset.d === "p" ? -1 : 1) * 420, behavior:"smooth"}); return; }
   if (e.target.id === "bAkryl"){ S.acryl = 0; tw("acryl", 1, 2400); return; }
   if (e.target.id === "bPodb"){ S.podb = 0; tw("podb", 1, 4200, t => t); return; }
   if (e.target.id === "bZloz"){ tw("roofT", S.roofT > .5 ? 0 : 1, 1500); return; }
@@ -1056,15 +1102,18 @@ function mkLy(kind, idx, nazwa, right){ const el = document.createElement("div")
   el.dataset.layer = kind === "roof" ? ROOF_LAYERS[idx].id : WALL_LAYERS[idx].id;
   el.addEventListener("mouseenter", () => highlightLayer(el.dataset.layer)); el.addEventListener("mouseleave", () => highlightLayer(null));
   labelsEl.appendChild(el); const o = {kind, idx, el}; LY.push(o); return o; }
-ROOF_LAYERS.forEach((L, i) => mkLy("roof", i, L.nazwa, false));
+ROOF_LAYERS.forEach((L, i) => mkLy("roof", i, L.nazwa, true));
 WALL_LAYERS.forEach((L, i) => mkLy("wall", i, L.nazwa, true));
 
 /* ---------- wskazanie mysza (raycast) + obrot */
 const ray = new THREE.Raycaster(), mouse = new THREE.Vector2();
 const pickables = () => Object.values(parts).flat();
 let drag = null, moved = 0;
-function pick(ev){ const r = cv.getBoundingClientRect(); mouse.set(((ev.clientX - r.left) / r.width) * 2 - 1, -((ev.clientY - r.top) / r.height) * 2 + 1);
-  ray.setFromCamera(mouse, camera); const hit = ray.intersectObjects(pickables(), false)[0]; return hit ? hit.object.userData.part : null; }
+function pickHit(ev){ const r = cv.getBoundingClientRect(); mouse.set(((ev.clientX - r.left) / r.width) * 2 - 1, -((ev.clientY - r.top) / r.height) * 2 + 1);
+  ray.setFromCamera(mouse, camera); return ray.intersectObjects(pickables(), false)[0] || null; }
+function pick(ev){ const h = pickHit(ev); return h ? h.object.userData.part : null; }
+function warstwaZHit(h){ let g = h && h.object; while (g && !(g.userData && g.userData.warstwa)) g = g.parent; return g || null; }
+function rozlozona(g){ const w = g.userData.warstwa; return (w.startsWith("dach-") && S.roofT > .4) || (w.startsWith("sciana-") && S.wallT > .4); }
 cv.addEventListener("pointerdown", e => { drag = {x:e.clientX, y:e.clientY, yaw:userYaw, pitch:userPitch}; moved = 0; cv.setPointerCapture(e.pointerId); });
 cv.addEventListener("pointermove", e => {
   if (drag){ const dx = e.clientX - drag.x, dy = e.clientY - drag.y; moved = Math.max(moved, Math.abs(dx) + Math.abs(dy));
@@ -1072,8 +1121,89 @@ cv.addEventListener("pointermove", e => {
   const p = pick(e); if (p !== hoverPart){ hoverPart = p; cv.classList.toggle("hov", !!p); }
 });
 cv.addEventListener("pointerup", e => { cv.classList.remove("drag"); const was = drag; drag = null;
-  if (was && moved <= 4){ const p = pick(e); if (p){ const list = GROUPS[p]; go(list.includes(mode) ? mode : list[0]); } } });
+  if (was && moved <= 4){ const h = pickHit(e), g = warstwaZHit(h);
+    if (g && rozlozona(g)){ selectLayer(g.userData.warstwa.replace(/^(dach|sciana)-/, ""), g); return; }
+    const p = h ? h.object.userData.part : null; if (p){ const list = GROUPS[p]; go(list.includes(mode) ? mode : list[0]); } } });
 cv.addEventListener("pointerleave", () => { hoverPart = null; cv.classList.remove("hov"); });
+
+/* =========================================================== OPISY WARSTW + CALLOUT + GALERIA */
+const OPISY = {
+  "dach-welna":    ["Ocieplenie — wełna mineralna", "Układamy wełnę między krokwiami na całą grubość, szczelnie i bez przerw. Dach nie ucieka ciepłem, a poddasze jest ciche."],
+  "dach-krokwie":  ["Więźba — krokwie", "Sprawdzamy każdą krokiew. Uszkodzone lub spróchniałe elementy wymieniamy albo wzmacniamy, a drewno impregnujemy."],
+  "dach-deski":    ["Deskowanie pełne", "Przybijamy deskowanie na całej połaci — równe, stabilne podłoże pod membranę i pokrycie."],
+  "dach-membrana": ["Membrana dachowa", "Rozkładamy membranę na zakład i sklejamy łączenia taśmą. Chroni ocieplenie przed wilgocią, a przepuszcza parę."],
+  "dach-kontrlaty":["Kontrłaty", "Mocujemy kontrłaty wzdłuż spadku. Tworzą wentylowaną szczelinę, którą odpływa wilgoć spod pokrycia."],
+  "dach-laty":     ["Łaty", "Układamy łaty w rozstawie dobranym do pokrycia. To na nich wisi dachówka albo blacha."],
+  "dach-pokrycie": ["Wymiana pokrycia", "Zdejmujemy stare pokrycie (eternit utylizujemy zgodnie z przepisami) i montujemy nowe od okapu do kalenicy — na zakład, z obróbkami, gąsiorami i rynnami."],
+  "sciana-mur":    ["Mur — ściana nośna", "Oceniamy stan muru, usuwamy luźne fragmenty i naprawiamy ubytki. To podłoże pod całe ocieplenie."],
+  "sciana-klej":   ["Klej do płyt", "Nakładamy klej obrzeżno-punktowo, żeby płyty ocieplenia przylegały równo i mocno."],
+  "sciana-eps":    ["Ocieplenie — styropian", "Klejemy płyty na mijankę, bez szczelin, i kołkujemy. Docieplona ściana mniej wychładza dom."],
+  "sciana-siatka": ["Warstwa zbrojona", "Wtapiamy siatkę z włókna szklanego w zaprawę klejową. Zabezpiecza elewację przed pękaniem."],
+  "sciana-grunt":  ["Grunt podtynkowy", "Gruntujemy warstwę zbrojoną, żeby tynk dobrze się trzymał i schnął równomiernie."],
+  "sciana-tynk":   ["Tynk Sto", "Nakładamy tynk Sto i nadajemy mu fakturę — cienkowarstwowy, odporny na pęknięcia."],
+  "sciana-farba":  ["Żywica silikonowa Sto — 2 warstwy", "Malujemy dwukrotnie żywicą silikonową Sto. Powłoka odporna na algi, brud i deszcz."]
+};
+let GAL_DATA = {};
+fetch("../galeria/manifest.json", {cache:"no-cache"}).then(r => r.ok ? r.json() : {}).then(j => { GAL_DATA = j || {}; renderCallout(); renderGal(); }).catch(() => {});
+const galSrc = p => /^(https?:)?\//.test(p) ? p : "../galeria/" + p;
+
+function selectLayer(id, obj){
+  if (!id || (sel && sel.id === id)){ sel = null; }
+  else {
+    const roof = ROOF_LAYERS.findIndex(l => l.id === id), wall = WALL_LAYERS.findIndex(l => l.id === id);
+    const kind = roof >= 0 ? "dach" : "sciana", idx = roof >= 0 ? roof : wall;
+    if (idx < 0) return;
+    const grp = obj || (kind === "dach" ? roofSlopes[0].layers[idx] : wallLayers[idx]);
+    sel = {id, key:kind + "-" + id, kind, obj:grp};
+  }
+  highlightLayer(null); renderCallout(); renderGal();
+}
+const coEl = $("#callout"), leadEl = $("#leadLine"), leadPath = $("#leadPath"), leadDot = $("#leadDot");
+function renderCallout(){
+  if (!sel){ coEl.hidden = true; leadEl.hidden = true; return; }
+  const o = OPISY[sel.key] || [sel.id, ""], foto = (GAL_DATA.opisy || {})[sel.key] && GAL_DATA.opisy[sel.key].foto;
+  let tyt = o[0]; if (sel.key === "dach-pokrycie") tyt = "Wymiana pokrycia — " + COVER[coverState.typ].nazwa.toLowerCase().replace("dachówka ", "dachówka ");
+  coEl.innerHTML = `<button class="co-x" type="button" aria-label="Zamknij">×</button><div class="co-foto">${foto ? `<img src="${galSrc(foto)}" alt="">` : ""}</div><div class="co-tyt">${tyt}</div><p class="co-txt">${o[1]}</p>`;
+  coEl.hidden = false; leadEl.hidden = false;
+}
+const _v = new THREE.Vector3(), _b = new THREE.Box3();
+function updateLead(){
+  if (!sel || coEl.hidden){ return; }
+  const sr = stage.getBoundingClientRect(), cr = coEl.getBoundingClientRect();
+  _b.setFromObject(sel.obj); if (_b.isEmpty()){ leadEl.hidden = true; return; } leadEl.hidden = false;
+  _b.getCenter(_v); _v.project(camera);
+  const px = (_v.x * .5 + .5) * sr.width, py = (-_v.y * .5 + .5) * sr.height;
+  const x0 = cr.left - sr.left, x1 = cr.right - sr.left, yb = cr.bottom - sr.top + 6;
+  leadPath.setAttribute("d", `M ${x0} ${yb} H ${x1} L ${px} ${py}`);
+  leadDot.setAttribute("cx", px); leadDot.setAttribute("cy", py);
+}
+const galEl = $("#galSec");
+let galItems = [];
+function renderGal(){
+  const mk = sel ? sel.key : (mode === "dom" ? "ogolne" : mode);
+  let items = GAL_DATA[mk] || [], tytul = sel ? (OPISY[sel.key] || [sel.id])[0] : (mode === "dom" ? "Realizacje" : MODES[mode].krotko);
+  if (sel && !items.length && GAL_DATA[mode] && GAL_DATA[mode].length){ items = GAL_DATA[mode]; tytul = MODES[mode].krotko; }
+  galItems = items;
+  const n = items.length, pad = Math.max(0, 6 - n);
+  galEl.innerHTML = `<div class="gal-head"><b>Zdjęcia i filmy z realizacji — ${tytul}</b><small>${n ? n + " materiałów" : "wkrótce"}</small>` +
+    `<span class="arr"><button type="button" data-d="p" aria-label="Wstecz">‹</button><button type="button" data-d="n" aria-label="Dalej">›</button></span></div>` +
+    `<div class="gal-strip" id="galStrip">` + items.map((it, i) => it.typ === "wideo"
+      ? `<button class="gi" type="button" data-i="${i}"><video muted preload="metadata" src="${galSrc(it.src)}#t=0.4"${it.poster ? ` poster="${galSrc(it.poster)}"` : ""}></video><span class="play">▶</span>${it.podpis ? `<span class="cap">${it.podpis}</span>` : ""}</button>`
+      : `<button class="gi" type="button" data-i="${i}"><img loading="lazy" src="${galSrc(it.src)}" alt="${it.podpis || ""}">${it.podpis ? `<span class="cap">${it.podpis}</span>` : ""}</button>`).join("") +
+    Array.from({length:pad}, () => '<div class="gi pusty"></div>').join("") + `</div>`;
+}
+let lbI = 0;
+const lb = $("#lb"), lbBody = $("#lbBody"), lbCap = $("#lbCap");
+function pokazLb(){ const it = galItems[lbI]; if (!it) return;
+  lbBody.innerHTML = it.typ === "wideo" ? `<video src="${galSrc(it.src)}" controls autoplay playsinline></video>` : `<img src="${galSrc(it.src)}" alt="">`;
+  lbCap.textContent = (it.podpis ? it.podpis + " · " : "") + (lbI + 1) + " / " + galItems.length; }
+function otworzLb(i){ lbI = i; lb.hidden = false; pokazLb(); }
+function zamknijLb(){ lb.hidden = true; lbBody.innerHTML = ""; }
+lb.querySelector(".lbx").onclick = zamknijLb;
+lb.querySelector(".lbp").onclick = () => { lbI = (lbI - 1 + galItems.length) % galItems.length; pokazLb(); };
+lb.querySelector(".lbn").onclick = () => { lbI = (lbI + 1) % galItems.length; pokazLb(); };
+lb.addEventListener("click", e => { if (e.target === lb) zamknijLb(); });
+addEventListener("keydown", e => { if (lb.hidden) return; if (e.key === "Escape") zamknijLb(); if (e.key === "ArrowRight") lb.querySelector(".lbn").click(); if (e.key === "ArrowLeft") lb.querySelector(".lbp").click(); });
 
 /* =========================================================== PETLA */
 function resize(){ const r = stage.getBoundingClientRect(); renderer.setSize(r.width, r.height, false); camera.aspect = r.width / r.height; camera.updateProjectionMatrix(); }
@@ -1137,13 +1267,13 @@ function frame(now){
   for (const o of LY){
     let show = false, wp = null;
     if (o.kind === "roof" && rt > .35 && (mode === "wymiana" || (mode === "kuna" && o.idx < 4))){
-      const l = front.layers[o.idx]; wp = new THREE.Vector3(-front.W0 * .5 + .25, front.L * .12, .2);
+      const l = front.layers[o.idx]; wp = new THREE.Vector3(front.W0 * .5 - .25, front.L * .12, .2);
       l.localToWorld(wp); show = true;
     }
     if (o.kind === "wall" && S.wallT > .35 && mode === "docieplanie"){
       const g = wallLayers[o.idx]; wp = new THREE.Vector3(W / 2, H + GABLE * .15 - o.idx * .55, WALL_LAYERS[o.idx].th / 2); g.localToWorld(wp); show = true;
     }
-    if (show){ const p = project(wp); o.el.style.left = (p.x + (o.kind === "wall" ? 10 : -10)) + "px"; o.el.style.top = p.y + "px"; }
+    if (show){ const p = project(wp); o.el.style.left = (p.x + 10) + "px"; o.el.style.top = p.y + "px"; }
     o.el.style.opacity = show ? Math.min(1, (o.kind === "roof" ? rt : S.wallT) * 1.6 - .5) : 0;
     o.el.style.pointerEvents = show ? "auto" : "none"; o.el.style.visibility = show ? "visible" : "hidden";
     if (o.kind === "roof" && o.idx === 6) o.el.innerHTML = `<em>7</em>Pokrycie — ${COVER[coverState.typ].nazwa.toLowerCase()}`;
@@ -1152,11 +1282,12 @@ function frame(now){
     const p = project(RYNNA_ETYK); rynnaLbl.style.left = (p.x + 10) + "px"; rynnaLbl.style.top = p.y + "px";
     rynnaLbl.style.opacity = on && p.vis ? 1 : 0; rynnaLbl.style.visibility = on ? "visible" : "hidden";
     M.rynnaWym.emissiveIntensity = on ? .35 + .25 * Math.sin(now * .004) : 0; }
+  updateLead();
   requestAnimationFrame(frame);
 }
 
 setCover("blacha", COVER.blacha.kolory[0][1]);
-renderPanel(); renderBar();
+renderPanel(); renderBar(); renderGal();
 requestAnimationFrame(frame);
 
 /* osadzenie na stronie glownej (iframe): podaj rodzicowi wysokosc tresci */

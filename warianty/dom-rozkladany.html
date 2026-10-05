@@ -1,0 +1,1172 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PAO Elite — dom na części pierwsze</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#f5f4f1; --ink:#1d2126; --muted:#6d7278; --line:#e2dfd9;
+  --accent:#c05a3c; --accent-d:#a34a30; --accent-l:#e08a68;
+  --panel:#ffffff; --chip:#f0eee9;
+  --ease:cubic-bezier(.2,.7,.3,1);
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{font-family:"Inter","Segoe UI",system-ui,sans-serif;background:var(--bg);color:var(--ink);-webkit-font-smoothing:antialiased}
+button{font-family:inherit}
+
+.dom3d{max-width:1400px;margin:0 auto;padding:48px 24px 40px}
+.dom3d-head{text-align:center;max-width:820px;margin:0 auto 22px}
+.dom3d-head .kicker{font-size:.72rem;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:var(--accent)}
+.dom3d-head h2{font-size:clamp(1.6rem,3.2vw,2.6rem);line-height:1.12;margin:.5rem 0 .6rem;font-weight:800;letter-spacing:-.01em}
+.dom3d-head p{color:var(--muted);margin:0;font-size:1rem;line-height:1.55}
+
+.dom3d-grid{display:grid;grid-template-columns:minmax(0,1fr) 400px;gap:20px;align-items:stretch}
+@media(max-width:1020px){.dom3d-grid{grid-template-columns:1fr}}
+
+/* ------------------------------------------------ scena */
+.stage-col{display:flex;flex-direction:column;gap:12px;min-width:0}
+.stage{position:relative;height:min(68vh,640px);min-height:420px;border-radius:14px;overflow:hidden;
+  background:transparent}
+.stage canvas{display:block;width:100%;height:100%;cursor:grab;touch-action:pan-y}
+.stage canvas.hov{cursor:pointer}
+.stage canvas.drag{cursor:grabbing}
+.stage-tip{position:absolute;left:14px;bottom:12px;font-size:.72rem;color:var(--muted);background:rgba(255,255,255,.78);
+  padding:.35rem .6rem;border-radius:20px;backdrop-filter:blur(6px);pointer-events:none}
+.mode-title{position:absolute;left:0;right:0;top:14px;text-align:center;pointer-events:none;transition:opacity .4s var(--ease)}
+.mode-title{display:flex;justify-content:center;gap:8px;flex-wrap:wrap;padding:0 64px}
+.mode-title button{pointer-events:auto;cursor:pointer;border:none;font-family:inherit;font-weight:700;font-size:.74rem;letter-spacing:.14em;text-transform:uppercase;
+  padding:.5rem .95rem;border-radius:20px;background:rgba(255,255,255,.92);color:var(--ink);box-shadow:0 4px 14px rgba(20,24,30,.12);transition:all .25s var(--ease)}
+.mode-title button:hover{background:#fff;color:var(--accent)}
+.mode-title button.on{background:rgba(29,33,38,.9);color:#fff}
+.nav-back{position:absolute;left:14px;top:12px;width:42px;height:42px;border-radius:50%;border:none;cursor:pointer;z-index:3;
+  background:rgba(255,255,255,.95);color:var(--ink);font-size:1.25rem;line-height:1;box-shadow:0 4px 14px rgba(20,24,30,.14);
+  display:flex;align-items:center;justify-content:center;transition:opacity .3s var(--ease), transform .3s var(--ease), background .2s}
+.nav-back:hover{background:var(--accent);color:#fff}
+.nav-back.off{opacity:0;pointer-events:none;transform:translateX(-8px)}
+.mode-title b{display:inline-block;background:rgba(29,33,38,.86);color:#fff;font-size:.78rem;letter-spacing:.14em;text-transform:uppercase;
+  padding:.45rem .9rem;border-radius:20px}
+
+/* etykiety nad czesciami domu */
+.labels{position:absolute;inset:0;pointer-events:none}
+.hs{position:absolute;transform:translate(-50%,-50%);pointer-events:auto;cursor:pointer;border:none;
+  display:flex;align-items:center;gap:.45rem;background:rgba(255,255,255,.94);color:var(--ink);font-size:.76rem;font-weight:700;
+  padding:.38rem .7rem .38rem .45rem;border-radius:20px;box-shadow:0 6px 18px rgba(20,24,30,.14);white-space:nowrap;
+  transition:opacity .35s var(--ease), transform .35s var(--ease), background .2s}
+.hs i{width:10px;height:10px;border-radius:50%;background:var(--accent);box-shadow:0 0 0 0 rgba(192,90,60,.6);animation:puls 2s infinite}
+.hs:hover{background:var(--accent);color:#fff}
+.hs:hover i{background:#fff}
+.hs.off{opacity:0;pointer-events:none;transform:translate(-50%,-30%);visibility:hidden;transition:opacity .35s, transform .35s, visibility 0s .35s}
+@keyframes puls{0%{box-shadow:0 0 0 0 rgba(192,90,60,.55)}70%{box-shadow:0 0 0 10px rgba(192,90,60,0)}100%{box-shadow:0 0 0 0 rgba(192,90,60,0)}}
+.ly{position:absolute;transform:translate(-100%,-50%);pointer-events:auto;font-size:.7rem;font-weight:600;color:var(--ink);
+  background:rgba(255,255,255,.92);padding:.28rem .55rem;border-radius:4px;white-space:nowrap;box-shadow:0 3px 10px rgba(20,24,30,.12);
+  border-left:3px solid var(--accent);transition:opacity .3s}
+.ly.r{transform:translate(0,-50%)}
+.ly em{font-style:normal;color:var(--muted);font-weight:500;margin-right:.35rem}
+.ly.on{background:var(--accent);color:#fff}.ly.on em{color:#fde4da}
+
+/* pasek kolorow pod domem */
+.bar{background:var(--panel);border-radius:12px;box-shadow:inset 0 0 0 1px var(--line);padding:12px 14px;min-height:74px;
+  display:flex;flex-wrap:wrap;gap:14px 22px;align-items:center}
+.bar-grp{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.bar-lbl{font-size:.68rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+.tabs{display:flex;background:var(--chip);border-radius:8px;padding:3px}
+.tabs button{border:none;background:none;padding:.42rem .75rem;border-radius:6px;font-size:.78rem;font-weight:600;color:var(--muted);cursor:pointer;transition:all .2s}
+.tabs button.on{background:#fff;color:var(--ink);box-shadow:0 1px 4px rgba(20,24,30,.12)}
+.sw{display:flex;gap:8px;flex-wrap:wrap}
+.sw button{width:34px;height:34px;border-radius:50%;border:3px solid #fff;box-shadow:0 0 0 1px var(--line);cursor:pointer;position:relative;padding:0;
+  transition:transform .2s var(--ease), box-shadow .2s}
+.sw button:hover{transform:translateY(-2px)}
+.sw button.on{box-shadow:0 0 0 2px var(--accent)}
+.sw button span{position:absolute;left:50%;bottom:-22px;transform:translateX(-50%);font-size:.62rem;color:var(--muted);white-space:nowrap;opacity:0;transition:opacity .2s;pointer-events:none}
+.sw button:hover span,.sw button.on span{opacity:1}
+.sw.stone button{border-radius:8px;width:42px}
+.chipsvc{border:none;background:var(--chip);border-radius:20px;padding:.45rem .8rem;font-size:.78rem;font-weight:600;cursor:pointer;color:var(--ink);transition:all .2s}
+.chipsvc:hover{background:var(--accent);color:#fff}
+
+/* ------------------------------------------------ panel danych (prawa strona) */
+.panel{background:var(--panel);border-radius:14px;box-shadow:inset 0 0 0 1px var(--line);padding:22px 22px 18px;
+  max-height:calc(min(68vh,640px) + 86px);overflow-y:auto;position:relative}
+@media(max-width:1020px){.panel{max-height:none}}
+.panel .in{animation:wej .45s var(--ease)}
+/* osadzone w iframe na stronie glownej: bez vh (vh liczy sie od ramki) */
+.embed body{overflow:hidden}
+.embed .stage{height:620px}
+.embed .panel{max-height:706px}
+@media(max-width:700px){.embed .stage{height:440px;min-height:0}}
+@keyframes wej{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+.back{border:none;background:none;color:var(--muted);font-size:.78rem;font-weight:600;cursor:pointer;padding:0;margin-bottom:10px}
+.back:hover{color:var(--accent)}
+.p-kick{font-size:.66rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--accent)}
+.panel h3{font-size:1.35rem;line-height:1.2;margin:.35rem 0 .5rem;font-weight:800}
+.lead{color:var(--muted);font-size:.9rem;line-height:1.55;margin:0 0 14px}
+.sibs{display:flex;gap:6px;flex-wrap:wrap;margin:0 0 14px}
+.sibs button{border:1px solid var(--line);background:#fff;border-radius:20px;padding:.35rem .7rem;font-size:.74rem;font-weight:600;cursor:pointer;color:var(--ink)}
+.sibs button.on{background:var(--ink);border-color:var(--ink);color:#fff}
+.sec{margin:16px 0 0}
+.sec h4{font-size:.68rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin:0 0 8px}
+ol.steps{margin:0;padding:0;list-style:none;counter-reset:s}
+ol.steps li{counter-increment:s;position:relative;padding:.45rem 0 .45rem 2.1rem;font-size:.87rem;line-height:1.45;border-top:1px solid var(--line)}
+ol.steps li:first-child{border-top:none}
+ol.steps li::before{content:counter(s);position:absolute;left:0;top:.42rem;width:1.45rem;height:1.45rem;border-radius:50%;background:var(--chip);
+  font-size:.72rem;font-weight:700;display:flex;align-items:center;justify-content:center;color:var(--accent)}
+ul.why{margin:0;padding:0;list-style:none}
+ul.why li{position:relative;padding:.3rem 0 .3rem 1.4rem;font-size:.87rem;line-height:1.45}
+ul.why li::before{content:"";position:absolute;left:0;top:.62rem;width:.7rem;height:.38rem;border-left:2px solid var(--accent);border-bottom:2px solid var(--accent);transform:rotate(-45deg)}
+ul.layers{margin:0;padding:0;list-style:none}
+ul.layers li{display:flex;align-items:center;gap:.6rem;padding:.42rem .5rem;font-size:.84rem;border-radius:6px;cursor:default;transition:background .15s}
+ul.layers li:hover,ul.layers li.on{background:#fbefea}
+ul.layers li b{width:1.4rem;height:1.4rem;border-radius:4px;flex:none;box-shadow:inset 0 0 0 1px rgba(0,0,0,.12)}
+ul.layers li small{margin-left:auto;color:var(--muted);font-size:.7rem}
+.act{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0 0}
+.btn{border:none;cursor:pointer;padding:.62rem 1rem;border-radius:5px;font-size:.8rem;font-weight:700;letter-spacing:.02em;text-decoration:none;display:inline-flex;align-items:center;gap:.4rem;transition:all .2s}
+.btn-a{background:var(--accent);color:#fff;box-shadow:0 6px 16px rgba(192,90,60,.25)}
+.btn-a:hover{background:var(--accent-d)}
+.btn-g{background:var(--chip);color:var(--ink)}
+.btn-g:hover{background:#e6e3dc}
+.ba{margin-top:6px}
+.ba-row{display:flex;justify-content:space-between;font-size:.7rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:4px}
+.ba input{width:100%;accent-color:var(--accent)}
+.sto{display:inline-flex;align-items:center;gap:.5rem;margin-top:10px;font-size:.74rem;color:var(--muted)}
+.sto .logo{display:inline-flex;align-items:center;justify-content:center;height:26px;min-width:52px;padding:0 .6rem;border-radius:3px;
+  background:#1d2126;color:#fff;font-weight:800;letter-spacing:.04em;font-size:.86rem}
+.sto img{height:26px;display:block}
+.gal{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}
+.gal div{aspect-ratio:4/3;border-radius:6px;background:#efede8;box-shadow:inset 0 0 0 1px var(--line);
+  display:flex;align-items:center;justify-content:center;text-align:center;font-size:.6rem;color:var(--muted);padding:4px;line-height:1.3}
+.svc{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.svc button{border:1px solid var(--line);background:#fff;border-radius:8px;padding:.7rem .7rem;text-align:left;cursor:pointer;
+  font-size:.8rem;font-weight:700;color:var(--ink);line-height:1.3;transition:all .2s var(--ease)}
+.svc button small{display:block;font-weight:500;color:var(--muted);font-size:.7rem;margin-top:.2rem}
+.svc button:hover{border-color:var(--accent);transform:translateY(-2px);box-shadow:0 8px 18px rgba(20,24,30,.08)}
+.note{font-size:.7rem;color:var(--muted);margin-top:14px;line-height:1.45}
+</style>
+</head>
+<body>
+
+<section class="dom3d" id="dom3d">
+  <div class="dom3d-head">
+    <div class="kicker">Interaktywny dom PAO Elite</div>
+    <h2>Kliknij część domu — rozłożymy ją na części pierwsze</h2>
+    <p>Dach, elewacja, dach płaski, garaż, taras i schody. Zobacz, z czego są zbudowane, co robimy i jak to będzie wyglądać u Ciebie.</p>
+  </div>
+
+  <div class="dom3d-grid">
+    <div class="stage-col">
+      <div class="stage" id="stage">
+        <canvas id="cv" aria-label="Model 3D domu — kliknij część, aby zobaczyć usługę"></canvas>
+        <div class="labels" id="labels"></div>
+        <div class="mode-title" id="modeTitle"></div>
+        <button class="nav-back off" id="navBack" type="button" aria-label="Wstecz — poprzedni widok" title="Wstecz">←</button>
+        <div class="stage-tip" id="tip">przeciągnij, aby obrócić · kliknij część domu</div>
+      </div>
+      <div class="bar" id="bar"></div>
+    </div>
+    <aside class="panel" id="panel" aria-live="polite"></aside>
+  </div>
+</section>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script>
+(function(){
+"use strict";
+const $ = s => document.querySelector(s);
+const stage = $("#stage"), cv = $("#cv"), labelsEl = $("#labels"), panelEl = $("#panel"), barEl = $("#bar");
+const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+/* =========================================================== DANE / TRESCI */
+const COVER = {
+  ceramiczna: {nazwa:"Dachówka ceramiczna", kolory:[["RAL 8002 Czerwony brąz","#7b5141"],["RAL 8011 Moka","#5a3826"],["RAL 8017 Ciemny brąz","#45322e"],["RAL 7024 Antracyt","#474a51"],["RAL 9005 Czarny","#151617"],["RAL 8012 Szwedzka czerwień","#66332b"],["RAL 6012 Zielony","#343e40"],["RAL 5022 Niebieski","#222d5a"]]},
+  cementowa:  {nazwa:"Dachówka cementowa",  kolory:[["RAL 8002 Czerwony brąz","#7b5141"],["RAL 8011 Moka","#5a3826"],["RAL 8017 Ciemny brąz","#45322e"],["RAL 7024 Antracyt","#474a51"],["RAL 9005 Czarny","#151617"],["RAL 8012 Szwedzka czerwień","#66332b"],["RAL 6012 Zielony","#343e40"],["RAL 5022 Niebieski","#222d5a"]]},
+  blacha:     {nazwa:"Blachodachówka",      kolory:[["RAL 7016 Szary antracytowy","#383e42"],["RAL 8017 Brąz czekoladowy","#45322e"],["RAL 3009 Czerwony tlenkowy","#642424"],["RAL 3004 Purpurowo czerwony","#75151e"],["RAL 6005 Zielony mech","#114232"],["RAL 5010 Niebieski goryczkowy","#0e294b"],["RAL 9006 Srebrny aluminium","#a5a5a5"]]},
+  eternit:    {nazwa:"Eternit (stare pokrycie)", kolory:[["Eternit","#8d918c"]]}
+};
+const FASADA = [["Biel","#f2f0ea"],["Kość słoniowa","#ece2cc"],["Piaskowy","#dccdab"],["Jasna szarość","#d2d3cf"],["Szałwia","#c0c7b1"],["Grafit","#62676b"]];
+const POSADZKA = [["Szary","#8d9195"],["Grafit","#4a4e53"],["Beżowy","#b7a98f"],["Niebiesko-szary","#6b7d8d"],["Piaskowy","#c6b68f"],["Czerwony","#8a3a32"]];
+const KAMIEN = [
+  ["Bianco",      ["#f2f0ec","#dcd9d2","#c9c5bd","#ffffff"]],
+  ["Grigio",      ["#a9a9a6","#8b8c8a","#c8c8c4","#6f706e"]],
+  ["Rosso Verona",["#b8735f","#d29a86","#9a5848","#e2bba9"]],
+  ["Nero",        ["#2c2c2c","#4a4a49","#1a1a1a","#6b6b69"]],
+  ["Giallo",      ["#d8c08f","#e8d6ad","#bfa271","#f2e6c8"]],
+  ["Mix brązowy", ["#8a6a4e","#b08d6c","#6a4f3a","#cdb294"]]
+];
+
+const ROOF_LAYERS = [
+  {id:"welna",     nazwa:"Ocieplenie — wełna mineralna", kol:"#e2c35a"},
+  {id:"krokwie",   nazwa:"Więźba — krokwie",             kol:"#a8774e"},
+  {id:"deski",     nazwa:"Deskowanie pełne",             kol:"#c79a6b"},
+  {id:"membrana",  nazwa:"Membrana dachowa",             kol:"#3f6e98"},
+  {id:"kontrlaty", nazwa:"Kontrłaty",                    kol:"#b98a5c"},
+  {id:"laty",      nazwa:"Łaty",                         kol:"#cfa476"},
+  {id:"pokrycie",  nazwa:"Pokrycie",                     kol:"#b4553a"}
+];
+const WALL_LAYERS = [
+  {id:"mur",    nazwa:"Mur — ściana nośna",                         th:.30,  kol:"#a5583f"},
+  {id:"klej",   nazwa:"Klej do płyt",                               th:.012, kol:"#9a9993"},
+  {id:"eps",    nazwa:"Ocieplenie — styropian",                     th:.14,  kol:"#f4f4f1"},
+  {id:"siatka", nazwa:"Zaprawa klejowa + siatka z włókna szklanego", th:.012, kol:"#c9d9b4"},
+  {id:"grunt",  nazwa:"Grunt podtynkowy",                           th:.004, kol:"#e8e3d3"},
+  {id:"tynk",   nazwa:"Tynk Sto",                                   th:.015, kol:"#ede7da"},
+  {id:"farba",  nazwa:"Żywica silikonowa Sto — 2 warstwy",          th:.006, kol:"#f2f0ea"}
+];
+
+const GAL = '<div class="sec"><h4>Zdjęcia i filmy z realizacji</h4><div class="gal"><div></div><div></div><div></div><div></div><div></div><div></div></div></div>';
+const STO = '<div class="sto"><span class="logo" id="stoLogo">Sto</span><span>Pracujemy na systemach i produktach Sto</span></div>';
+
+/* =========================================================== RENDERER / SCENA */
+const renderer = new THREE.WebGLRenderer({canvas:cv, antialias:true, alpha:true});
+renderer.setPixelRatio(Math.min(Math.max(devicePixelRatio, 1.5), 2));
+renderer.shadowMap.enabled = true;
+renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+renderer.outputEncoding = THREE.sRGBEncoding;
+renderer.toneMapping = THREE.ACESFilmicToneMapping;
+renderer.toneMappingExposure = 1.08;
+const ANISO = renderer.capabilities.getMaxAnisotropy();
+
+const scene = new THREE.Scene();
+const camera = new THREE.PerspectiveCamera(32, 1, .1, 200);
+
+scene.add(new THREE.HemisphereLight(0xffffff, 0xb8b09f, .78));
+const sun = new THREE.DirectionalLight(0xfff6ea, 1.05);
+sun.position.set(11, 19, 13);
+sun.castShadow = true;
+sun.shadow.mapSize.set(2048, 2048);
+Object.assign(sun.shadow.camera, {left:-17, right:17, top:17, bottom:-17, near:1, far:60});
+sun.shadow.bias = -.0004;
+sun.shadow.normalBias = .02;
+scene.add(sun);
+const fill = new THREE.DirectionalLight(0xdfe8ff, .32); fill.position.set(-12, 8, -6); scene.add(fill);
+const garLight = new THREE.PointLight(0xfff1dc, 0, 10, 1.6); garLight.position.set(-4.5, 2.25, -.6); scene.add(garLight);
+
+/* ---------- tekstury z canvas (bez plików zewnętrznych) */
+function rng(seed){ return function(){ seed |= 0; seed = seed + 0x6D2B79F5 | 0; let t = Math.imul(seed ^ seed >>> 15, 1 | seed); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; }; }
+function ctex(w, h, draw, rep){
+  const c = document.createElement("canvas"); c.width = w; c.height = h;
+  const g = c.getContext("2d"); draw(g, w, h);
+  const t = new THREE.CanvasTexture(c);
+  t.encoding = THREE.sRGBEncoding; t.anisotropy = ANISO;
+  if (rep){ t.wrapS = t.wrapT = THREE.RepeatWrapping; }
+  t._g = g; t._c = c; t._draw = draw;
+  return t;
+}
+function redraw(t, draw){ t._g.clearRect(0, 0, t._c.width, t._c.height); (draw || t._draw)(t._g, t._c.width, t._c.height); t.needsUpdate = true; }
+function shade(hex, f){ const c = new THREE.Color(hex); c.offsetHSL(0, 0, f); return "#" + c.getHexString(); }
+function blob(g, x, y, r, col, a){ const gr = g.createRadialGradient(x, y, 0, x, y, r); gr.addColorStop(0, col.replace("A", a)); gr.addColorStop(1, col.replace("A", 0)); g.fillStyle = gr; g.beginPath(); g.arc(x, y, r, 0, 7); g.fill(); }
+
+function drawWood(base){
+  return (g, w, h) => {
+    const R = rng(7); const rows = 8, rh = h / rows;
+    for (let i = 0; i < rows; i++){
+      g.fillStyle = shade(base, (R() - .5) * .08); g.fillRect(0, i * rh, w, rh);
+      g.strokeStyle = "rgba(60,35,15,.18)"; g.lineWidth = 1;
+      for (let k = 0; k < 6; k++){ const y = i * rh + R() * rh; g.beginPath(); g.moveTo(0, y); g.bezierCurveTo(w * .3, y + R() * 4 - 2, w * .6, y + R() * 4 - 2, w, y); g.stroke(); }
+      g.fillStyle = "rgba(40,25,10,.35)"; g.fillRect(0, i * rh, w, 2);
+    }
+  };
+}
+const texBrick = ctex(512, 256, (g, w, h) => {
+  const R = rng(3); g.fillStyle = "#cfc8bb"; g.fillRect(0, 0, w, h);
+  const bh = 32, bw = 64;
+  for (let r = 0; r < h / bh; r++) for (let c = -1; c < w / bw + 1; c++){
+    const x = c * bw + (r % 2 ? bw / 2 : 0);
+    g.fillStyle = shade("#a5583f", (R() - .5) * .12); g.fillRect(x + 2, r * bh + 2, bw - 4, bh - 4);
+  }
+}, true);
+const texWool = (dmg) => (g, w, h) => {
+  const R = rng(11); g.fillStyle = "#e2c35a"; g.fillRect(0, 0, w, h);
+  g.strokeStyle = "rgba(150,110,30,.35)"; g.lineWidth = 1.2;
+  for (let i = 0; i < 900; i++){ const x = R() * w, y = R() * h; g.beginPath(); g.moveTo(x, y); g.lineTo(x + R() * 14 - 7, y + R() * 6 - 3); g.stroke(); }
+  if (dmg){
+    for (let i = 0; i < 7; i++){ const x = R() * w, y = R() * h, r = 18 + R() * 30;
+      g.fillStyle = "rgba(70,55,40,.85)"; g.beginPath(); g.ellipse(x, y, r, r * .6, R() * 3, 0, 7); g.fill();
+      g.strokeStyle = "rgba(120,90,40,.9)"; for (let k = 0; k < 14; k++){ g.beginPath(); g.moveTo(x, y); g.lineTo(x + (R() - .5) * r * 2.6, y + (R() - .5) * r * 1.6); g.stroke(); } }
+  }
+};
+const texWoolMap = ctex(512, 512, texWool(false), true);
+const texMembrane = ctex(512, 256, (g, w, h) => {
+  g.fillStyle = "#3f6e98"; g.fillRect(0, 0, w, h);
+  g.strokeStyle = "rgba(255,255,255,.35)"; g.lineWidth = 2;
+  for (let y = 40; y < h; y += 80){ g.beginPath(); g.moveTo(0, y); g.lineTo(w, y); g.stroke(); }
+  g.fillStyle = "rgba(255,255,255,.4)"; g.font = "bold 18px Inter, sans-serif";
+  for (let y = 70; y < h; y += 80) for (let x = 20; x < w; x += 200) g.fillText("MEMBRANA", x, y);
+}, true);
+
+/* pokrycie dachu: dachowka/blacha + mech (dirt 0..1) */
+const coverState = {typ:"ceramiczna", kolor:"#b4553a", dirt:0};
+function drawCover(g, w, h){
+  const {typ, kolor, dirt} = coverState; const R = rng(21);
+  const n = 8, tw = w / n;
+  if (typ === "blacha"){
+    for (let i = 0; i < n; i++){
+      const gr = g.createLinearGradient(i * tw, 0, (i + 1) * tw, 0);
+      gr.addColorStop(0, shade(kolor, .07)); gr.addColorStop(.45, shade(kolor, .14)); gr.addColorStop(.55, shade(kolor, -.02)); gr.addColorStop(1, shade(kolor, -.09));
+      g.fillStyle = gr; g.fillRect(i * tw, 0, tw, h);
+    }
+    const st = g.createLinearGradient(0, 0, 0, h); st.addColorStop(0, "rgba(255,255,255,.12)"); st.addColorStop(.85, "rgba(0,0,0,0)"); st.addColorStop(1, "rgba(0,0,0,.45)");
+    g.fillStyle = st; g.fillRect(0, 0, w, h);
+  } else if (typ === "eternit"){
+    for (let x = 0; x < w; x += 16){ const gr = g.createLinearGradient(x, 0, x + 16, 0);
+      gr.addColorStop(0, "#9a9e99"); gr.addColorStop(.5, "#80847f"); gr.addColorStop(1, "#9a9e99"); g.fillStyle = gr; g.fillRect(x, 0, 16, h); }
+    for (let i = 0; i < 40; i++) blob(g, R() * w, R() * h, 6 + R() * 18, "rgba(90,100,70,A)", .55);
+    for (let i = 0; i < 30; i++) blob(g, R() * w, R() * h, 3 + R() * 7, "rgba(210,200,120,A)", .5);
+  } else {
+    for (let i = 0; i < n; i++){
+      const c = shade(kolor, (R() - .5) * .05);
+      if (typ === "ceramiczna"){
+        const gr = g.createLinearGradient(i * tw, 0, (i + 1) * tw, 0);
+        gr.addColorStop(0, shade(c, -.1)); gr.addColorStop(.35, shade(c, .08)); gr.addColorStop(.6, c); gr.addColorStop(1, shade(c, -.14));
+        g.fillStyle = gr;
+      } else g.fillStyle = c;
+      g.fillRect(i * tw, 0, tw, h);
+      g.fillStyle = "rgba(0,0,0,.22)"; g.fillRect((i + 1) * tw - 2, 0, 2, h);
+    }
+    const st = g.createLinearGradient(0, 0, 0, h); st.addColorStop(0, "rgba(255,255,255,.06)"); st.addColorStop(.8, "rgba(0,0,0,0)"); st.addColorStop(1, "rgba(0,0,0,.5)");
+    g.fillStyle = st; g.fillRect(0, 0, w, h);
+  }
+  if (dirt > .01 && typ !== "eternit"){
+    g.fillStyle = `rgba(70,74,60,${.45 * dirt})`; g.fillRect(0, 0, w, h);
+    const R2 = rng(5);
+    for (let i = 0; i < 46; i++) blob(g, R2() * w, R2() * h, 6 + R2() * 22, "rgba(78,98,52,A)", .85 * dirt);
+    for (let i = 0; i < 26; i++) blob(g, R2() * w, R2() * h, 3 + R2() * 8, "rgba(190,185,120,A)", .7 * dirt);
+  }
+}
+const texCover = ctex(512, 128, drawCover, true);
+
+/* elewacja + brud */
+const facadeState = {kolor:"#f2f0ea", dirt:0};
+function drawFacade(g, w, h){
+  const {kolor, dirt} = facadeState; const R = rng(9);
+  g.fillStyle = kolor; g.fillRect(0, 0, w, h);
+  for (let i = 0; i < 2600; i++){ g.fillStyle = `rgba(0,0,0,${R() * .035})`; g.fillRect(R() * w, R() * h, 2, 2); }
+  if (dirt > .01){
+    g.fillStyle = `rgba(110,104,88,${.28 * dirt})`; g.fillRect(0, 0, w, h);
+    for (let i = 0; i < 26; i++){ const x = R() * w; const gr = g.createLinearGradient(0, 0, 0, h * (.25 + R() * .3));
+      gr.addColorStop(0, `rgba(70,72,60,${.55 * dirt})`); gr.addColorStop(1, "rgba(70,72,60,0)"); g.fillStyle = gr; g.fillRect(x, 0, 6 + R() * 22, h * .6); }
+    const gb = g.createLinearGradient(0, h * .72, 0, h); gb.addColorStop(0, "rgba(80,90,60,0)"); gb.addColorStop(1, `rgba(72,86,50,${.75 * dirt})`);
+    g.fillStyle = gb; g.fillRect(0, h * .7, w, h * .3);
+    for (let i = 0; i < 30; i++) blob(g, R() * w, h * (.6 + R() * .4), 20 + R() * 50, "rgba(70,85,48,A)", .5 * dirt);
+    g.strokeStyle = `rgba(60,58,52,${.7 * dirt})`; g.lineWidth = 2;
+    for (let i = 0; i < 6; i++){ let x = R() * w, y = R() * h; g.beginPath(); g.moveTo(x, y); for (let k = 0; k < 6; k++){ x += (R() - .5) * 40; y += R() * 30; g.lineTo(x, y); } g.stroke(); }
+  }
+}
+const texFacade = ctex(1024, 384, drawFacade);
+texFacade.repeat.set(1 / 7.4, 1 / 8.3); texFacade.offset.set(.5, 0);
+const texFacadeSide = ctex(1024, 384, drawFacade);
+
+/* posadzka z posypka */
+const floorState = {kolor:"#8d9195"};
+function drawFloor(g, w, h){
+  const R = rng(31); g.fillStyle = floorState.kolor; g.fillRect(0, 0, w, h);
+  const chips = ["#f3f3f1", "#1d1e20", "#a8adb2", shade(floorState.kolor, .18)];
+  for (let i = 0; i < 2600; i++){ g.fillStyle = chips[(R() * chips.length) | 0]; g.save(); g.translate(R() * w, R() * h); g.rotate(R() * 3);
+    g.fillRect(-3, -2, 3 + R() * 5, 2 + R() * 3); g.restore(); }
+  const gl = g.createRadialGradient(w * .45, h * .35, 0, w * .45, h * .35, w * .6); gl.addColorStop(0, "rgba(255,255,255,.16)"); gl.addColorStop(1, "rgba(255,255,255,0)");
+  g.fillStyle = gl; g.fillRect(0, 0, w, h);
+}
+const texFloor = ctex(1024, 1024, drawFloor);
+
+/* kamienny dywan */
+const stoneState = {cols:KAMIEN[2][1]};
+function drawStone(g, w, h){
+  const R = rng(41); g.fillStyle = shade(stoneState.cols[0], -.15); g.fillRect(0, 0, w, h);
+  for (let i = 0; i < 5200; i++){
+    const x = R() * w, y = R() * h, r = 2 + R() * 4.2, c = stoneState.cols[(R() * stoneState.cols.length) | 0];
+    for (const dx of [-w, 0, w]) for (const dy of [-h, 0, h]){
+      if (x + dx < -8 || x + dx > w + 8 || y + dy < -8 || y + dy > h + 8) continue;
+      g.fillStyle = c; g.beginPath(); g.ellipse(x + dx, y + dy, r, r * .78, R() * 3, 0, 7); g.fill();
+      g.fillStyle = "rgba(255,255,255,.28)"; g.beginPath(); g.arc(x + dx - r * .3, y + dy - r * .3, r * .28, 0, 7); g.fill();
+    }
+  }
+}
+const texStone = ctex(512, 512, drawStone, true);
+
+/* dach plaski garazu: stara papa + zywica rozlewana maska */
+const texTar = ctex(512, 512, (g, w, h) => {
+  const R = rng(51); g.fillStyle = "#3b3c3a"; g.fillRect(0, 0, w, h);
+  for (let i = 0; i < 4000; i++){ g.fillStyle = `rgba(255,255,255,${R() * .06})`; g.fillRect(R() * w, R() * h, 2, 2); }
+  g.strokeStyle = "rgba(20,20,20,.9)"; g.lineWidth = 2;
+  for (let i = 0; i < 14; i++){ let x = R() * w, y = R() * h; g.beginPath(); g.moveTo(x, y); for (let k = 0; k < 8; k++){ x += (R() - .5) * 50; y += (R() - .5) * 50; g.lineTo(x, y); } g.stroke(); }
+  for (let i = 0; i < 6; i++) blob(g, R() * w, R() * h, 30 + R() * 50, "rgba(90,110,120,A)", .45);
+  g.fillStyle = "rgba(0,0,0,.35)"; for (let y = 64; y < h; y += 128) g.fillRect(0, y, w, 3);
+});
+const resinState = {p:1};
+const RES_PTS = (() => { const R = rng(61), pts = []; for (let i = 0; i < 70; i++) pts.push([R(), R(), .08 + R() * .16, R()]); pts.sort((a, b) => a[3] - b[3]); return pts; })();
+const texResinMask = ctex(256, 256, (g, w, h) => {
+  g.fillStyle = "#000"; g.fillRect(0, 0, w, h);
+  const p = resinState.p; if (p <= 0) return;
+  if (p >= 1){ g.fillStyle = "#fff"; g.fillRect(0, 0, w, h); return; }
+  // fala zywicy plynie od naroznika: krawedz po przekatnej z lagodnym falowaniem
+  const reach = p * (w + h) * 1.08;
+  g.fillStyle = "#fff"; g.beginPath(); g.moveTo(0, 0);
+  for (let y = 0; y <= h; y += 4){
+    const x = reach - y + Math.sin(y * .045 + p * 9) * 9 + Math.sin(y * .13 + 2) * 4;
+    g.lineTo(Math.max(0, Math.min(w, x)), y);
+  }
+  g.lineTo(0, h); g.closePath(); g.fill();
+  for (const [x, y, r] of RES_PTS){            // drobne "jezyki" na czole fali
+    const d = x * w + y * h - reach; if (d < -6 || d > 22) continue;
+    g.beginPath(); g.arc(x * w, y * h, r * 34 * (1 - Math.max(0, d) / 22), 0, 7); g.fill();
+  }
+});
+texResinMask.encoding = THREE.LinearEncoding;
+
+/* ---------- materialy */
+const M = {
+  welna:    new THREE.MeshStandardMaterial({map:texWoolMap, roughness:1}),
+  krokwie:  new THREE.MeshStandardMaterial({map:ctex(256, 256, drawWood("#a8774e"), true), roughness:.85}),
+  deski:    new THREE.MeshStandardMaterial({map:ctex(512, 512, drawWood("#c79a6b"), true), roughness:.85}),
+  membrana: new THREE.MeshStandardMaterial({map:texMembrane, roughness:.55}),
+  kontrlaty:new THREE.MeshStandardMaterial({map:ctex(128, 128, drawWood("#b98a5c"), true), roughness:.85}),
+  laty:     new THREE.MeshStandardMaterial({map:ctex(128, 128, drawWood("#cfa476"), true), roughness:.85}),
+  pokrycie: new THREE.MeshStandardMaterial({map:texCover, roughness:.62, metalness:0, transparent:true}),
+  kalenica: new THREE.MeshStandardMaterial({color:"#9c4831", roughness:.6}),
+  mur:      new THREE.MeshStandardMaterial({map:texBrick, roughness:.9}),
+  klej:     new THREE.MeshStandardMaterial({color:"#a3a29b", roughness:1}),
+  eps:      new THREE.MeshStandardMaterial({color:"#f6f6f3", roughness:.95}),
+  siatka:   new THREE.MeshStandardMaterial({color:"#c9d9b4", roughness:.9}),
+  grunt:    new THREE.MeshStandardMaterial({color:"#e8e3d3", roughness:.9}),
+  tynk:     new THREE.MeshStandardMaterial({color:"#ede7da", roughness:.95}),
+  farba:    new THREE.MeshStandardMaterial({map:texFacade, roughness:.85}),
+  sciana:   new THREE.MeshStandardMaterial({map:texFacadeSide, roughness:.85}),
+  wnetrze:  new THREE.MeshStandardMaterial({color:"#e9e6df", roughness:.95}),
+  szklo:    new THREE.MeshStandardMaterial({color:"#9fb6c4", roughness:.08, metalness:.3}),
+  rama:     new THREE.MeshStandardMaterial({color:"#2f353b", roughness:.5}),
+  drzwi:    new THREE.MeshStandardMaterial({color:"#5a4130", roughness:.6}),
+  garaz:    new THREE.MeshStandardMaterial({color:"#c5c7c6", roughness:.9}),
+  brama:    new THREE.MeshStandardMaterial({color:"#d9dbdb", roughness:.5, metalness:.25}),
+  attyka:   new THREE.MeshStandardMaterial({color:"#9fa3a4", roughness:.7}),
+  papa:     new THREE.MeshStandardMaterial({map:texTar, roughness:.9}),
+  zywica:   new THREE.MeshStandardMaterial({color:"#d8e9f3", roughness:.12, metalness:.08, alphaMap:texResinMask, transparent:true}),
+  posadzka: new THREE.MeshStandardMaterial({map:texFloor, roughness:.25}),
+  kamien:   new THREE.MeshStandardMaterial({map:texStone, roughness:.75}),
+  kamienS:  new THREE.MeshStandardMaterial({map:texStone, roughness:.75}),
+  cokol:    new THREE.MeshStandardMaterial({color:"#3f4347", roughness:.85}),
+  ziemia:   new THREE.MeshStandardMaterial({color:"#cbd0bb", roughness:1}),
+  trawa:    new THREE.MeshStandardMaterial({color:"#a9b98b", roughness:1}),
+  kominM:   new THREE.MeshStandardMaterial({color:"#8f877a", roughness:.9}),
+  rynna:    new THREE.MeshStandardMaterial({color:"#4a5056", roughness:.4, metalness:.4})
+};
+const HL = new THREE.Color("#c05a3c");
+
+/* ---------- rejestr czesci (klikalnosc, podswietlanie) */
+const parts = {};
+function reg(part, mesh, cast = true){ mesh.userData.part = part; (parts[part] = parts[part] || []).push(mesh); mesh.castShadow = cast; mesh.receiveShadow = true; return mesh; }
+function box(w, h, d, mat){ return new THREE.Mesh(new THREE.BoxGeometry(w, h, d), mat); }
+
+/* ---------- kreska: kontur krawedzi (nutka rysunkowa) */
+const LINE = new THREE.LineBasicMaterial({color:0x1d2126, transparent:true, opacity:.62});
+const LINE_SOFT = new THREE.LineBasicMaterial({color:0x1d2126, transparent:true, opacity:.28});
+function ink(mesh, soft){ const e = new THREE.LineSegments(new THREE.EdgesGeometry(mesh.geometry, 28), soft ? LINE_SOFT : LINE); e.raycast = () => {}; mesh.add(e); return mesh; }
+
+/* ---------- bez tla: tylko cien pod budynkiem */
+const ground = new THREE.Mesh(new THREE.PlaneGeometry(80, 80), new THREE.ShadowMaterial({opacity:.16}));
+ground.rotation.x = -Math.PI / 2; ground.receiveShadow = true; scene.add(ground);
+
+/* =========================================================== DOM (nowoczesna stodola: szczyt do frontu) */
+const HX = 0, HZ = 0, W = 7.4, D = 9.6, H = 5.1, PL = .45;     // x -3.7..3.7, z -4.8..4.8, cokol 0.45
+const house = new THREE.Group(); scene.add(house);
+const PITCH = 40 * Math.PI / 180, OV = .6;
+const GABLE = (W / 2) * Math.tan(PITCH);                          // wysokosc trojkata szczytu na murze
+M.lamele = new THREE.MeshStandardMaterial({map:ctex(256, 512, drawWood("#9a6a43"), true), roughness:.7});
+
+/* --- elewacja frontowa (szczyt, z=+D/2): warstwy od muru do farby, rozkladane wzdluz +z */
+const FRONT_TOTAL = WALL_LAYERS.reduce((s, l) => s + l.th, 0);
+// otwory: [srodek x, dol y, szer, wys]
+const WIN = [[-1.75, PL, 2.9, 2.35], [1.45, PL, 1.1, 2.35], [-1.5, 3.05, 1.5, 1.45], [1.55, 2.95, 1.5, 2.05], [0, 5.55, .9, .9]];
+function frontShape(){
+  const s = new THREE.Shape(); const hw = W / 2;
+  s.moveTo(-hw, 0); s.lineTo(hw, 0); s.lineTo(hw, H); s.lineTo(0, H + GABLE); s.lineTo(-hw, H); s.lineTo(-hw, 0);
+  for (const [cx, y, w, h] of WIN){ const p = new THREE.Path(); p.moveTo(cx - w / 2, y); p.lineTo(cx - w / 2, y + h); p.lineTo(cx + w / 2, y + h); p.lineTo(cx + w / 2, y); p.lineTo(cx - w / 2, y); s.holes.push(p); }
+  return s;
+}
+const wallLayers = [];
+const FZ = D / 2;                      // zewnetrzna powierzchnia elewacji frontowej
+{
+  let z = FZ - FRONT_TOTAL;
+  WALL_LAYERS.forEach((L, i) => {
+    const geo = new THREE.ExtrudeGeometry(frontShape(), {depth:L.th, bevelEnabled:false});
+    const mesh = reg("elewacja", ink(new THREE.Mesh(geo, M[L.id]), i < 6));
+    const g = new THREE.Group(); g.add(mesh); g.position.set(HX, 0, z); g.userData = {base:z, idx:i, id:L.id};
+    house.add(g); wallLayers.push(g); z += L.th;
+  });
+  // stolarka (zostaje przy murze): grafitowe ramy + szklo; [1] = drzwi wejsciowe drewniane
+  const murZ = wallLayers[0].userData.base;
+  WIN.forEach(([cx, y, w, h], n) => {
+    const fr = new THREE.Group(), t = .08;
+    [[w, t, 0, h / 2 - t / 2], [w, t, 0, -h / 2 + t / 2], [t, h, -w / 2 + t / 2, 0], [t, h, w / 2 - t / 2, 0]].forEach(([a, b, x, yy]) => {
+      const m = reg("elewacja", ink(box(a, b, .1, M.rama))); m.position.set(x, yy, 0); fr.add(m); });
+    if (n === 1){ const dr = reg("elewacja", ink(box(w - t * 2, h - t * 2, .06, M.lamele))); fr.add(dr);
+      const kl = reg("elewacja", box(.04, .9, .06, M.rama)); kl.position.set(w / 2 - .2, 0, .07); fr.add(kl); }
+    else { const gl = reg("elewacja", box(w - t * 2, h - t * 2, .02, M.szklo), false); fr.add(gl);
+      if (w > 2){ const sl = reg("elewacja", ink(box(t, h - t * 2, .1, M.rama))); sl.position.x = -w * .17; fr.add(sl); } }
+    fr.position.set(HX + cx, y + h / 2, murZ + .22); house.add(fr);
+  });
+  // drewniane lamele przy oknie pietra (jak na wzorze)
+  for (let i = 0; i < 9; i++){ const l = reg("elewacja", ink(box(.07, 2.2, .14, M.lamele))); l.position.set(HX + 2.5 + i * .12, 3.98, FZ + .09); house.add(l); }
+}
+/* --- akryl: obwodki okien i drzwi (animacja w trybie Odnowa elewacji) */
+M.akryl = new THREE.MeshStandardMaterial({color:"#d9643f", roughness:.35, emissive:new THREE.Color("#ff7a4d"), emissiveIntensity:0});
+const akryl = [];
+WIN.forEach(([cx, y, w, h]) => {
+  const t = .075, z = FZ + .03;
+  // kolejnosc "rysowania": gora, prawa, dol, lewa
+  [[w + t, t, cx, y + h + t / 2, "x"], [t, h + t, cx + w / 2 + t / 2, y + h / 2, "y"], [w + t, t, cx, y - t / 2, "x"], [t, h + t, cx - w / 2 - t / 2, y + h / 2, "y"]].forEach(([a, b, x, yy, ax], j) => {
+    const m = new THREE.Mesh(new THREE.BoxGeometry(a, b, .05), M.akryl); m.position.set(HX + x, yy, z); m.userData = {j, ax}; m.visible = false;
+    house.add(m); akryl.push(m); });
+});
+/* --- pozostale sciany (biale, ten sam material co elewacja = wspolny kolor i brud) */
+function wallBox(w, h, d, x, y, z){ const m = reg("elewacja", ink(box(w, h, d, M.sciana))); m.position.set(x, y, z); house.add(m); return m; }
+const WT = .49, z0 = -D / 2, z1 = FZ - FRONT_TOTAL;
+// tylna sciana ze szczytem
+{ const s = new THREE.Shape(); const hw = W / 2; s.moveTo(-hw, 0); s.lineTo(hw, 0); s.lineTo(hw, H); s.lineTo(0, H + GABLE); s.lineTo(-hw, H); s.lineTo(-hw, 0);
+  const m = reg("elewacja", ink(new THREE.Mesh(new THREE.ExtrudeGeometry(s, {depth:WT, bevelEnabled:false}), M.sciana))); m.position.set(HX, 0, z0); house.add(m); }
+// sciany boczne z oknami (otwory skladane z pudelek)
+function sideWall(x, openings){
+  const len = z1 - z0; let cur = z0;
+  openings.sort((a, b) => a[0] - b[0]);
+  for (const [zc, y, w, h] of openings){
+    const a = zc - w / 2, b = zc + w / 2;
+    wallBox(WT, H, a - cur, x, H / 2, (cur + a) / 2);
+    wallBox(WT, y, w, x, y / 2, zc);
+    wallBox(WT, H - y - h, w, x, (H + y + h) / 2, zc);
+    const fr = reg("elewacja", ink(box(.1, h, w, M.rama))); fr.position.set(x + Math.sign(x) * .05, y + h / 2, zc); house.add(fr);
+    const gl = reg("elewacja", box(.12, h - .16, w - .16, M.szklo), false); gl.position.set(x + Math.sign(x) * .06, y + h / 2, zc); house.add(gl);
+    cur = b;
+  }
+  wallBox(WT, H, z1 - cur, x, H / 2, (cur + z1) / 2);
+}
+sideWall(-W / 2 + WT / 2, [[-2.2, 1.0, 1.6, 1.5], [1.6, 1.0, 1.2, 1.5], [-.3, 3.2, 1.2, 1.2]]);
+sideWall(W / 2 - WT / 2, [[-3.2, 3.2, 1.2, 1.2], [.2, 3.2, 1.2, 1.2]]);
+// cokol (grafit)
+const cok = ink(box(W + .06, PL, D + .06, M.cokol), true); cok.position.set(HX, PL / 2 - .02, HZ); cok.receiveShadow = true; house.add(cok);
+// strop (zeby po rozlozeniu dachu nie bylo widac pustej bryly)
+const strop = box(W - .1, .12, D - .1, M.wnetrze); strop.position.set(HX, H - .06, HZ); strop.receiveShadow = true; house.add(strop);
+
+/* --- dach dwuspadowy: 2 polacie, kazda z 7 warstw rozkladanych wzdluz normalnej */
+const RD = D + OV * 2;                                    // dlugosc polaci wzdluz kalenicy
+const RUN = W / 2 + OV, LEN = RUN / Math.cos(PITCH), RISE = RUN * Math.tan(PITCH);
+const EAVE_Y = H - OV * Math.tan(PITCH);
+const roofSlopes = [];
+function trapShape(W0, W1, L){ const s = new THREE.Shape(); s.moveTo(-W0 / 2, 0); s.lineTo(W0 / 2, 0); s.lineTo(W1 / 2, L); s.lineTo(-W1 / 2, L); s.lineTo(-W0 / 2, 0); return s; }
+function vmax(u, W0, W1, L){ if (W0 === W1) return L; return L * Math.max(0, Math.min(1, (W0 / 2 - Math.abs(u)) / ((W0 - W1) / 2))); }
+function widthAt(v, W0, W1, L){ return W0 - (W0 - W1) * v / L; }
+function uvScale(geo, su, sv){ const uv = geo.attributes.uv; for (let i = 0; i < uv.count; i++) uv.setXY(i, uv.getX(i) * su, uv.getY(i) * sv); uv.needsUpdate = true; return geo; }
+function plate(W0, W1, L, th, mat, rep){ const g = new THREE.ExtrudeGeometry(trapShape(W0, W1, L), {depth:th, bevelEnabled:false});
+  if (rep) uvScale(g, rep, rep); return new THREE.Mesh(g, mat); }
+
+const coverRows = [];
+// rynna prawej polaci — oznaczona jako mozliwa do wymiany (bez animacji)
+M.rynnaWym = new THREE.MeshStandardMaterial({color:"#4a5056", roughness:.4, metalness:.4, emissive:new THREE.Color("#c05a3c"), emissiveIntensity:0});
+// podbitka: material wyblakly (domyslnie) -> zaimpregnowany
+M.podbitka = new THREE.MeshStandardMaterial({map:ctex(256, 256, drawWood("#c4bdb3"), true), color:"#ffffff", roughness:.9});
+M.podbStara = new THREE.MeshStandardMaterial({map:ctex(256, 256, drawWood("#8f8070"), true), roughness:1});
+M.obrobka = new THREE.MeshStandardMaterial({color:"#5d6268", roughness:.35, metalness:.5});
+const PODB_FADE = new THREE.Color("#cdc5b8"), PODB_IMP = new THREE.Color("#9a5a2e");
+M.podbitka.color.copy(PODB_FADE);
+const podbStare = [], podbNowe = [], obrobka = [];
+function mkWyszczerb(parent, x, y, w, h, wzdluz){
+  // stara deska: kawalek z wyszczerbieniem (dwa nierowne fragmenty + ubytek)
+  const g = new THREE.Group(); g.position.set(x, y, -.03); parent.add(g);
+  const a = wzdluz ? [w - .015, h * .55] : [w * .55, h - .015], b = wzdluz ? [w * .55, h * .3] : [w * .3, h * .55];
+  const p1 = reg("podbitka", ink(box(a[0], a[1], .025, M.podbStara), true)); p1.position.set(wzdluz ? 0 : -w * .22, wzdluz ? -h * .22 : 0, 0); p1.rotation.z = .06; g.add(p1);
+  const p2 = reg("podbitka", ink(box(b[0], b[1], .025, M.podbStara), true)); p2.position.set(wzdluz ? -w * .2 : w * .3, wzdluz ? h * .3 : -h * .2, -.01); p2.rotation.z = -.12; g.add(p2);
+  return g;
+}
+function mkNowa(parent, x, y, w, h, wzdluz){
+  const n = reg("podbitka", ink(box(wzdluz ? w - .015 : w, wzdluz ? h : h - .015, .025, M.podbitka), true));
+  n.position.set(x, y, -.03); n.visible = false; parent.add(n); n.userData.base = new THREE.Vector3(x, y, -.03); return n;
+}
+function buildSlope(phi, d, W0, W1){
+  const outer = new THREE.Group(); outer.position.set(HX, EAVE_Y, HZ); outer.rotation.y = phi; house.add(outer);
+  const sg = new THREE.Group(); sg.position.z = d; sg.rotation.x = PITCH - Math.PI / 2; outer.add(sg);
+  const L = LEN, layers = ROOF_LAYERS.map(() => new THREE.Group());
+  layers.forEach(l => sg.add(l));
+  const rafterU = []; for (let u = -W0 / 2 + .1; u <= W0 / 2 - .05; u += .8) rafterU.push(u);
+  rafterU.push(W0 / 2 - .05);
+  // 0 welna pomiedzy krokwiami
+  const wel = reg("dach", ink(plate(W0 - .2, W1 - .2, L - .1, .13, M.welna, .5), true)); wel.position.set(0, .02, .015); layers[0].add(wel);
+  // 1 krokwie
+  for (const u of rafterU){ const vm = vmax(u, W0, W1, L) - .02;
+    const r = reg("dach", ink(box(.08, vm, .16, M.krokwie), true)); r.position.set(u, vm / 2, .08); layers[1].add(r); }
+  // 2 deskowanie
+  const desk = reg("dach", ink(plate(W0, W1, L, .025, M.deski, .4), true)); desk.position.z = .165; layers[2].add(desk);
+  // 3 membrana
+  const mem = reg("dach", ink(plate(W0, W1, L, .006, M.membrana, .3), true)); mem.position.z = .192; layers[3].add(mem);
+  // 4 kontrlaty
+  for (const u of rafterU){ const vm = vmax(u, W0, W1, L) - .04;
+    const k = reg("dach", ink(box(.05, vm, .04, M.kontrlaty), true)); k.position.set(u, vm / 2, .22); layers[4].add(k); }
+  // 5 laty
+  for (let v = .12; v < L - .05; v += .34){ const l = reg("dach", ink(box(W0 - .04, .05, .04, M.laty), true)); l.position.set(0, v, .26); layers[5].add(l); }
+  // 6 pokrycie — rzedy (dachowka) zachodzace na siebie; jedna tekstura dla wszystkich typow
+  const R = rng(Math.round(phi * 100) + 7);
+  for (let v = 0; v < L - .02; v += .34){
+    const top = Math.min(L, v + .4), w = W0 + .04;
+    const g = uvScale(new THREE.BoxGeometry(w, top - v, .05), w / 2.4, 1);
+    const uv = g.attributes.uv, off = R(); for (let i = 0; i < uv.count; i++) uv.setX(i, uv.getX(i) + off);
+    const row = reg("dach", ink(new THREE.Mesh(g, M.pokrycie), true)); row.position.set(0, (v + top) / 2, .305); row.rotation.x = -.04; layers[6].add(row); coverRows.push(row);
+  }
+  // obrobki: wiatrownice na krawedziach szczytowych + kalenica
+  for (const sgn of [-1, 1]){ const c = reg("dach", ink(box(.12, L + .05, .16, M.kalenica))); c.position.set(sgn * (W0 / 2 + .06), L / 2, .33); layers[6].add(c); }
+  const kal = reg("dach", ink(box(W0 + .24, .22, .12, M.kalenica))); kal.position.set(0, L - .06, .37); layers[6].add(kal);
+  // rynna (zostaje na budynku)
+  const ry = reg("dach", ink(box(W0, .14, .16, phi > 0 ? M.rynnaWym : M.rynna))); ry.position.set(0, -.04, .14); sg.add(ry);
+  layers.forEach((l, i) => { l.userData = {idx:i}; });
+  // podbitka: deski pod okapem (pas wzdluz okapu) i pod wiatrownica od frontu — zostaja na budynku
+  const vOv = OV / Math.cos(PITCH), nb = 4, bw = vOv / nb, R2 = rng(Math.round(phi * 10) + 3);
+  for (let i = 0; i < nb; i++){
+    const v = bw * (i + .5);
+    if (phi < 0 && i === 1){   // lewa polac (od frontu, bez garazu): deska z wyszczerbionym kawalkiem do wymiany
+      const cut0 = 1.2, cut1 = 2.7;
+      [[-W0 / 2, cut0], [cut1, W0 / 2]].forEach(([a, b]) => { const d = reg("podbitka", ink(box(b - a, bw - .015, .025, M.podbitka), true)); d.position.set((a + b) / 2, v, -.03); sg.add(d); });
+      podbStare.push(mkWyszczerb(sg, (cut0 + cut1) / 2, v, cut1 - cut0, bw));
+      podbNowe.push(mkNowa(sg, (cut0 + cut1) / 2, v, cut1 - cut0, bw));
+      continue;
+    }
+    const d = reg("podbitka", ink(box(W0, bw - .015, .025, M.podbitka), true)); d.position.set(0, v, -.03); sg.add(d);
+  }
+  // pod wiatrownica od frontu (u = -W0/2 ... -W0/2 + OV), deski wzdluz spadku
+  const ub = OV / 3;
+  for (const sgn of [-1, 1]) for (let i = 0; i < 3; i++){
+    const u = sgn * (W0 / 2 - ub * (i + .5)), len = L - vOv;
+    if (phi < 0 && sgn > 0 && i === 1){
+      const c0 = vOv + len * .35, c1 = vOv + len * .6;
+      [[vOv, c0], [c1, L]].forEach(([a, b]) => { const d = reg("podbitka", ink(box(ub - .015, b - a, .025, M.podbitka), true)); d.position.set(u, (a + b) / 2, -.03); sg.add(d); });
+      podbStare.push(mkWyszczerb(sg, u, (c0 + c1) / 2, ub, c1 - c0, true));
+      podbNowe.push(mkNowa(sg, u, (c0 + c1) / 2, ub, c1 - c0, true));
+      continue;
+    }
+    const d = reg("podbitka", ink(box(ub - .015, len, .025, M.podbitka), true)); d.position.set(u, vOv + len / 2, -.03); sg.add(d);
+  }
+  // komin: tylna czesc LEWEJ polaci, przytwierdzony do niej na stale (stoi pionowo)
+  if (phi < 0){
+    const ku = -2.4, kv = L * .84;
+    const kg = new THREE.Group(); kg.position.set(ku, kv, 0); kg.rotation.x = Math.PI / 2 - PITCH; layers[6].add(kg);   // jedzie razem z polacia
+    const k = reg("dach", ink(box(.62, 2.7, .62, M.kominM))); k.position.y = .65; kg.add(k);
+    const kc = reg("dach", ink(box(.76, .1, .76, M.attyka))); kc.position.y = 2.05; kg.add(kc);
+    // obrobka (opierzenie): 4 blachy wokol komina, w plaszczyznie polaci; rozkladane na boki po rozlozeniu dachu
+    const t = .36;
+    [[.95, .3, 0, -.5, 0, -1], [.95, .3, 0, .5, 0, 1], [.22, .9, -.42, 0, -1, 0], [.22, .9, .42, 0, 1, 0]].forEach(([w, h, du, dv, ou, ov]) => {
+      const b = reg("dach", ink(box(w, h, .02, M.obrobka))); b.position.set(ku + du, kv + dv, t); b.userData = {u:ku + du, v:kv + dv, ou, ov}; layers[6].add(b); obrobka.push(b); });
+  }
+  roofSlopes.push({sg, layers, W0, W1, L, phi});
+}
+buildSlope(Math.PI / 2, RUN, RD, RD);      // [0] polac prawa (+x) — ta widoczna, na niej etykiety warstw
+buildSlope(-Math.PI / 2, RUN, RD, RD);
+
+// rura spustowa z rynny prawej polaci: z tylu domu, za garazem, do ziemi
+{ const x = W / 2 + OV - .12, z = -D / 2 - OV + .3, top = EAVE_Y - .08;
+  const rura = reg("dach", ink(new THREE.Mesh(new THREE.CylinderGeometry(.06, .06, top, 14), M.rynnaWym), true)); rura.position.set(x, top / 2, z); scene.add(rura);
+  const kol = reg("dach", ink(new THREE.Mesh(new THREE.CylinderGeometry(.06, .06, .35, 14), M.rynnaWym), true)); kol.rotation.z = Math.PI / 2; kol.position.set(x + .15, .1, z); scene.add(kol); }
+const RYNNA_ETYK = new THREE.Vector3(W / 2 + OV, EAVE_Y - .15, -1.5);
+
+/* =========================================================== GARAZ (dobudowany z prawej, plaski dach) */
+const GX0 = W / 2, GX1 = W / 2 + 5.4, GZ0 = -3.4, GZ1 = D / 2, GH = 3.05, GT = .3;
+const GCX = (GX0 + GX1) / 2, GCZ = (GZ0 + GZ1) / 2, GW = GX1 - GX0, GD = GZ1 - GZ0;
+const DOOR_W = 3.0, DOOR_H = 2.3, DOOR_X = GCX + .45;
+{
+  const gb = (w, h, d, x, y, z) => { const m = reg("garaz", ink(box(w, h, d, M.sciana))); m.position.set(x, y, z); scene.add(m); return m; };
+  gb(GW, GH, GT, GCX, GH / 2, GZ0 + GT / 2);
+  gb(GT, GH, GD, GX1 - GT / 2, GH / 2, GCZ);
+  const dl = DOOR_X - DOOR_W / 2, dr = DOOR_X + DOOR_W / 2;
+  gb(dl - GX0, GH, GT, (GX0 + dl) / 2, GH / 2, GZ1 - GT / 2);
+  gb(GX1 - dr, GH, GT, (dr + GX1) / 2, GH / 2, GZ1 - GT / 2);
+  gb(DOOR_W, GH - DOOR_H, GT, DOOR_X, (GH + DOOR_H) / 2, GZ1 - GT / 2);
+  const sufit = box(GW, .02, GD, M.wnetrze); sufit.position.set(GCX, GH - .01, GCZ); scene.add(sufit);
+  // drewniana okladzina obok bramy (jak na wzorze)
+  const ok = reg("garaz", ink(box(dl - GX0 - .25, GH - .5, .05, M.lamele))); ok.position.set((GX0 + dl) / 2, (GH - .5) / 2 + .1, GZ1 + .03); scene.add(ok);
+}
+const floorMesh = reg("garaz", new THREE.Mesh(new THREE.PlaneGeometry(GW - GT, GD - GT), M.posadzka), false);
+floorMesh.rotation.x = -Math.PI / 2; floorMesh.position.set(GCX - GT / 2 + .04, .045, GCZ); scene.add(floorMesh);
+// wewnetrzna okladzina sciany od strony domu + drzwi do domu
+const GDOOR_Z = -.9, GDOOR_W = .95, GDOOR_H = 2.05;
+{
+  const xL = GX0 + .06, z0 = GZ0 + GT, z1 = GZ1 - GT, a = GDOOR_Z - GDOOR_W / 2, b = GDOOR_Z + GDOOR_W / 2;
+  const lin = (d, h, z, y) => { const m = reg("garaz", box(.02, h, d, M.sciana), false); m.position.set(xL, y, z); scene.add(m); };
+  lin(a - z0, GH, (z0 + a) / 2, GH / 2); lin(z1 - b, GH, (b + z1) / 2, GH / 2); lin(GDOOR_W, GH - GDOOR_H, GDOOR_Z, (GH + GDOOR_H) / 2);
+  const dr = reg("garaz", ink(box(.05, GDOOR_H - .02, GDOOR_W - .08, M.drzwi), true), false); dr.position.set(xL + .02, GDOOR_H / 2 + .01, GDOOR_Z); scene.add(dr);
+  const fr = (d, h, z, y) => { const m = reg("garaz", ink(box(.07, h, d, M.rama), true), false); m.position.set(xL + .03, y, z); scene.add(m); };
+  fr(.05, GDOOR_H, a, GDOOR_H / 2); fr(.05, GDOOR_H, b, GDOOR_H / 2); fr(GDOOR_W + .05, .05, GDOOR_Z, GDOOR_H);
+  const kl = reg("garaz", box(.05, .03, .16, M.rynna), false); kl.position.set(xL + .07, 1.02, b - .16); scene.add(kl);
+}
+// "basen": zywica wywinieta 15 cm na sciany (cokolik)
+{
+  const CH = .15, t = .012, x0 = GX0 + .075, x1 = GX1 - GT, z0 = GZ0 + GT, z1 = GZ1 - GT;
+  const dl = DOOR_X - DOOR_W / 2, dr = DOOR_X + DOOR_W / 2;
+  [[x1 - x0, t, (x0 + x1) / 2, z0 + t / 2], [t, z1 - z0, x1 - t / 2, (z0 + z1) / 2], [t, z1 - z0, x0 + t / 2, (z0 + z1) / 2],
+   [dl - x0, t, (x0 + dl) / 2, z1 - t / 2], [x1 - dr, t, (dr + x1) / 2, z1 - t / 2]].forEach(([w, d, x, z], i) => {
+    if (i === 2){   // lewa sciana: cokolik z przerwa na drzwi do domu
+      const a = GDOOR_Z - GDOOR_W / 2, b = GDOOR_Z + GDOOR_W / 2;
+      [[z0, a], [b, z1]].forEach(([p, q]) => { const m = reg("garaz", box(t, CH, q - p, M.posadzka), false); m.position.set(x, .045 + CH / 2, (p + q) / 2); scene.add(m); });
+      return;
+    }
+    const m = reg("garaz", box(w, CH, d, M.posadzka), false); m.position.set(x, .045 + CH / 2, z); scene.add(m); });
+}
+const brama = new THREE.Group(); brama.position.set(DOOR_X, 0, GZ1 - .02); scene.add(brama);
+for (let i = 0; i < 5; i++){ const s = reg("garaz", ink(box(DOOR_W - .04, DOOR_H / 5 - .02, .06, M.brama), true)); s.position.y = DOOR_H / 10 + i * DOOR_H / 5; brama.add(s); }
+// dach plaski + attyka (podniesiona)
+const ATT = .6, ROOF_TOP = GH + .245, BASE = ROOF_TOP + .2;   // BASE = poziom krawedzi czaszy
+const gRoof = reg("garaz-dach", ink(box(GW + .2, .25, GD + .2, M.sciana))); gRoof.position.set(GCX + .1, GH + .12, GCZ); scene.add(gRoof);
+for (const [w, d, x, z] of [[GW + .2, .2, GCX + .1, GZ0 - .0], [GW + .2, .2, GCX + .1, GZ1], [.2, GD + .2, GX1 + .1, GCZ]]){
+  const a = reg("garaz-dach", ink(box(w, ATT, d, M.sciana))); a.position.set(x, ROOF_TOP + ATT / 2, z); scene.add(a);
+}
+// niski komin
+{ const k = reg("garaz-dach", ink(box(.55, .62, .55, M.cokol))); k.position.set(GX1 - 1.2, ROOF_TOP + .31, GZ0 + 1.25); scene.add(k);
+  const c = reg("garaz-dach", ink(box(.68, .08, .68, M.sciana))); c.position.set(GX1 - 1.2, ROOF_TOP + .66, GZ0 + 1.25); scene.add(c); }
+// czasza dachu: minimalny spad do srodka + kanal od srodka do prawej attyki (odplyw do rynny)
+const RW = GW - .12, RDp = GD - .2;
+function niecka(lift){
+  const g = new THREE.PlaneGeometry(RW, RDp, 40, 40), p = g.attributes.position;
+  for (let i = 0; i < p.count; i++){
+    const x = p.getX(i), y = p.getY(i), u = Math.abs(x) / (RW / 2), v = Math.abs(y) / (RDp / 2);
+    let z = -.08 * (1 - Math.max(u, v));                               // lejek do srodka
+    if (x > 0 && Math.abs(y) < .3) z = Math.min(z, -.09 - .03 * (x / (RW / 2)));   // kanal do rynny
+    p.setZ(i, z + lift);
+  }
+  g.computeVertexNormals(); return g;
+}
+const tarMesh = reg("garaz-dach", new THREE.Mesh(niecka(0), M.papa), false);
+tarMesh.rotation.x = -Math.PI / 2; tarMesh.position.set(GX0 + .06 + RW / 2, BASE, GCZ); scene.add(tarMesh);
+const resinMesh = reg("garaz-dach", new THREE.Mesh(niecka(.008), M.zywica), false);
+resinMesh.rotation.x = -Math.PI / 2; resinMesh.position.copy(tarMesh.position); scene.add(resinMesh);
+// kanal odplywowy (od wpustu na srodku do rzygacza w prawej attyce) + wpust
+let kanalLines = null;
+const kanalMat = new THREE.MeshStandardMaterial({color:"#3f6a88", roughness:.25, metalness:.05}); let kanalMesh = null;
+{ const len = GX1 - (GX0 + .06 + RW / 2) - .02;
+  const k = reg("garaz-dach", ink(box(len, .02, .3, kanalMat), true), false);
+  k.position.set(GX0 + .06 + RW / 2 + len / 2, BASE - .085, GCZ); scene.add(k); kanalMesh = k;
+  const wp = reg("garaz-dach", new THREE.Mesh(new THREE.CylinderGeometry(.17, .17, .02, 24), new THREE.MeshStandardMaterial({color:"#4c5862", roughness:.5, metalness:.4})), false);
+  wp.position.set(GX0 + .06 + RW / 2, BASE - .072, GCZ); scene.add(wp);
+  // linie spadku: od naroznikow czaszy do wpustu (czytelny "lejek")
+  const cx = GX0 + .06 + RW / 2, pts = [];
+  for (const [sx, sz] of [[-1, -1], [-1, 1], [1, -1], [1, 1]]) pts.push(cx + sx * RW / 2, BASE + .012, GCZ + sz * RDp / 2, cx, BASE - .068, GCZ);
+  const lg = new THREE.BufferGeometry(); lg.setAttribute("position", new THREE.Float32BufferAttribute(pts, 3));
+  const lm = new THREE.LineBasicMaterial({color:0x6f93aa, transparent:true, opacity:.55}); kanalLines = lm;
+  scene.add(new THREE.LineSegments(lg, lm));
+  for (let i = -2; i <= 2; i++){ const r = box(.3, .025, .025, M.attyka); r.position.set(wp.position.x, wp.position.y + .012, GCZ + i * .06); scene.add(r); } }
+// wywiniecie zywicy na attyke i sciane domu (basen) — pojawia sie na koniec wylewania
+M.zywicaB = new THREE.MeshStandardMaterial({color:"#d8e9f3", roughness:.12, metalness:.08, transparent:true, opacity:1});
+const resinUp = [];
+{ const UH = .18, t = .012, x0 = GX0 + .06, x1 = GX1, z0 = GZ0 + .1, z1 = GZ1 - .1, y = BASE + UH / 2 - .02;
+  [[x1 - x0, t, (x0 + x1) / 2, z0], [x1 - x0, t, (x0 + x1) / 2, z1], [t, z1 - z0, x1, (z0 + z1) / 2], [t, z1 - z0, x0, (z0 + z1) / 2]].forEach(([w, d, x, z]) => {
+    const m = reg("garaz-dach", box(w, UH, d, M.zywicaB), false); m.position.set(x, y, z); scene.add(m); resinUp.push(m); }); }
+// rzygacz przez attyke + rynna wzdluz prawego boku + rura spustowa
+{ const ry = reg("garaz-dach", ink(box(.42, .1, .26, M.rynna))); ry.position.set(GX1 + .3, BASE - .1, GCZ); scene.add(ry);
+  const half = new THREE.CylinderGeometry(.11, .11, GD + .3, 18, 1, true, Math.PI / 2, Math.PI);
+  const gut = reg("garaz-dach", ink(new THREE.Mesh(half, new THREE.MeshStandardMaterial({color:"#4a5056", roughness:.4, metalness:.4, side:THREE.DoubleSide})), true));
+  gut.rotation.x = Math.PI / 2; gut.position.set(GX1 + .43, ROOF_TOP - .06, GCZ); scene.add(gut);
+  const pipe = reg("garaz-dach", ink(new THREE.Mesh(new THREE.CylinderGeometry(.055, .055, ROOF_TOP, 14), M.rynna), true));
+  pipe.position.set(GX1 + .43, ROOF_TOP / 2 - .06, GZ1 - .25); scene.add(pipe); }
+
+/* =========================================================== TARAS + SCHODY (kamienny dywan) */
+const TX0 = -W / 2 - .2, TX1 = .5, TZ0 = FZ + .05, TZ1 = FZ + 3.0, TH = PL - .03;
+const terr = reg("taras", ink(new THREE.Mesh(uvScale(new THREE.BoxGeometry(TX1 - TX0, TH, TZ1 - TZ0), (TX1 - TX0) / 1.6, (TZ1 - TZ0) / 1.6), M.kamien), true));
+terr.position.set((TX0 + TX1) / 2, TH / 2, (TZ0 + TZ1) / 2); scene.add(terr);
+const schody = [];
+{
+  const x0 = .75, x1 = 2.45;      // przed drzwiami wejsciowymi
+  [[1.25, .15], [.85, .3], [.45, PL - .03]].forEach(([dz, h]) => {
+    const s = reg("taras", ink(new THREE.Mesh(uvScale(new THREE.BoxGeometry(x1 - x0, h, dz), (x1 - x0) / 1.6, dz / 1.6), M.kamienS), true));
+    s.position.set((x0 + x1) / 2, h / 2, FZ + .05 + dz / 2); scene.add(s); schody.push(s);
+  });
+}
+
+/* =========================================================== KAMERA (orbita + tweeny) */
+const cam = {tx:0, ty:1.7, tz:.4, r:25, yaw:.62, pitch:.36, fov:32};
+const PRESETS = {
+  dom:       {tx:2.2, ty:3.4, tz:.4, r:30, yaw:.62, pitch:.26},
+  dach:      {tx:4.2, ty:7.6, tz:.6, r:36, yaw:1.22, pitch:.2},
+  dachowka:  {tx:1.6, ty:6.2, tz:.2, r:21, yaw:.95, pitch:.36},
+  kuna:      {tx:3.4, ty:6.6, tz:.6, r:28, yaw:1.2, pitch:.22},
+  elewacja:  {tx:0, ty:3.6, tz:FZ, r:19, yaw:.18, pitch:.1},
+  docieplanie:{tx:1.2, ty:3.6, tz:FZ + 2.6, r:25, yaw:1.12, pitch:.12},
+  hydro:     {tx:GCX + .6, ty:2.9, tz:GCZ, r:19, yaw:.62, pitch:.8},
+  garazPrzed:{tx:DOOR_X, ty:1.15, tz:GZ1, r:10, yaw:0, pitch:.12, fov:36},
+  garaz:     {tx:DOOR_X - .2, ty:.85, tz:GZ0 + 1.0, r:6.05, yaw:0, pitch:.17, fov:62},
+  podbitka:  {tx:-2.1, ty:5.7, tz:FZ + .3, r:8.2, yaw:-.32, pitch:-.46},
+  taras:     {tx:-.2, ty:.5, tz:FZ + 1.2, r:19, yaw:.32, pitch:.46}
+};
+Object.assign(cam, PRESETS.dom);
+const camTw = {from:null, to:null, t0:0, dur:1, on:false};
+function camGo(name, dur){ camTw.from = {...cam}; camTw.to = {fov:32, ...PRESETS[name]}; camTw.t0 = performance.now(); camTw.dur = reduce ? 1 : (dur || 1500); camTw.on = true; userYaw = 0; userPitch = 0; }
+let userYaw = 0, userPitch = 0;
+function applyCam(){
+  const yaw = cam.yaw + userYaw, pitch = Math.max(Math.min(.04, cam.pitch), Math.min(1.25, cam.pitch + userPitch));
+  // waski ekran (telefon): oddal kamere, zeby caly dom miescil sie w kadrze — poza wnetrzem garazu
+  const r = cam.r * (mode === "posadzka" ? 1 : Math.min(1.7, Math.max(1, 1.12 / camera.aspect)));
+  camera.position.set(cam.tx + r * Math.cos(pitch) * Math.sin(yaw), cam.ty + r * Math.sin(pitch), cam.tz + r * Math.cos(pitch) * Math.cos(yaw));
+  camera.lookAt(cam.tx, cam.ty, cam.tz);
+  if (Math.abs(camera.fov - cam.fov) > .01){ camera.fov = cam.fov; camera.updateProjectionMatrix(); }
+}
+const ease = t => t < .5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+const easeOut = t => 1 - Math.pow(1 - t, 3);
+
+/* ---------- uniwersalne tweeny wartosci S.* */
+const S = {roofT:0, wallT:0, eternitOut:0, doorUp:0, glow:0, acryl:0, podb:0, flash:0};
+const tweens = [];
+function tw(key, to, dur, fn, done){ for (let i = tweens.length - 1; i >= 0; i--) if (tweens[i].key === key) tweens.splice(i, 1);
+  const from = key in S ? S[key] : 0; tweens.push({key, from, to, t0:performance.now(), dur:reduce ? 1 : dur, fn:fn || ease, done}); }
+function tweenVal(get, set, to, dur, done){ const o = {key:"_" + Math.random(), from:get(), to, t0:performance.now(), dur:reduce ? 1 : dur, fn:ease, set, done}; tweens.push(o); }
+
+/* =========================================================== STAN WIZUALNY */
+function setCover(typ, kolor){ coverState.typ = typ; coverState.kolor = kolor; M.pokrycie.metalness = typ === "blacha" ? .45 : 0; M.pokrycie.roughness = typ === "blacha" ? .38 : (typ === "cementowa" ? .8 : .62);
+  M.kalenica.color.set(typ === "eternit" ? "#7f837e" : shade(kolor, -.06)); redraw(texCover, drawCover); }
+function setFacade(kolor){ facadeState.kolor = kolor; redraw(texFacade, drawFacade); redraw(texFacadeSide, drawFacade); }
+function setDirtRoof(v){ coverState.dirt = v; redraw(texCover, drawCover); const sl = document.getElementById("baRoof"); if (sl && document.activeElement !== sl) sl.value = Math.round((1 - v) * 100); }
+function setDirtFacade(v){ facadeState.dirt = v; redraw(texFacade, drawFacade); redraw(texFacadeSide, drawFacade); const sl = document.getElementById("baFacade"); if (sl && document.activeElement !== sl) sl.value = Math.round((1 - v) * 100); }
+function setFloor(k){ floorState.kolor = k; redraw(texFloor, drawFloor); }
+function setStone(cols){ stoneState.cols = cols; redraw(texStone, drawStone); }
+function setResin(p){ resinState.p = p; redraw(texResinMask); const k = Math.max(0, Math.min(1, (p - .82) / .18)); if (M.zywicaB) M.zywicaB.opacity = k; if (typeof kanalMat !== "undefined"){ if (kanalMesh) kanalMesh.visible = k > .05; if (kanalLines) kanalLines.opacity = .55 * k; } }
+function setWoolDamaged(d){ redraw(texWoolMap, texWool(d)); }
+
+let hlLayer = null;
+function highlightLayer(id){
+  if (hlLayer && M[hlLayer]) M[hlLayer].emissive.set(0x000000);
+  hlLayer = id;
+  if (id && M[id]) M[id].emissive.copy(HL).multiplyScalar(.35);
+  document.querySelectorAll("[data-layer]").forEach(e => e.classList.toggle("on", e.dataset.layer === id));
+}
+
+let hoverPart = null, focusParts = [];
+function partEmissive(part, k){ (parts[part] || []).forEach(m => { const mats = Array.isArray(m.material) ? m.material : [m.material];
+  mats.forEach(mt => { if (mt.emissive && !mt._hlLayer) mt.emissive.copy(HL).multiplyScalar(k); }); }); }
+
+/* =========================================================== TRYBY (USLUGI) */
+let mode = "dom";
+const GROUPS = {dach:["wymiana", "dachowka", "kuna"], elewacja:["odnowa", "docieplanie", "podbitka"], podbitka:["podbitka"], "garaz-dach":["hydro"], garaz:["posadzka"], taras:["taras"]};
+const MODES = {};
+
+function sibs(cur){ const part = MODES[cur].part; const list = GROUPS[part];
+  return list.length > 1 ? '<div class="sibs">' + list.map(m => `<button data-go="${m}" class="${m === cur ? "on" : ""}">${MODES[m].krotko}</button>`).join("") + "</div>" : ""; }
+function head(m){ return `<button class="back" data-go="dom">← cały dom</button><div class="p-kick">${m.kicker}</div><h3>${m.tytul}</h3>${sibs(m.id)}<p class="lead">${m.lead}</p>`; }
+function steps(a){ return '<div class="sec"><h4>Na czym polega</h4><ol class="steps">' + a.map(s => `<li>${s}</li>`).join("") + "</ol></div>"; }
+function why(a){ return '<div class="sec"><h4>Dlaczego warto</h4><ul class="why">' + a.map(s => `<li>${s}</li>`).join("") + "</ul></div>"; }
+function layersList(arr, tytul){ return `<div class="sec"><h4>${tytul}</h4><ul class="layers">` + arr.map((L, i) => `<li data-layer="${L.id}"><b style="background:${L.kol}"></b>${L.nazwa}<small>${i + 1}</small></li>`).join("") + "</ul></div>"; }
+function baSlider(id, val){ return `<div class="sec ba"><div class="ba-row"><span>Przed</span><span>Po</span></div><input type="range" id="${id}" min="0" max="100" value="${val}"></div>`; }
+const CTA = '<div class="act"><a class="btn btn-a" href="../index.html#kontakt" target="_top">Bezpłatna wycena</a></div>';
+
+function roofLayersData(){ const r = ROOF_LAYERS.map(l => ({...l})); r[6].nazwa = "Pokrycie — " + COVER[coverState.typ].nazwa.toLowerCase(); r[6].kol = coverState.kolor; return r; }
+
+MODES.podbitka = {part:"elewacja", krotko:"Podbitka", kicker:"Podbitka dachowa", cam:"podbitka",
+  tytul:"Wymiana i impregnacja podbitki",
+  lead:"Robimy ją osobno albo razem z elewacją. Najpierw wymieniamy uszkodzone deski, potem impregnujemy całą podbitkę — szare, wyblakłe drewno odzyskuje kolor.",
+  enter(){ S.podb = 0; setTimeout(() => { if (mode === "podbitka") tw("podb", 1, 4200, t => t); }, 1300); },
+  exit(){ tw("podb", 0, 500); },
+  panel(){ return head(this) + '<div class="act"><button class="btn btn-g" id="bPodb">▶ Pokaż jeszcze raz</button></div>' +
+    steps(["Oględziny i wskazanie zniszczonych desek", "Demontaż wyszczerbionych i spróchniałych elementów", "Montaż nowych desek", "Oczyszczenie i zmatowienie całej podbitki", "Impregnacja — nowe i stare deski w jednym kolorze"]) +
+    why(["Drewno chronione przed wilgocią, grzybem i UV", "Szara, wyblakła podbitka znów wygląda jak nowa", "Można zrobić osobno albo przy okazji odnowy elewacji"]) + GAL + CTA; },
+  bar:null};
+
+MODES.wymiana = {part:"dach", krotko:"Wymiana dachu", kicker:"Dach · wymiana połaci", cam:"dach",
+  tytul:"Wymiana całej połaci dachu i likwidacja eternitu",
+  lead:"Rozbieramy dach do więźby i składamy go od nowa — warstwa po warstwie. Wybierz pokrycie pod domem, a model pokaże je od razu.",
+  enter(){ S.flash = 0; tw("roofT", 1, 1700, ease, () => { if (mode === "wymiana") tw("flash", 1, 1100); }); },
+  exit(){ tw("flash", 0, 350); setTimeout(() => tw("roofT", 0, 1200), 250); tw("eternitOut", 0, 600); },
+  panel(){ return head(this) + layersList(roofLayersData(), "Z czego składa się dach (od środka)") +
+    '<div class="act"><button class="btn btn-g" id="bEternit">▶ Pokaż demontaż eternitu</button><button class="btn btn-g" id="bZloz">Złóż / rozłóż dach</button></div>' +
+    steps(["Demontaż starego pokrycia — eternit usuwamy i utylizujemy zgodnie z przepisami", "Przegląd więźby, wymiana lub wzmocnienie uszkodzonych elementów", "Deskowanie i membrana dachowa", "Kontrłaty i łaty — wentylowana szczelina pod pokryciem", "Nowe pokrycie: ceramika, cement albo blachodachówka", "Obróbki, gąsiory, rynny i odbiór"]) +
+    why(["Jeden wykonawca od demontażu po rynny", "Eternit znika z Twojego dachu na dobre", "Nowa warstwa ochronna pod pokryciem"]) + GAL + CTA; },
+  bar:"pokrycie"};
+
+MODES.dachowka = {part:"dach", krotko:"Konserwacja dachu", kicker:"Dach · renowacja", cam:"dachowka",
+  tytul:"Czyszczenie i malowanie dachówki",
+  lead:"Dachówka ceramiczna, cementowa i blacha. Myjemy ciśnieniowo, usuwamy mech i malujemy w wybranym kolorze. Przesuń suwak, żeby porównać.",
+  enter(){ setDirtRoof(1); setTimeout(() => tweenVal(() => coverState.dirt, setDirtRoof, 0, 2600), 700); },
+  exit(){ setDirtRoof(0); },
+  panel(){ return head(this) + baSlider("baRoof", 0) +
+    steps(["Mycie dachu myjką wysokociśnieniową", "Usunięcie mchu, porostów i zabrudzeń", "Przegląd i wymiana uszkodzonych dachówek", "Malowanie w wybranym kolorze"]) +
+    why(["Dach wygląda jak nowy bez wymiany pokrycia", "Mech nie zatrzymuje wody na dachówkach", "Zmiana koloru całego domu w kilka dni"]) + GAL + CTA; },
+  bar:"pokrycie"};
+
+MODES.kuna = {part:"dach", krotko:"Kuna", kicker:"Dach · poddasze", cam:"kuna",
+  tytul:"Likwidacja kuny i naprawa szkód",
+  lead:"Kuna niszczy ocieplenie i membranę od środka. Pokazujemy, gdzie zwykle są szkody — i co naprawiamy.",
+  enter(){ setWoolDamaged(true); tw("roofT", .55, 1500); },
+  exit(){ setWoolDamaged(false); tw("roofT", 0, 1100); },
+  panel(){ return head(this) + layersList(roofLayersData().slice(0, 4), "Warstwy, które niszczy kuna") +
+    steps(["Lokalizacja wejść i miejsc bytowania", "Usunięcie zniszczonej wełny i zanieczyszczeń", "Uzupełnienie ocieplenia i naprawa membrany", "Zabezpieczenie okapów i szczelin przed powrotem"]) +
+    why(["Ciepło zostaje w domu — wełna znów działa", "Koniec z hałasem i zapachem na poddaszu", "Zabezpieczenie, żeby kuna nie wróciła"]) + GAL + CTA; },
+  bar:null};
+
+MODES.odnowa = {part:"elewacja", krotko:"Odnowa elewacji", kicker:"Elewacja · kompleksowo", cam:"elewacja",
+  tytul:"Odnowa elewacji",
+  lead:"Kompleksowo: naprawa pęknięć, nowa struktura tynku, mycie ciśnieniowe i dwukrotne malowanie żywicą silikonową Sto. Przesuń suwak — przed i po.",
+  enter(){ setDirtFacade(1); S.acryl = 0; setTimeout(() => tweenVal(() => facadeState.dirt, setDirtFacade, 0, 2600), 700);
+    setTimeout(() => { if (mode === "odnowa") tw("acryl", 1, 2400); }, 3300); },
+  exit(){ setDirtFacade(0); tw("wallT", 0, 1000); tw("acryl", 0, 400); },
+  panel(){ return head(this) + baSlider("baFacade", 0) + STO +
+    steps(["Czyszczenie myjką wysokociśnieniową", "Naprawa pęknięć i ubytków", "Nowa struktura tynku", "Dwukrotne malowanie żywicą silikonową Sto", "Zabezpieczenie okien i drzwi akrylem"]) +
+    why(["Dom wygląda jak nowy bez skuwania starego tynku", "Powłoka silikonowa ogranicza nasiąkanie i osiadanie brudu", "Okna i drzwi uszczelnione na styku z elewacją"]) +
+    '<div class="act"><button class="btn btn-g" id="bAkryl">▶ Pokaż akrylowanie okien i drzwi</button><button class="btn btn-g" data-go="docieplanie">Pokaż warstwy ściany →</button></div>' + GAL + CTA; },
+  bar:"fasada"};
+
+MODES.docieplanie = {part:"elewacja", krotko:"Docieplanie", kicker:"Elewacja · ocieplenie", cam:"docieplanie",
+  tytul:"Docieplanie budynku",
+  lead:"Ściana rozkłada się na warstwy — od muru do farby. Najedź na warstwę na liście, żeby ją podświetlić.",
+  enter(){ tw("wallT", 1, 1700); },
+  exit(){ tw("wallT", 0, 1100); },
+  panel(){ return head(this) + layersList(WALL_LAYERS, "Warstwy ściany (od muru)") + STO +
+    steps(["Przygotowanie i gruntowanie muru", "Klejenie płyt ocieplenia", "Warstwa zbrojona: zaprawa klejowa + siatka", "Grunt i tynk Sto", "Malowanie żywicą silikonową Sto"]) +
+    why(["Niższe rachunki za ogrzewanie", "Cieplejsze ściany — mniej wilgoci i pleśni w środku", "Przy okazji zupełnie nowa elewacja"]) + GAL + CTA; },
+  bar:"fasada"};
+
+MODES.hydro = {part:"garaz-dach", krotko:"Hydroizolacja", kicker:"Dach płaski", cam:"hydro",
+  tytul:"Hydroizolacja dachu płaskiego żywicą poliuretanową",
+  lead:"Zamiast kolejnej warstwy papy — jednolita powłoka z żywicy poliuretanowej. Tworzy szczelny „basen” wywinięty na attykę, ze spadkiem do kanału, który odprowadza wodę do rynny.",
+  enter(){ setResin(0); setTimeout(() => tweenVal(() => resinState.p, setResin, 1, 6000), 900); },
+  exit(){ setResin(1); },
+  panel(){ return head(this) + '<div class="act"><button class="btn btn-g" id="bWylej">▶ Wylej żywicę jeszcze raz</button></div>' +
+    steps(["Oczyszczenie i przygotowanie podłoża", "Gruntowanie", "Wzmocnienie narożników, krawędzi i przejść", "Wylanie żywicy poliuretanowej na całą powierzchnię", "Kontrola szczelności"]) +
+    why(["Powłoka bez łączeń i zakładów — woda nie ma którędy wejść", "Elastyczna — pracuje razem z dachem", "Można wykonać na istniejącym podłożu po przygotowaniu"]) + GAL + CTA; },
+  bar:null};
+
+MODES.posadzka = {part:"garaz", krotko:"Posadzki", kicker:"Garaż · posadzka żywiczna", cam:"garazPrzed",
+  tytul:"Posadzki żywiczne do garażu",
+  lead:"Wjeżdżamy do środka. Żywica wchodzi 15 cm na ściany — powstaje szczelna „wanna”. Wybierz kolor pod sceną, zmienia się na żywo.",
+  enter(){ tw("doorUp", 1, 1500); garLight.intensity = 0;
+    setTimeout(() => { if (mode === "posadzka") camGo("garaz", 2400); }, 1450); tweenVal(() => garLight.intensity, v => garLight.intensity = v, 1.4, 1600); },
+  exit(){ setTimeout(() => { if (mode !== "posadzka") tw("doorUp", 0, 1300); }, 1100); tweenVal(() => garLight.intensity, v => garLight.intensity = v, 0, 900); },
+  panel(){ return head(this) +
+    steps(["Szlifowanie i odpylenie betonu", "Naprawa pęknięć i ubytków", "Gruntowanie", "Warstwa żywicy w wybranym kolorze z posypką", "Lakier zamykający"]) +
+    why(["Łatwa do umycia — olej i błoto nie wsiąkają", "Koniec z pylącym betonem", "Garaż, który wygląda jak salon samochodowy"]) + GAL + CTA; },
+  bar:"posadzka"};
+
+MODES.taras = {part:"taras", krotko:"Kamienny dywan", kicker:"Taras i schody", cam:"taras",
+  tytul:"Taras i schody — kamienny dywan",
+  lead:"Kruszywo naturalne związane żywicą. Wybierz mieszankę pod sceną — taras i schody zmienią się od razu.",
+  enter(){ tw("glow", 1, 600); },
+  exit(){ tw("glow", 0, 600); },
+  panel(){ return head(this) +
+    steps(["Przygotowanie i oczyszczenie podłoża", "Gruntowanie", "Ułożenie mieszanki kruszywa z żywicą", "Wykończenie krawędzi i stopni"]) +
+    why(["Antypoślizgowa nawierzchnia, także na schodach", "Woda nie stoi na powierzchni", "Dziesiątki kolorów kruszywa do wyboru"]) + GAL + CTA; },
+  bar:"kamien"};
+Object.keys(MODES).forEach(k => MODES[k].id = k);
+
+const SVC_LIST = [["odnowa", "Odnowa elewacji", "naprawa, tynk, malowanie Sto"], ["dachowka", "Czyszczenie i malowanie dachówki", "ceramika · cement · blacha"],
+  ["hydro", "Hydroizolacja dachu płaskiego", "żywica poliuretanowa"], ["wymiana", "Wymiana dachu i eternitu", "rozkład dachu na warstwy"],
+  ["posadzka", "Posadzki żywiczne", "garaż"], ["taras", "Taras i schody", "kamienny dywan"], ["docieplanie", "Docieplanie", "warstwy ściany"], ["kuna", "Likwidacja kuny", "i naprawa szkód"], ["podbitka", "Podbitka", "wymiana i impregnacja"]];
+
+function panelHome(){ return '<div class="p-kick">Co robimy</div><h3>Wybierz część domu albo usługę</h3><p class="lead">Kliknij dach, elewację, dach płaski garażu, garaż albo taras. Każda część rozłoży się i pokaże, co dokładnie robimy.</p>' +
+  '<div class="svc">' + SVC_LIST.map(([id, t, s]) => `<button data-go="${id}">${t}<small>${s}</small></button>`).join("") + "</div>" + STO +
+  '<p class="note">Teksty usług to wersja robocza do akceptacji.</p>'; }
+
+/* ---------- pasek pod domem */
+let roofTyp = "blacha";
+function renderBar(){
+  const kind = mode === "dom" ? "dom" : MODES[mode].bar;
+  let h = "";
+  if (kind === "pokrycie"){
+    h += '<div class="bar-grp"><span class="bar-lbl">Pokrycie</span><div class="tabs">' + ["ceramiczna", "cementowa", "blacha"].map(t => `<button data-typ="${t}" class="${t === roofTyp ? "on" : ""}">${COVER[t].nazwa}</button>`).join("") + "</div></div>";
+    h += '<div class="bar-grp"><span class="bar-lbl">Kolor</span><div class="sw">' + COVER[roofTyp].kolory.map(([n, c]) => `<button data-cover="${c}" class="${c === coverState.kolor ? "on" : ""}" style="background:${c}" title="${n}"><span>${n}</span></button>`).join("") + "</div></div>";
+  } else if (kind === "fasada"){
+    h += '<div class="bar-grp"><span class="bar-lbl">Kolor elewacji</span><div class="sw">' + FASADA.map(([n, c]) => `<button data-fas="${c}" class="${c === facadeState.kolor ? "on" : ""}" style="background:${c}" title="${n}"><span>${n}</span></button>`).join("") + "</div></div>";
+    h += '<span class="bar-lbl" style="letter-spacing:.04em;text-transform:none;font-weight:500">pełna paleta Sto — wkrótce</span>';
+  } else if (kind === "posadzka"){
+    h += '<div class="bar-grp"><span class="bar-lbl">Kolor posadzki</span><div class="sw">' + POSADZKA.map(([n, c]) => `<button data-flo="${c}" class="${c === floorState.kolor ? "on" : ""}" style="background:${c}" title="${n}"><span>${n}</span></button>`).join("") + "</div></div>";
+  } else if (kind === "kamien"){
+    h += '<div class="bar-grp"><span class="bar-lbl">Mieszanka kruszywa</span><div class="sw stone">' + KAMIEN.map(([n, cs], i) => `<button data-stone="${i}" class="${cs === stoneState.cols ? "on" : ""}" style="background:radial-gradient(circle at 30% 30%,${cs[3]} 0 18%,transparent 19%),radial-gradient(circle at 70% 60%,${cs[2]} 0 20%,transparent 21%),${cs[0]}" title="${n}"><span>${n}</span></button>`).join("") + "</div></div>";
+  } else {
+    h += '<div class="bar-grp"><span class="bar-lbl">Usługi</span>' + SVC_LIST.map(([id, t]) => `<button class="chipsvc" data-go="${id}">${t}</button>`).join("") + "</div>";
+  }
+  barEl.innerHTML = h;
+}
+
+function renderPanel(){ panelEl.innerHTML = '<div class="in">' + (mode === "dom" ? panelHome() : MODES[mode].panel()) + "</div>";
+  const logo = panelEl.querySelector("#stoLogo");
+  if (logo && stoLogoOk !== false){ const im = new Image(); im.alt = "Sto";
+    im.onload = () => { stoLogoOk = true; logo.replaceWith(im); }; im.onerror = () => { stoLogoOk = false; }; im.src = "../img/sto-logo.svg"; } }
+let stoLogoOk = null;   // oficjalne logo: wrzuc plik img/sto-logo.svg — do tego czasu znak tekstowy
+
+const PILLS = {dach:["wymiana", "dachowka"], elewacja:["odnowa", "docieplanie", "podbitka"]};
+const hist = [];
+function back(){ go(hist.pop() || "dom", true); }
+function go(next, fromBack){
+  if (next === mode) return;
+  if (next === "dom") hist.length = 0; else if (!fromBack) hist.push(mode);
+  if (mode !== "dom") MODES[mode].exit();
+  highlightLayer(null);
+  mode = next;
+  if (mode !== "dom"){ MODES[mode].enter(); camGo(MODES[mode].cam); }
+  else camGo("dom");
+  const t = $("#modeTitle");
+  if (mode === "dom") t.innerHTML = "";
+  else { const list = PILLS[MODES[mode].part] && PILLS[MODES[mode].part].includes(mode) ? PILLS[MODES[mode].part] : [mode];
+    t.innerHTML = list.map(m => `<button type="button" data-go="${m}" class="${m === mode ? "on" : ""}">${MODES[m].krotko}</button>`).join(""); }
+  $("#navBack").classList.toggle("off", mode === "dom");
+  $("#tip").textContent = mode === "posadzka" ? "zmieniaj kolor posadzki pod sceną" : "przeciągnij, aby obrócić · kliknij część domu";
+  renderPanel(); renderBar();
+}
+
+/* ---------- zdarzenia UI */
+document.addEventListener("click", e => {
+  const g = e.target.closest("[data-go]"); if (g){ e.preventDefault(); go(g.dataset.go); return; }
+  const ty = e.target.closest("[data-typ]"); if (ty){ roofTyp = ty.dataset.typ; setCover(roofTyp, COVER[roofTyp].kolory[0][1]); renderBar(); if (mode === "wymiana") renderPanel(); return; }
+  const cv_ = e.target.closest("[data-cover]"); if (cv_){ setCover(roofTyp, cv_.dataset.cover); renderBar(); if (mode === "wymiana") renderPanel(); return; }
+  const f = e.target.closest("[data-fas]"); if (f){ setFacade(f.dataset.fas); renderBar(); return; }
+  const fl = e.target.closest("[data-flo]"); if (fl){ setFloor(fl.dataset.flo); renderBar(); return; }
+  const st = e.target.closest("[data-stone]"); if (st){ setStone(KAMIEN[+st.dataset.stone][1]); renderBar(); return; }
+  if (e.target.closest("#navBack")){ back(); return; }
+  if (e.target.id === "bAkryl"){ S.acryl = 0; tw("acryl", 1, 2400); return; }
+  if (e.target.id === "bPodb"){ S.podb = 0; tw("podb", 1, 4200, t => t); return; }
+  if (e.target.id === "bZloz"){ tw("roofT", S.roofT > .5 ? 0 : 1, 1500); return; }
+  if (e.target.id === "bEternit"){ eternitShow(); return; }
+  if (e.target.id === "bWylej"){ setResin(0); tweenVal(() => resinState.p, setResin, 1, 6000); return; }
+});
+panelEl.addEventListener("input", e => {
+  if (e.target.id === "baRoof"){ tweens.length = 0; setDirtRoof(1 - e.target.value / 100); }
+  if (e.target.id === "baFacade"){ tweens.length = 0; setDirtFacade(1 - e.target.value / 100); }
+});
+panelEl.addEventListener("mouseover", e => { const l = e.target.closest("[data-layer]"); if (l) highlightLayer(l.dataset.layer); });
+panelEl.addEventListener("mouseleave", () => highlightLayer(null));
+
+/* demontaz eternitu: stare pokrycie odlatuje, nowe laduje na lacie */
+let eternitBusy = false;
+function eternitShow(){
+  if (eternitBusy) return; eternitBusy = true;
+  const typ = roofTyp, kolor = coverState.kolor;
+  if (S.roofT < .9) tw("roofT", 1, 900);
+  setTimeout(() => {
+    setCover("eternit", "#8d918c"); S.eternitOut = 0; M.pokrycie.opacity = 1;
+    setTimeout(() => tw("eternitOut", 1, 1500, ease, () => {
+      setCover(typ, kolor);
+      S.eternitOut = 2.4; tw("eternitOut", 0, 1500, easeOut, () => { eternitBusy = false; });
+    }), 900);
+  }, S.roofT < .9 ? 950 : 50);
+}
+
+/* ---------- etykiety (hotspoty) nad czesciami */
+const HOTS = [
+  {part:"dach", txt:"Dach", pos:new THREE.Vector3(HX + RUN * .5, EAVE_Y + RISE * .5, HZ)},
+  {part:"elewacja", txt:"Elewacja", pos:new THREE.Vector3(HX - .2, 5.3, FZ + .3)},
+  {part:"garaz-dach", txt:"Dach płaski", pos:new THREE.Vector3(GCX + .6, GH + .6, GCZ - .6)},
+  {part:"garaz", txt:"Garaż — posadzka", pos:new THREE.Vector3(DOOR_X, 1.3, GZ1 + .2)},
+  {part:"podbitka", txt:"Podbitka", pos:new THREE.Vector3(HX - 1.9, H + 1.85 * Math.tan(PITCH) - .2, FZ + OV * .5)},
+  {part:"taras", txt:"Taras i schody", pos:new THREE.Vector3((TX0 + TX1) / 2, .7, (TZ0 + TZ1) / 2 + .4)}
+];
+HOTS.forEach(h => { const b = document.createElement("button"); b.className = "hs"; b.innerHTML = "<i></i>" + h.txt; b.type = "button";
+  b.addEventListener("click", () => go(GROUPS[h.part][0])); labelsEl.appendChild(b); h.el = b; });
+
+/* etykiety warstw (przy rozlozeniu) */
+const rynnaLbl = document.createElement("div"); rynnaLbl.className = "ly r"; rynnaLbl.innerHTML = "<em>●</em>Rynna — możliwa wymiana"; rynnaLbl.style.opacity = 0; labelsEl.appendChild(rynnaLbl);
+const LY = [];
+function mkLy(kind, idx, nazwa, right){ const el = document.createElement("div"); el.className = "ly" + (right ? " r" : ""); el.innerHTML = `<em>${idx + 1}</em>${nazwa}`;
+  el.dataset.layer = kind === "roof" ? ROOF_LAYERS[idx].id : WALL_LAYERS[idx].id;
+  el.addEventListener("mouseenter", () => highlightLayer(el.dataset.layer)); el.addEventListener("mouseleave", () => highlightLayer(null));
+  labelsEl.appendChild(el); const o = {kind, idx, el}; LY.push(o); return o; }
+ROOF_LAYERS.forEach((L, i) => mkLy("roof", i, L.nazwa, false));
+WALL_LAYERS.forEach((L, i) => mkLy("wall", i, L.nazwa, true));
+
+/* ---------- wskazanie mysza (raycast) + obrot */
+const ray = new THREE.Raycaster(), mouse = new THREE.Vector2();
+const pickables = () => Object.values(parts).flat();
+let drag = null, moved = 0;
+function pick(ev){ const r = cv.getBoundingClientRect(); mouse.set(((ev.clientX - r.left) / r.width) * 2 - 1, -((ev.clientY - r.top) / r.height) * 2 + 1);
+  ray.setFromCamera(mouse, camera); const hit = ray.intersectObjects(pickables(), false)[0]; return hit ? hit.object.userData.part : null; }
+cv.addEventListener("pointerdown", e => { drag = {x:e.clientX, y:e.clientY, yaw:userYaw, pitch:userPitch}; moved = 0; cv.setPointerCapture(e.pointerId); });
+cv.addEventListener("pointermove", e => {
+  if (drag){ const dx = e.clientX - drag.x, dy = e.clientY - drag.y; moved = Math.max(moved, Math.abs(dx) + Math.abs(dy));
+    if (moved > 4){ cv.classList.add("drag"); userYaw = drag.yaw - dx * .005; userPitch = Math.max(-.35, Math.min(.5, drag.pitch + dy * .004)); } return; }
+  const p = pick(e); if (p !== hoverPart){ hoverPart = p; cv.classList.toggle("hov", !!p); }
+});
+cv.addEventListener("pointerup", e => { cv.classList.remove("drag"); const was = drag; drag = null;
+  if (was && moved <= 4){ const p = pick(e); if (p){ const list = GROUPS[p]; go(list.includes(mode) ? mode : list[0]); } } });
+cv.addEventListener("pointerleave", () => { hoverPart = null; cv.classList.remove("hov"); });
+
+/* =========================================================== PETLA */
+function resize(){ const r = stage.getBoundingClientRect(); renderer.setSize(r.width, r.height, false); camera.aspect = r.width / r.height; camera.updateProjectionMatrix(); }
+new ResizeObserver(resize).observe(stage); resize();
+
+const tmp = new THREE.Vector3();
+function project(v){ tmp.copy(v).project(camera); const r = cv.getBoundingClientRect();
+  return {x:(tmp.x * .5 + .5) * r.width, y:(-tmp.y * .5 + .5) * r.height, vis:tmp.z < 1}; }
+
+let hoverK = 0;
+function frame(now){
+  // tweeny
+  for (let i = tweens.length - 1; i >= 0; i--){ const t = tweens[i]; const k = Math.min(1, (now - t.t0) / t.dur); const v = t.from + (t.to - t.from) * t.fn(k);
+    if (t.set) t.set(v); else S[t.key] = v; if (k >= 1){ tweens.splice(i, 1); t.done && t.done(); } }
+  if (camTw.on){ const k = Math.min(1, (now - camTw.t0) / camTw.dur), e = ease(k);
+    for (const key of ["tx", "ty", "tz", "r", "yaw", "pitch", "fov"]) cam[key] = camTw.from[key] + (camTw.to[key] - camTw.from[key]) * e;
+    if (k >= 1) camTw.on = false; }
+  if (!drag && mode === "dom" && !camTw.on && !reduce) userYaw = Math.sin(now * .00018) * .16;   // delikatny "oddech" kamery
+  applyCam();
+
+  // rozklad dachu: kazda warstwa odsuwa sie wzdluz normalnej polaci, cala polac odlatuje od budynku
+  const rt = S.roofT;
+  for (const sl of roofSlopes){ sl.layers.forEach((l, i) => {
+    let z = rt * (.7 + i * .85);
+    if (i === 6) z += S.eternitOut * 3.2;
+    l.position.z = z; }); }
+  for (const b of obrobka){ const k = S.flash; b.position.x = b.userData.u + b.userData.ou * k * .9; b.position.y = b.userData.v + b.userData.ov * k * .9;
+    b.position.z = .36 + k * .45 + rt * 0; }
+  // podbitka: 0-.3 stare deski odpadaja, .3-.55 nowe wjezdzaja, .55-1 impregnacja (kolor wyblakly -> drewno)
+  { const p = S.podb, out = Math.min(1, p / .3), inn = Math.max(0, Math.min(1, (p - .3) / .25)), imp = Math.max(0, Math.min(1, (p - .55) / .45));
+    podbStare.forEach(g => { g.position.z = -.03 - out * 1.2; g.visible = out < .99; g.rotation.x = out * .5; });
+    podbNowe.forEach(n => { n.visible = inn > .001; n.position.z = n.userData.base.z - (1 - easeOut(inn)) * 1.2; });
+    M.podbitka.color.copy(PODB_FADE).lerp(PODB_IMP, imp);
+    M.podbitka.emissive.set(0xc05a3c).multiplyScalar(imp > 0 && imp < 1 ? .18 * Math.sin(imp * Math.PI) : 0); }
+  M.pokrycie.opacity = 1 - Math.min(1, Math.max(0, S.eternitOut - 1.2));
+  M.pokrycie.depthWrite = M.pokrycie.opacity > .99;
+    // rozklad sciany: warstwy odsuwaja sie od muru (+z)
+  wallLayers.forEach(g => { g.position.z = g.userData.base + S.wallT * g.userData.idx * .85; });
+  // akryl: obwodka "rysuje sie" wokol otworow (gora -> prawa -> dol -> lewa), potem lekko swieci
+  for (const m of akryl){ const k = Math.max(0, Math.min(1, S.acryl * 4 - m.userData.j));
+    m.visible = k > .001; if (m.userData.ax === "x") m.scale.set(k, 1, 1); else m.scale.set(1, k, 1); }
+  M.akryl.emissiveIntensity = S.acryl > 0 ? (S.acryl < 1 ? .55 : .15 + .3 * (.5 + .5 * Math.sin(now * .005))) : 0;
+  // brama garazu
+  brama.position.y = S.doorUp * (DOOR_H - .15); brama.scale.y = 1 - S.doorUp * .85;
+  // podswietlenie tarasu (pulsuje w trybie taras)
+  const glowK = S.glow * (.18 + .1 * Math.sin(now * .004));
+  M.kamien.emissive.set(0xc05a3c).multiplyScalar(glowK); M.kamienS.emissive.copy(M.kamien.emissive);
+  // hover czesci
+  hoverK += ((hoverPart ? 1 : 0) - hoverK) * .2;
+  for (const p of Object.keys(parts)) if (p !== "taras") partEmissive(p, p === hoverPart ? .12 * hoverK : 0);
+  if (hoverPart === "taras" && S.glow < .05){ M.kamien.emissive.copy(HL).multiplyScalar(.12 * hoverK); M.kamienS.emissive.copy(M.kamien.emissive); }
+  if (hlLayer && M[hlLayer]) M[hlLayer].emissive.copy(HL).multiplyScalar(.45 + .15 * Math.sin(now * .006));
+
+  renderer.render(scene, camera);
+
+  // etykiety czesci (chowane w trybach)
+  for (const h of HOTS){ const p = project(h.pos); h.el.style.left = p.x + "px"; h.el.style.top = p.y + "px";
+    h.el.classList.toggle("off", mode !== "dom" || !p.vis); }
+  // etykiety warstw dachu (przednia polac) i sciany
+  const front = roofSlopes[0];
+  for (const o of LY){
+    let show = false, wp = null;
+    if (o.kind === "roof" && rt > .35 && (mode === "wymiana" || (mode === "kuna" && o.idx < 4))){
+      const l = front.layers[o.idx]; wp = new THREE.Vector3(-front.W0 * .5 + .25, front.L * .12, .2);
+      l.localToWorld(wp); show = true;
+    }
+    if (o.kind === "wall" && S.wallT > .35 && mode === "docieplanie"){
+      const g = wallLayers[o.idx]; wp = new THREE.Vector3(W / 2, H + GABLE * .15 - o.idx * .55, WALL_LAYERS[o.idx].th / 2); g.localToWorld(wp); show = true;
+    }
+    if (show){ const p = project(wp); o.el.style.left = (p.x + (o.kind === "wall" ? 10 : -10)) + "px"; o.el.style.top = p.y + "px"; }
+    o.el.style.opacity = show ? Math.min(1, (o.kind === "roof" ? rt : S.wallT) * 1.6 - .5) : 0;
+    o.el.style.pointerEvents = show ? "auto" : "none"; o.el.style.visibility = show ? "visible" : "hidden";
+    if (o.kind === "roof" && o.idx === 6) o.el.innerHTML = `<em>7</em>Pokrycie — ${COVER[coverState.typ].nazwa.toLowerCase()}`;
+  }
+  { const on = mode === "wymiana" || mode === "dachowka" || mode === "kuna";
+    const p = project(RYNNA_ETYK); rynnaLbl.style.left = (p.x + 10) + "px"; rynnaLbl.style.top = p.y + "px";
+    rynnaLbl.style.opacity = on && p.vis ? 1 : 0; rynnaLbl.style.visibility = on ? "visible" : "hidden";
+    M.rynnaWym.emissiveIntensity = on ? .35 + .25 * Math.sin(now * .004) : 0; }
+  requestAnimationFrame(frame);
+}
+
+setCover("blacha", COVER.blacha.kolory[0][1]);
+renderPanel(); renderBar();
+requestAnimationFrame(frame);
+
+/* osadzenie na stronie glownej (iframe): podaj rodzicowi wysokosc tresci */
+if (window.parent !== window){
+  document.documentElement.classList.add("embed");
+  const sec = document.getElementById("dom3d");
+  const send = () => parent.postMessage({type:"dom3d-h", h:sec.getBoundingClientRect().height}, "*");
+  new ResizeObserver(send).observe(document.body); addEventListener("load", send); send();
+}
+})();
+</script>
+</body>
+</html>

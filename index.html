@@ -316,6 +316,8 @@ details .a{padding:0 .2rem 1.2rem;color:var(--muted);font-size:.9rem;line-height
 .contact .direct small{display:block;color:#ffffff77;font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;margin-bottom:.15rem;font-weight:400}
 form{display:flex;flex-direction:column;gap:.9rem}
 .frow{display:grid;grid-template-columns:1fr 1fr;gap:.9rem}
+.fierr{color:#ffb397;font-size:.82rem;margin-top:.6rem;display:none}
+label .opc{text-transform:none;letter-spacing:0;font-weight:500;opacity:.7}
 label{font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;color:#ffffff90;font-weight:700;display:block;margin-bottom:.35rem}
 input,select,textarea{width:100%;padding:.8rem .9rem;background:#272d34;border:1px solid #3a424b;border-radius:4px;color:#fff;
   font-size:.92rem;font-family:inherit;transition:border-color .25s}
@@ -557,8 +559,12 @@ footer b{color:var(--ink)}
     <form id="quoteForm" novalidate>
       <input type="text" name="firma" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;opacity:0">
       <div class="frow">
-        <div><label for="fName">Imię</label><input id="fName" name="name" required autocomplete="name"></div>
-        <div><label for="fPhone">Telefon / e-mail</label><input id="fPhone" name="contact" required autocomplete="tel"></div>
+        <div><label for="fName">Imię *</label><input id="fName" name="name" required autocomplete="name"></div>
+        <div><label for="fPhone">Telefon *</label><input id="fPhone" name="phone" type="tel" inputmode="tel" required autocomplete="tel" placeholder="np. 600 123 456"></div>
+      </div>
+      <div class="frow">
+        <div><label for="fMail">E-mail <span class="opc">(opcjonalnie)</span></label><input id="fMail" name="email" type="email" inputmode="email" autocomplete="email" placeholder="adres@domena.pl"></div>
+        <div><label for="fCity">Miejscowość <span class="opc">(opcjonalnie)</span></label><input id="fCity" name="city" autocomplete="address-level2" placeholder="np. Oleśnica (ulica opcjonalnie)"></div>
       </div>
       <div><label for="fService">Usługa</label>
         <select id="fService" name="service">
@@ -577,6 +583,7 @@ footer b{color:var(--ink)}
       <label class="rodo"><input type="checkbox" id="fRodo" required>
         Wyrażam zgodę na przetwarzanie moich danych osobowych przez PAO Elite w celu udzielenia odpowiedzi na zapytanie (RODO, art. 6 ust. 1 lit. a).</label>
       <button class="btn btn-accent" type="submit">Wyślij zapytanie</button>
+      <div class="fierr" id="formErr" role="alert"></div>
       <div class="form-ok" id="formOk">Dziękujemy! Odezwiemy się w ciągu 24 godzin.</div>
     </form>
   </div>
@@ -693,17 +700,23 @@ document.querySelectorAll('.tile').forEach(tl=>{
 const WYCENA_API='https://pao.164.132.243.94.sslip.io/api/wycena';
 document.getElementById('quoteForm').addEventListener('submit',async e=>{
   e.preventDefault();
-  const f=e.target, btn=f.querySelector('button[type=submit]'), ok=document.getElementById('formOk');
-  if(!f.name.value.trim()||!f.contact.value.trim()||!document.getElementById('fRodo').checked){f.reportValidity();return}
+  const f=e.target, btn=f.querySelector('button[type=submit]'), ok=document.getElementById('formOk'), er=document.getElementById('formErr');
+  const blad=m=>{er.textContent=m;er.style.display='block';ok.style.display='none'};
+  er.style.display='none';
+  const tel=f.phone.value.replace(/[\s().-]/g,''), cyfry=tel.replace(/\D/g,'');
+  if(f.name.value.trim().length<2){f.name.focus();return blad('Podaj imię.')}
+  if(!/^\+?\d+$/.test(tel)||cyfry.length<9||cyfry.length>13){f.phone.focus();return blad('Podaj poprawny numer telefonu (min. 9 cyfr) — oddzwonimy.')}
+  if(f.email.value.trim()&&!f.email.checkValidity()){f.email.focus();return blad('Adres e-mail wygląda na niepoprawny — możesz go zostawić pusty.')}
+  if(!document.getElementById('fRodo').checked){return blad('Zaznacz zgodę na kontakt w sprawie zapytania.')}
   btn.disabled=true; const tekst=btn.textContent; btn.textContent='Wysyłam…'; ok.style.display='none';
   try{
     const r=await fetch(WYCENA_API,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({
-      imie:f.name.value,kontakt:f.contact.value,usluga:f.service.value,wiadomosc:f.message.value,rodo:true,firma:f.firma?f.firma.value:''})});
+      imie:f.name.value,telefon:f.phone.value,email:f.email.value,miejscowosc:f.city.value,usluga:f.service.value,wiadomosc:f.message.value,rodo:true,firma:f.firma?f.firma.value:''})});
     const d=await r.json().catch(()=>({}));
     if(!r.ok||!d.ok)throw new Error(d.blad||'błąd');
-    ok.textContent='Dziękujemy! Odezwiemy się w ciągu 24 godzin.'; ok.style.display='block'; btn.textContent='Wysłano ✓';
+    ok.textContent='Dziękujemy! Zadzwonimy w ciągu 24 godzin.'; ok.style.display='block'; btn.textContent='Wysłano ✓';
   }catch(err){
-    ok.textContent='Nie udało się wysłać zgłoszenia. Zadzwoń: 608 355 327.'; ok.style.display='block'; btn.disabled=false; btn.textContent=tekst;
+    blad('Nie udało się wysłać zgłoszenia. Zadzwoń: 608 355 327.'); btn.disabled=false; btn.textContent=tekst;
   }
 });
 </script>

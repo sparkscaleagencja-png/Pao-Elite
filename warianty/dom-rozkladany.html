@@ -590,7 +590,7 @@ const FZ = D / 2;                      // zewnetrzna powierzchnia elewacji front
   // drewniane lamele przy oknie pietra (jak na wzorze)
   for (let i = 0; i < 9; i++){ const l = reg("elewacja", ink(box(.07, 2.2, .14, M.lamele))); l.position.set(HX + 2.5 + i * .12, 3.98, FZ + .09); house.add(l); }
 }
-/* --- akryl: obwodki okien i drzwi (animacja w trybie Odnowa elewacji) */
+/* --- akryl: obwodki okien i drzwi (animacja w trybie Renowacja elewacji) */
 M.akryl = new THREE.MeshStandardMaterial({color:"#d9643f", roughness:.35, emissive:new THREE.Color("#ff7a4d"), emissiveIntensity:0});
 const akryl = [];
 WIN.forEach(([cx, y, w, h]) => {
@@ -1029,7 +1029,7 @@ MODES.podbitka = {part:"elewacja", krotko:"Podbitka", kicker:"Elewacja · podbit
   exit(){ tw("podb", 0, 500); },
   panel(){ return head(this) + '<div class="act"><button class="btn btn-g" id="bPodb">▶ Pokaż jeszcze raz</button></div>' +
     steps(["Oględziny i wskazanie zniszczonych desek", "Demontaż wyszczerbionych i spróchniałych elementów", "Montaż nowych desek i nowej deski czołowej przy okapie", "Oczyszczenie i zmatowienie całej podbitki i czoła", "Impregnacja — nowe i stare deski w jednym kolorze"]) +
-    why(["Drewno chronione przed wilgocią, grzybem i UV", "Szara, wyblakła podbitka znów wygląda jak nowa", "Można zrobić osobno albo przy okazji odnowy elewacji"]) + CTA; },
+    why(["Drewno chronione przed wilgocią, grzybem i UV", "Szara, wyblakła podbitka znów wygląda jak nowa", "Można zrobić osobno albo przy okazji renowacji elewacji"]) + CTA; },
   bar:"podbitka"};
 
 MODES.wymiana = {part:"dach", krotko:"Wymiana dachu", kicker:"Dach · wymiana połaci", cam:"dach",
@@ -1063,8 +1063,8 @@ MODES.kuna = {part:"dach", krotko:"Kuna", kicker:"Dach · poddasze", cam:"kuna",
     why(["Ciepło zostaje w domu — wełna znów działa", "Koniec z hałasem i zapachem na poddaszu", "Zabezpieczenie, żeby kuna nie wróciła"]) + CTA; },
   bar:null};
 
-MODES.odnowa = {part:"elewacja", krotko:"Odnowa elewacji", kicker:"Elewacja · kompleksowo", cam:"elewacja",
-  tytul:"Odnowa elewacji",
+MODES.odnowa = {part:"elewacja", krotko:"Renowacja elewacji", kicker:"Elewacja · kompleksowo", cam:"elewacja",
+  tytul:"Renowacja elewacji",
   lead:"Kompleksowo: naprawa pęknięć, nowa struktura tynku, mycie ciśnieniowe i dwukrotne malowanie farbą silikonową marki " + STOI + ". Przesuń suwak — przed i po.",
   enter(){ setDirtFacade(1); S.acryl = 0; setTimeout(() => tweenVal(() => facadeState.dirt, setDirtFacade, 0, 2600), 700);
     setTimeout(() => { if (mode === "odnowa") tw("acryl", 1, 2400); }, 3300); },
@@ -1075,8 +1075,8 @@ MODES.odnowa = {part:"elewacja", krotko:"Odnowa elewacji", kicker:"Elewacja · k
     '<div class="act"><button class="btn btn-g" id="bAkryl">▶ Pokaż akrylowanie okien i drzwi</button><button class="btn btn-g" data-go="docieplanie">Pokaż warstwy ściany →</button></div>' + CTA; },
   bar:"fasada"};
 
-MODES.docieplanie = {part:"elewacja", krotko:"Docieplanie", kicker:"Elewacja · ocieplenie", cam:"docieplanie",
-  tytul:"Docieplanie budynku",
+MODES.docieplanie = {part:"elewacja", krotko:"Termomodernizacja", kicker:"Elewacja · ocieplenie", cam:"docieplanie",
+  tytul:"Termomodernizacja budynku",
   lead:"Ściana rozkłada się na warstwy — od muru do farby. Najedź na warstwę na liście, żeby ją podświetlić.",
   enter(){ tw("wallT", 1, 1700); },
   exit(){ tw("wallT", 0, 1100); },
@@ -1119,9 +1119,9 @@ MODES.taras = {part:"taras", krotko:"Kamienny dywan", kicker:"Taras i schody", c
   bar:"kamien"};
 Object.keys(MODES).forEach(k => MODES[k].id = k);
 
-const SVC_LIST = [["odnowa", "Odnowa elewacji", "naprawa, tynk, malowanie " + STOI], ["dachowka", "Czyszczenie i malowanie dachówki", "ceramika · cement · blacha"],
+const SVC_LIST = [["odnowa", "Renowacja elewacji", "naprawa, tynk, malowanie " + STOI], ["dachowka", "Czyszczenie i malowanie dachówki", "ceramika · cement · blacha"],
   ["hydro", "Hydroizolacja dachu płaskiego", "żywica poliuretanowa"], ["wymiana", "Wymiana dachu i eternitu", "rozkład dachu na warstwy"],
-  ["posadzka", "Posadzki żywiczne", "garaż"], ["taras", "Taras i schody", "kamienny dywan"], ["docieplanie", "Docieplanie", "warstwy ściany"], ["kuna", "Likwidacja kuny", "i naprawa szkód"], ["podbitka", "Podbitka", "wymiana i impregnacja"]];
+  ["posadzka", "Posadzki żywiczne", "garaż"], ["taras", "Taras i schody", "kamienny dywan"], ["docieplanie", "Termomodernizacja", "warstwy ściany"], ["kuna", "Likwidacja kuny", "i naprawa szkód"], ["podbitka", "Podbitka", "wymiana i impregnacja"]];
 
 function panelHome(){ return '<div class="p-kick">Co robimy</div><h3>Wybierz część domu albo usługę</h3><p class="lead">Kliknij dach, elewację, dach płaski garażu, garaż albo taras. Każda część rozłoży się i pokaże, co dokładnie robimy.</p>' +
   '<div class="svc">' + SVC_LIST.map(([id, t, s]) => `<button data-go="${id}">${t}<small>${s}</small></button>`).join("") + "</div>" + STO +
@@ -1272,7 +1272,7 @@ const OPISY = {
   "dach-pokrycie": ["Wymiana pokrycia", "Zdejmujemy stare pokrycie (eternit utylizujemy zgodnie z przepisami) i montujemy nowe od okapu do kalenicy — na zakład, z obróbkami, gąsiorami i rynnami."],
   "sciana-mur":    ["Mur — ściana nośna", "Oceniamy stan muru, usuwamy luźne fragmenty i naprawiamy ubytki. To podłoże pod całe ocieplenie."],
   "sciana-klej":   ["Klej do płyt", "Nakładamy klej obrzeżno-punktowo, żeby płyty ocieplenia przylegały równo i mocno."],
-  "sciana-eps":    ["Ocieplenie — styropian", "Klejemy płyty na mijankę, bez szczelin, i kołkujemy. Docieplona ściana mniej wychładza dom."],
+  "sciana-eps":    ["Ocieplenie — styropian", "Klejemy płyty na mijankę, bez szczelin, i kołkujemy. Ocieplona ściana mniej wychładza dom."],
   "sciana-siatka": ["Warstwa zbrojona", "Wtapiamy siatkę z włókna szklanego w zaprawę klejową. Zabezpiecza elewację przed pękaniem."],
   "sciana-grunt":  ["Grunt podtynkowy", "Gruntujemy warstwę zbrojoną, żeby tynk dobrze się trzymał i schnął równomiernie."],
   "sciana-tynk":   ["Tynk " + STOI, "Nakładamy tynk " + STOI + " i nadajemy mu fakturę — cienkowarstwowy, odporny na pęknięcia."],

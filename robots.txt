@@ -1,5 +1,7 @@
 User-agent: *
 Allow: /
 Disallow: /warianty/
+Disallow: /edytor/
+Disallow: /_a/
 
 Sitemap: https://pao-elite.pl/sitemap.xml

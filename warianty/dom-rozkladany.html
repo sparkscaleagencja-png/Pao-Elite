@@ -552,10 +552,12 @@ const FZ = D / 2;                      // zewnetrzna powierzchnia elewacji front
 M.akryl = new THREE.MeshStandardMaterial({color:"#d9643f", roughness:.35, emissive:new THREE.Color("#ff7a4d"), emissiveIntensity:0});
 const akryl = [];
 WIN.forEach(([cx, y, w, h]) => {
-  const t = .075, z = FZ + .03;
-  // kolejnosc "rysowania": gora, prawa, dol, lewa
-  [[w + t, t, cx, y + h + t / 2, "x"], [t, h + t, cx + w / 2 + t / 2, y + h / 2, "y"], [w + t, t, cx, y - t / 2, "x"], [t, h + t, cx - w / 2 - t / 2, y + h / 2, "y"]].forEach(([a, b, x, yy, ax], j) => {
-    const m = new THREE.Mesh(new THREE.BoxGeometry(a, b, .05), M.akryl); m.position.set(HX + x, yy, z); m.userData = {j, ax}; m.visible = false;
+  // akryl lezy NA LISTWACH RAMY (grupa fr w linii ~539: t=.08, glebokosc .1, przod = murZ + .22 + .05)
+  const t = .08, z = wallLayers[0].userData.base + .22 + .05 + .02;
+  // kolejnosc "rysowania": gora, prawa, dol, lewa; wymiary i srodki = obrys zewnetrzny ramy
+  // y = DOLNA krawedz okna (srodek ramy = y + h/2, jak w grupie fr)
+  [[w, t, cx, y + h - t / 2, "x"], [t, h - t * 2, cx + w / 2 - t / 2, y + h / 2, "y"], [w, t, cx, y + t / 2, "x"], [t, h - t * 2, cx - w / 2 + t / 2, y + h / 2, "y"]].forEach(([a, b, x, yy, ax], j) => {
+    const m = new THREE.Mesh(new THREE.BoxGeometry(a, b, .04), M.akryl); m.position.set(HX + x, yy, z); m.userData = {j, ax}; m.visible = false;
     house.add(m); akryl.push(m); });
 });
 /* --- pozostale sciany (biale, ten sam material co elewacja = wspolny kolor i brud) */
@@ -612,12 +614,12 @@ function mkWyszczerb(parent, x, y, w, h, wzdluz){
   // stara deska: kawalek z wyszczerbieniem (dwa nierowne fragmenty + ubytek)
   const g = new THREE.Group(); g.position.set(x, y, -.03); parent.add(g);
   const a = wzdluz ? [w - .015, h * .55] : [w * .55, h - .015], b = wzdluz ? [w * .55, h * .3] : [w * .3, h * .55];
-  const p1 = reg("podbitka", ink(box(a[0], a[1], .025, M.podbStara), true)); p1.position.set(wzdluz ? 0 : -w * .22, wzdluz ? -h * .22 : 0, 0); p1.rotation.z = .06; g.add(p1);
-  const p2 = reg("podbitka", ink(box(b[0], b[1], .025, M.podbStara), true)); p2.position.set(wzdluz ? -w * .2 : w * .3, wzdluz ? h * .3 : -h * .2, -.01); p2.rotation.z = -.12; g.add(p2);
+  const p1 = reg("podbitka", ink(box(a[0], a[1], .06, M.podbStara), true)); p1.position.set(wzdluz ? 0 : -w * .22, wzdluz ? -h * .22 : 0, 0); p1.rotation.z = .06; g.add(p1);
+  const p2 = reg("podbitka", ink(box(b[0], b[1], .06, M.podbStara), true)); p2.position.set(wzdluz ? -w * .2 : w * .3, wzdluz ? h * .3 : -h * .2, -.01); p2.rotation.z = -.12; g.add(p2);
   return g;
 }
 function mkNowa(parent, x, y, w, h, wzdluz){
-  const n = reg("podbitka", ink(box(wzdluz ? w - .015 : w, wzdluz ? h : h - .015, .025, M.podbitka), true));
+  const n = reg("podbitka", ink(box(wzdluz ? w - .015 : w, wzdluz ? h : h - .015, .06, M.podbitka), true));
   n.position.set(x, y, -.03); n.visible = false; parent.add(n); n.userData.base = new THREE.Vector3(x, y, -.03); return n;
 }
 function buildSlope(phi, d, W0, W1){
@@ -661,25 +663,27 @@ function buildSlope(phi, d, W0, W1){
     const v = bw * (i + .5);
     if (phi < 0 && i === 1){   // lewa polac (od frontu, bez garazu): deska z wyszczerbionym kawalkiem do wymiany
       const cut0 = 1.2, cut1 = 2.7;
-      [[-W0 / 2, cut0], [cut1, W0 / 2]].forEach(([a, b]) => { const d = reg("podbitka", ink(box(b - a, bw - .015, .025, M.podbitka), true)); d.position.set((a + b) / 2, v, -.03); sg.add(d); });
+      [[-W0 / 2, cut0], [cut1, W0 / 2]].forEach(([a, b]) => { const d = reg("podbitka", ink(box(b - a, bw - .015, .06, M.podbitka), true)); d.position.set((a + b) / 2, v, -.03); sg.add(d); });
       podbStare.push(mkWyszczerb(sg, (cut0 + cut1) / 2, v, cut1 - cut0, bw));
       podbNowe.push(mkNowa(sg, (cut0 + cut1) / 2, v, cut1 - cut0, bw));
       continue;
     }
-    const d = reg("podbitka", ink(box(W0, bw - .015, .025, M.podbitka), true)); d.position.set(0, v, -.03); sg.add(d);
+    const d = reg("podbitka", ink(box(W0, bw - .015, .06, M.podbitka), true)); d.position.set(0, v, -.03); sg.add(d);
   }
+  // czolo podbitki: deska czolowa wzdluz calego okapu — zakrywa konce krokwi i krawedz deskowania (ten sam drewniany material -> impregnacja obejmuje tez front)
+  const czolo = reg("podbitka", ink(box(W0 + .12, .14, .3, M.podbitka), true)); czolo.position.set(0, .075, -.07); sg.add(czolo);
   // pod wiatrownica od frontu (u = -W0/2 ... -W0/2 + OV), deski wzdluz spadku
   const ub = OV / 3;
   for (const sgn of [-1, 1]) for (let i = 0; i < 3; i++){
     const u = sgn * (W0 / 2 - ub * (i + .5)), len = L - vOv;
     if (phi < 0 && sgn > 0 && i === 1){
       const c0 = vOv + len * .35, c1 = vOv + len * .6;
-      [[vOv, c0], [c1, L]].forEach(([a, b]) => { const d = reg("podbitka", ink(box(ub - .015, b - a, .025, M.podbitka), true)); d.position.set(u, (a + b) / 2, -.03); sg.add(d); });
+      [[vOv, c0], [c1, L]].forEach(([a, b]) => { const d = reg("podbitka", ink(box(ub - .015, b - a, .06, M.podbitka), true)); d.position.set(u, (a + b) / 2, -.03); sg.add(d); });
       podbStare.push(mkWyszczerb(sg, u, (c0 + c1) / 2, ub, c1 - c0, true));
       podbNowe.push(mkNowa(sg, u, (c0 + c1) / 2, ub, c1 - c0, true));
       continue;
     }
-    const d = reg("podbitka", ink(box(ub - .015, len, .025, M.podbitka), true)); d.position.set(u, vOv + len / 2, -.03); sg.add(d);
+    const d = reg("podbitka", ink(box(ub - .015, len, .06, M.podbitka), true)); d.position.set(u, vOv + len / 2, -.03); sg.add(d);
   }
   // komin: tylna czesc LEWEJ polaci, przytwierdzony do niej na stale (stoi pionowo)
   if (phi < 0){
@@ -892,13 +896,13 @@ const CTA = '<div class="act"><a class="btn btn-a" href="../index.html#kontakt" 
 
 function roofLayersData(){ const r = ROOF_LAYERS.map(l => ({...l})); r[6].nazwa = "Pokrycie — " + COVER[coverState.typ].nazwa.toLowerCase(); r[6].kol = coverState.kolor; return r; }
 
-MODES.podbitka = {part:"elewacja", krotko:"Podbitka", kicker:"Podbitka dachowa", cam:"podbitka",
+MODES.podbitka = {part:"elewacja", krotko:"Podbitka", kicker:"Elewacja · podbitka", cam:"podbitka",
   tytul:"Wymiana i impregnacja podbitki",
   lead:"Robimy ją osobno albo razem z elewacją. Najpierw wymieniamy uszkodzone deski, potem impregnujemy całą podbitkę — szare, wyblakłe drewno odzyskuje kolor.",
   enter(){ S.podb = 0; setTimeout(() => { if (mode === "podbitka") tw("podb", 1, 4200, t => t); }, 1300); },
   exit(){ tw("podb", 0, 500); },
   panel(){ return head(this) + '<div class="act"><button class="btn btn-g" id="bPodb">▶ Pokaż jeszcze raz</button></div>' +
-    steps(["Oględziny i wskazanie zniszczonych desek", "Demontaż wyszczerbionych i spróchniałych elementów", "Montaż nowych desek", "Oczyszczenie i zmatowienie całej podbitki", "Impregnacja — nowe i stare deski w jednym kolorze"]) +
+    steps(["Oględziny i wskazanie zniszczonych desek", "Demontaż wyszczerbionych i spróchniałych elementów", "Montaż nowych desek i nowej deski czołowej przy okapie", "Oczyszczenie i zmatowienie całej podbitki i czoła", "Impregnacja — nowe i stare deski w jednym kolorze"]) +
     why(["Drewno chronione przed wilgocią, grzybem i UV", "Szara, wyblakła podbitka znów wygląda jak nowa", "Można zrobić osobno albo przy okazji odnowy elewacji"]) + CTA; },
   bar:null};
 
@@ -940,7 +944,7 @@ MODES.odnowa = {part:"elewacja", krotko:"Odnowa elewacji", kicker:"Elewacja · k
     setTimeout(() => { if (mode === "odnowa") tw("acryl", 1, 2400); }, 3300); },
   exit(){ setDirtFacade(0); tw("wallT", 0, 1000); tw("acryl", 0, 400); },
   panel(){ return head(this) + baSlider("baFacade", 0) + STO +
-    steps(["Czyszczenie myjką wysokociśnieniową", "Naprawa pęknięć i ubytków", "Nowa struktura tynku", "Dwukrotne malowanie żywicą silikonową Sto", "Zabezpieczenie okien i drzwi akrylem"]) +
+    steps(["Czyszczenie myjką wysokociśnieniową", "Naprawa pęknięć i ubytków", "Nowa struktura tynku", "Dwukrotne malowanie farbą silikonową marki Sto", "Akrylowanie styku ram okien i drzwi z tynkiem"]) +
     why(["Dom wygląda jak nowy bez skuwania starego tynku", "Powłoka silikonowa ogranicza nasiąkanie i osiadanie brudu", "Okna i drzwi uszczelnione na styku z elewacją"]) +
     '<div class="act"><button class="btn btn-g" id="bAkryl">▶ Pokaż akrylowanie okien i drzwi</button><button class="btn btn-g" data-go="docieplanie">Pokaż warstwy ściany →</button></div>' + CTA; },
   bar:"fasada"};

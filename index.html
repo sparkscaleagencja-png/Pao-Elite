@@ -6,7 +6,14 @@
 <title>PAO Elite — czyszczenie, malowanie i renowacja elewacji oraz dachów · Oleśnica i Dolny Śląsk</title>
 <link rel="icon" type="image/svg+xml" href="img/znak-p.svg">
 <link rel="apple-touch-icon" href="img/znak-p-1200.png">
-<meta name="description" content="PAO Elite: elewacje i tynki STO, czyszczenie i malowanie dachów, prace dekarskie, dachy płaskie w żywicy, kamienny dywan, odszkodowania. Oleśnica i cały Dolny Śląsk.">
+<meta name="description" content="PAO Elite: elewacje i tynki Sto, czyszczenie i malowanie dachów, prace dekarskie, dachy płaskie w żywicy, kamienny dywan. Bezpłatna wycena, realizacje w całej Polsce.">
+<link rel="canonical" href="https://pao-elite.pl/">
+<meta property="og:type" content="website"><meta property="og:locale" content="pl_PL"><meta property="og:site_name" content="PAO Elite">
+<meta property="og:title" content="PAO Elite — czyszczenie i malowanie elewacji oraz dachów">
+<meta property="og:description" content="Elewacje i tynki Sto, czyszczenie i malowanie dachów, dachy płaskie w żywicy, kamienny dywan. Bezpłatna wycena.">
+<meta property="og:url" content="https://pao-elite.pl/">
+<meta property="og:image" content="https://pao-elite.pl/img/logo-pao-elite-tlo-2400.png"><meta property="og:image:width" content="2400"><meta property="og:image:height" content="2308">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"HomeAndConstructionBusiness","name":"PAO Elite","url":"https://pao-elite.pl/","telephone":"+48608355327","email":"p.obrusnik@wp.pl","description":"Czyszczenie i malowanie elewacji oraz dachów, tynki Sto, hydroizolacja dachów płaskich, kamienny dywan, posadzki żywiczne.","areaServed":{"@type":"Country","name":"Polska"},"founder":{"@type":"Person","name":"Przemysław Obruśnik"},"sameAs":["https://www.instagram.com/paoelite/","https://www.facebook.com/profile.php?id=61561366204165","https://www.tiktok.com/@paoelitepl"],"makesOffer":[{"@type":"Offer","itemOffered":{"@type":"Service","name":"Odnowa elewacji"}},{"@type":"Offer","itemOffered":{"@type":"Service","name":"Czyszczenie i malowanie dachów"}},{"@type":"Offer","itemOffered":{"@type":"Service","name":"Hydroizolacja dachu płaskiego"}},{"@type":"Offer","itemOffered":{"@type":"Service","name":"Wymiana pokrycia dachowego"}},{"@type":"Offer","itemOffered":{"@type":"Service","name":"Posadzki żywiczne"}},{"@type":"Offer","itemOffered":{"@type":"Service","name":"Taras i schody"}},{"@type":"Offer","itemOffered":{"@type":"Service","name":"Docieplanie"}},{"@type":"Offer","itemOffered":{"@type":"Service","name":"Naprawa poddasza po kunach"}}]}</script>
 <style>
 :root{
   --bg:#f5f4f1;
@@ -71,7 +78,27 @@ header.onpage .head-phone:hover{color:var(--accent)}
 .btn-glass:hover{background:#fff;color:var(--ink)}
 @media(max-width:1020px){.mainnav{display:none}}
 @media(max-width:960px){.head-phone span{display:none}}
-@media(max-width:640px){.head-phone span{display:none}.brand .bt small{display:none}.head-right{gap:.6rem}.head-login{font-size:.8rem;padding:.4rem .6rem}.head-right .btn-accent{display:none}}
+.menu-btn{display:none;width:42px;height:42px;border:1px solid rgba(255,255,255,.5);background:rgba(255,255,255,.1);border-radius:6px;cursor:pointer;padding:0;flex-direction:column;align-items:center;justify-content:center;gap:5px}
+.menu-btn span{display:block;width:20px;height:2px;background:#fff;transition:transform .25s,opacity .2s}
+header.onpage .menu-btn{border-color:var(--ink);background:transparent}
+header.onpage .menu-btn span{background:var(--ink)}
+.menu-btn[aria-expanded=true] span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+.menu-btn[aria-expanded=true] span:nth-child(2){opacity:0}
+.menu-btn[aria-expanded=true] span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+.bm{display:none}
+.mobmenu{position:fixed;top:68px;left:0;right:0;z-index:99;background:#fff;box-shadow:0 18px 40px rgba(20,24,30,.18);padding:.6rem 1.6rem 1.2rem;display:none;flex-direction:column}
+.mobmenu.open{display:flex}
+.mobmenu a{padding:.95rem 0;border-bottom:1px solid var(--line);color:var(--ink);text-decoration:none;font-weight:600;font-size:1rem}
+.mobmenu a.mm-wa{color:#128c4a}
+.mobmenu a.mm-login{border-bottom:none;color:var(--muted);font-size:.9rem}
+.btn-wa{background:#1fa855;color:#fff;margin-top:1rem}.btn-wa:hover{background:#178a45}
+.vov h1.sub{margin:0}
+.vbtns{display:flex;gap:.8rem;justify-content:center;flex-wrap:wrap}
+.fnote{margin:.4rem 0 0;font-size:.78rem;color:#ffffffa8}
+@media(max-width:1020px){.menu-btn{display:flex}}
+@media(min-width:1021px){.mobmenu{display:none!important}}
+@media(max-width:960px){.head-phone span{display:none}}
+@media(max-width:640px){.brand .bt small{display:none}.head-right{gap:.5rem}.head-login{display:none}.bd{display:none}.bm{display:inline}.head-right .btn-accent{padding:.55rem .85rem}}
 
 /* ================= HERO: KARUZELA WIDEO (zmiana na boki) ================= */
 #vjourney{height:100vh;min-height:560px;position:relative;background:#0c0e12;overflow:hidden;touch-action:pan-y;user-select:none;-webkit-user-select:none}
@@ -365,14 +392,25 @@ footer b{color:var(--ink)}
     <a href="#kontakt">Kontakt</a>
   </nav>
   <div class="head-right">
-    <a class="head-phone" href="tel:+48608355327">
+    <a class="head-phone" href="tel:+48608355327" aria-label="Zadzwoń: 608 355 327">
       <svg viewBox="0 0 24 24"><path d="M6.6 10.8c1.4 2.8 3.8 5.1 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1C10.6 21 3 13.4 3 4c0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.2.2 2.4.6 3.6.1.3 0 .7-.2 1l-2.3 2.2z"/></svg>
       <span>608 355 327</span>
     </a>
     <a class="head-login" href="https://pao.164.132.243.94.sslip.io/login">Zaloguj się</a>
-    <a class="btn btn-accent" href="#kontakt">Bezpłatna wycena</a>
+    <a class="btn btn-accent" href="#kontakt"><span class="bd">Bezpłatna wycena</span><span class="bm">Wycena</span></a>
+    <button class="menu-btn" id="menuBtn" type="button" aria-label="Menu" aria-expanded="false" aria-controls="mobMenu"><span></span><span></span><span></span></button>
   </div>
 </header>
+<nav class="mobmenu" id="mobMenu" aria-label="Menu mobilne">
+  <a href="#uslugi">Usługi</a>
+  <a href="realizacje.html">Realizacje</a>
+  <a href="#proces">Jak pracujemy</a>
+  <a href="#faq">FAQ</a>
+  <a href="#kontakt">Kontakt</a>
+  <a class="mm-wa" href="https://wa.me/48608355327?text=Dzie%C5%84%20dobry%2C%20chc%C4%99%20zapyta%C4%87%20o%20wycen%C4%99.%20Wysy%C5%82am%20zdj%C4%99cia%3A" target="_blank" rel="noopener">Wyślij zdjęcia na WhatsApp</a>
+  <a href="tel:+48608355327">Zadzwoń: 608 355 327</a>
+  <a class="mm-login" href="https://pao.164.132.243.94.sslip.io/login">Zaloguj się do aplikacji</a>
+</nav>
 
 <!-- ==================== KINOWA SEKWENCJA WIDEO ==================== -->
 <div id="vjourney" aria-roledescription="karuzela" aria-label="Prezentacja PAO Elite">
@@ -389,8 +427,8 @@ footer b{color:var(--ink)}
       <div class="vov">
         <div class="word logo"><img src="img/napis-pao-elite.svg" alt="PAO ELITE"></div>
         <div class="rule"></div>
-        <div class="sub">Renowacja elewacji i dachów · Oleśnica</div>
-        <a class="vcta ghost" href="#uslugi">Zobacz usługi</a>
+        <h1 class="sub">Czyszczenie i malowanie elewacji oraz dachów</h1>
+        <div class="vbtns"><a class="vcta" href="#kontakt">Umów bezpłatną wycenę</a><a class="vcta ghost" href="https://wa.me/48608355327?text=Dzie%C5%84%20dobry%2C%20chc%C4%99%20zapyta%C4%87%20o%20wycen%C4%99.%20Wysy%C5%82am%20zdj%C4%99cia%3A" target="_blank" rel="noopener">Wyślij zdjęcia na WhatsApp</a></div>
       </div>
     </section>
 
@@ -435,35 +473,35 @@ footer b{color:var(--ink)}
   <div class="tiles">
     <a class="tile" href="#kontakt" data-service="Odnowa elewacji">
       <div class="bgimg bg-fac"></div><div class="shade"></div>
-      <div class="tcont"><h3>Odnowa elewacji</h3><p>Naprawa pęknięć, nowa struktura tynku, mycie ciśnieniowe i dwukrotne malowanie żywicą silikonową Sto. Okna i drzwi zabezpieczone akrylem.</p><span class="go">Zapytaj o wycenę</span></div>
+      <div class="tcont"><h3>Odnowa elewacji</h3><p>Naprawa pęknięć, nowa struktura tynku, mycie ciśnieniowe i dwukrotne malowanie farbą silikonową marki Sto. Przed pracami zabezpieczamy okna, drzwi i otoczenie budynku.</p><span class="go">Zapytaj o wycenę</span></div>
     </a>
     <a class="tile" href="#kontakt" data-service="Czyszczenie i malowanie dachów">
       <div class="bgimg bg-roof"></div><div class="shade"></div>
-      <div class="tcont"><h3>Czyszczenie i malowanie dachów</h3><p>Dachówka ceramiczna, cementowa i blacha. Mycie ciśnieniowe, powłoka ochronna i nowy kolor z palety RAL — taniej niż wymiana pokrycia.</p><span class="go">Zapytaj o wycenę</span></div>
+      <div class="tcont"><h3>Czyszczenie i malowanie dachów</h3><p>Dachówka ceramiczna, cementowa i blacha. Mycie ciśnieniowe, powłoka ochronna i nowy kolor z palety RAL — po ocenie stanu dachu często taniej niż wymiana pokrycia.</p><span class="go">Zapytaj o wycenę</span></div>
     </a>
     <a class="tile" href="#kontakt" data-service="Hydroizolacja dachu płaskiego">
       <div class="bgimg bg-flat"></div><div class="shade"></div>
-      <div class="tcont"><h3>Hydroizolacja dachu płaskiego</h3><p>Bezspoinowa membrana z żywicy poliuretanowej — bez zrywania starej papy. Odporna na stojącą wodę, UV i mróz.</p><span class="go">Zapytaj o wycenę</span></div>
+      <div class="tcont"><h3>Hydroizolacja dachu płaskiego</h3><p>Bezspoinowa membrana z żywicy poliuretanowej — w wielu przypadkach bez zrywania starej papy, jeśli pozwala na to stan podłoża. Odporność na wodę, UV i mróz zależy od zastosowanego systemu.</p><span class="go">Zapytaj o wycenę</span></div>
     </a>
-    <a class="tile" href="#kontakt" data-service="Wymiana dachu i eternitu">
+    <a class="tile" href="#kontakt" data-service="Wymiana pokrycia dachowego, w tym pokryć z eternitu">
       <div class="bgimg bg-roof2"></div><div class="shade"></div>
-      <div class="tcont"><h3>Wymiana dachu i eternitu</h3><p>Wymiana całej połaci: demontaż i utylizacja eternitu, więźba, membrana, łaty i nowe pokrycie.</p><span class="go">Zapytaj o wycenę</span></div>
+      <div class="tcont"><h3>Wymiana pokrycia dachowego, w tym pokryć z eternitu</h3><p>Wymiana całej połaci: demontaż i utylizacja eternitu, więźba, membrana, łaty i nowe pokrycie.</p><span class="go">Zapytaj o wycenę</span></div>
     </a>
     <a class="tile" href="#kontakt" data-service="Posadzki żywiczne">
       <div class="bgimg bg-floor"></div><div class="shade"></div>
-      <div class="tcont"><h3>Posadzki żywiczne</h3><p>Posadzki do garażu odporne na ścieranie, oleje, paliwa i chemię. Łatwe w utrzymaniu, w wybranym kolorze.</p><span class="go">Zapytaj o wycenę</span></div>
+      <div class="tcont"><h3>Posadzki żywiczne</h3><p>Posadzki do garażu w wybranym kolorze, łatwe w utrzymaniu. Odporność na ścieranie, oleje, paliwa i chemię zależy od zastosowanego systemu żywicy.</p><span class="go">Zapytaj o wycenę</span></div>
     </a>
     <a class="tile" href="#kontakt" data-service="Taras i schody">
       <div class="bgimg bg-stone"></div><div class="shade"></div>
-      <div class="tcont"><h3>Taras i schody</h3><p>Kamienny dywan i żywice na tarasy, balkony i schody — szczelne, antypoślizgowe, odporne na mróz i UV.</p><span class="go">Zapytaj o wycenę</span></div>
+      <div class="tcont"><h3>Taras i schody</h3><p>Kamienny dywan i żywice na tarasy, balkony i schody — wykończenie antypoślizgowe. Hydroizolację i odporność na mróz oraz UV dobieramy do podłoża i systemu.</p><span class="go">Zapytaj o wycenę</span></div>
     </a>
     <a class="tile" href="#kontakt" data-service="Docieplanie">
       <div class="bgimg bg-insul"></div><div class="shade"></div>
       <div class="tcont"><h3>Docieplanie</h3><p>Ocieplenie ścian w systemie Sto — od kleju i płyt, przez siatkę i grunt, po tynk i farbę.</p><span class="go">Zapytaj o wycenę</span></div>
     </a>
-    <a class="tile" href="#kontakt" data-service="Likwidacja kuny i naprawa">
+    <a class="tile" href="#kontakt" data-service="Naprawa poddasza po kunach i zabezpieczenie przed ich powrotem">
       <div class="bgimg bg-claim"></div><div class="shade"></div>
-      <div class="tcont"><h3>Likwidacja kuny i naprawa</h3><p>Usuwamy skutki bytowania kuny: zniszczoną wełnę i membranę, naprawiamy poddasze i zabezpieczamy okapy.</p><span class="go">Zapytaj o wycenę</span></div>
+      <div class="tcont"><h3>Naprawa poddasza po kunach i zabezpieczenie przed ich powrotem</h3><p>Usuwamy skutki bytowania kuny: zniszczoną wełnę i membranę, naprawiamy poddasze i zabezpieczamy okapy.</p><span class="go">Zapytaj o wycenę</span></div>
     </a>
   </div>
 </div>
@@ -476,9 +514,9 @@ footer b{color:var(--ink)}
       <div class="eyebrow">Jak pracujemy</div>
       <h2 class="sec">Od oględzin do gwarancji — bez niespodzianek.</h2>
       <ol>
-        <li><b>Bezpłatne oględziny i wycena</b><span>Przyjeżdżamy, mierzymy, oceniamy stan techniczny. Wycena w 24 h.</span></li>
-        <li><b>Dobór technologii</b><span>Systemy STO i innych producentów oraz żywice dopasowane do podłoża, a nie odwrotnie.</span></li>
-        <li><b>Realizacja z foto-raportem</b><span>Dokumentujemy każdy etap. Teren posprzątany po każdym dniu pracy.</span></li>
+        <li><b>Bezpłatne oględziny i wycena</b><span>Przyjeżdżamy, mierzymy, oceniamy stan techniczny i przygotowujemy wiążącą wycenę.</span></li>
+        <li><b>Dobór technologii</b><span>Systemy Sto i innych producentów oraz żywice dopasowane do podłoża, a nie odwrotnie.</span></li>
+        <li><b>Realizacja z dokumentacją zdjęciową</b><span>Dokumentujemy każdy etap. Teren posprzątany po każdym dniu pracy.</span></li>
         <li><b>Odbiór i gwarancja</b><span>Protokół odbioru, pisemna gwarancja i kontakt po realizacji.</span></li>
       </ol>
     </div>
@@ -486,32 +524,12 @@ footer b{color:var(--ink)}
       <div class="eyebrow">Dlaczego PAO Elite</div>
       <h2 class="sec">Widać różnicę po jednym dniu pracy.</h2>
       <div class="badges">
-        <div class="badge"><b>Systemy STO</b><span>Renomowane materiały elewacyjne — trwałość i odporność na algi oraz UV.</span></div>
-        <div class="badge"><b>Pisemna gwarancja</b><span>Na wykonanie i zastosowany system — czarno na białym.</span></div>
+        <div class="badge"><b>Systemy Sto</b><span>Renomowane materiały elewacyjne — trwałość i odporność na algi oraz UV.</span></div>
+        <div class="badge"><b>Pisemna gwarancja</b><span>Na wykonanie prac. Gwarancja producenta materiałów ma osobne warunki — poznasz je przed podpisaniem umowy.</span></div>
         <div class="badge"><b>Oleśnica i Dolny Śląsk</b><span>Działamy lokalnie — dojazd i oględziny bez kosztów.</span></div>
         <div class="badge"><b>Żywice do zadań specjalnych</b><span>Dachy płaskie, tarasy, balkony, schody i garaże — bez spoin, odporne na mróz i UV.</span></div>
       </div>
     </div>
-  </div>
-</section>
-
-<!-- ==================== OPINIE ==================== -->
-<section class="reviews">
-  <div class="tiles-sec" style="padding-top:4.8rem;padding-bottom:4.8rem">
-    <div class="eyebrow">Opinie</div>
-    <h2 class="sec">Klienci polecają nas sąsiadom.</h2>
-    <div class="rgrid">
-      <div class="rev"><div class="stars">★★★★★</div>
-        <p>„Dach wyglądał na 20 lat, po jednym dniu mycia i malowania — jak nowy. Ekipa punktualna, teren posprzątany."</p>
-        <div class="who"><div class="av">M</div><div><b>Marta</b><span>Oleśnica · dach ceramiczny</span></div></div></div>
-      <div class="rev"><div class="stars">★★★★★</div>
-        <p>„Elewacja była zielona od alg. Po czyszczeniu i malowaniu STO dom wygląda lepiej niż po budowie."</p>
-        <div class="who"><div class="av">T</div><div><b>Tomasz</b><span>Twardogóra · elewacja</span></div></div></div>
-      <div class="rev"><div class="stars">★★★★★</div>
-        <p>„Kamienny dywan na tarasie i schodach — zero śliskości zimą, świetne wykończenie krawędzi."</p>
-        <div class="who"><div class="av">A</div><div><b>Anna</b><span>Syców · taras</span></div></div></div>
-    </div>
-    <div class="rnote">* Opinie przykładowe (demo) — do podmiany na prawdziwe recenzje Google po uruchomieniu wizytówki.</div>
   </div>
 </section>
 
@@ -522,15 +540,15 @@ footer b{color:var(--ink)}
     <h2 class="sec">Najczęstsze pytania</h2>
     <div class="list">
       <details open><summary>Ile kosztuje malowanie dachu lub elewacji?</summary>
-        <div class="a">Cena zależy od powierzchni, stanu podłoża i wybranego systemu. Po bezpłatnych oględzinach otrzymasz wycenę w 24 h — stałą, bez dopisków na koniec. Możesz też wysłać zdjęcia na WhatsApp, a oddzwonimy z widełkami.</div></details>
+        <div class="a">Cena zależy od powierzchni, stanu podłoża i wybranego systemu. Po bezpłatnych oględzinach przygotowujemy wiążącą wycenę, bez dopisków na koniec. Możesz też wysłać zdjęcia na WhatsApp — oddzwonimy i podamy orientacyjny przedział cenowy. Oddzwaniamy w ciągu 24 godzin w dni robocze.</div></details>
       <details><summary>Czy malowanie dachu ma sens zamiast wymiany?</summary>
-        <div class="a">W większości przypadków tak — jeśli pokrycie jest technicznie sprawne, czyszczenie, impregnacja i malowanie kosztują ułamek wymiany i przedłużają żywotność dachu o lata. Podczas oględzin uczciwie powiemy, kiedy renowacja się nie opłaca.</div></details>
+        <div class="a">To zależy od stanu pokrycia — oceniamy go podczas oględzin. Jeśli pokrycie jest technicznie sprawne, czyszczenie, impregnacja i malowanie zwykle kosztują mniej niż wymiana i przedłużają żywotność dachu. Uczciwie powiemy, kiedy renowacja się nie opłaca.</div></details>
       <details><summary>Jak długo trwa realizacja?</summary>
-        <div class="a">Standardowy dom jednorodzinny: mycie i malowanie elewacji lub dachu to zwykle 1–3 dni robocze, kamienny dywan na tarasie 1–2 dni (plus czas wiązania żywicy). Termin blokujemy w umowie.</div></details>
+        <div class="a">Dla standardowego domu jednorodzinnego mycie i malowanie elewacji lub dachu to orientacyjnie 1–3 dni robocze, a kamienny dywan na tarasie 1–2 dni (plus czas wiązania żywicy). Rzeczywisty czas zależy od metrażu, zakresu napraw, pogody i przerw technologicznych. Termin realizacji ustalamy i zapisujemy w umowie.</div></details>
       <details><summary>Jaką gwarancję otrzymam?</summary>
-        <div class="a">Pisemną — na wykonanie oraz zastosowany system materiałowy. Zakres i okres gwarancji zależą od technologii; wszystko czarno na białym w protokole odbioru.</div></details>
+        <div class="a">Gwarancję na wykonanie prac udzielamy na piśmie. Gwarancja producenta materiałów, jeśli występuje, ma osobne warunki. Zakres i okres gwarancji zależą od technologii — poznasz je przed podpisaniem umowy, a w protokole odbioru znajdziesz je zapisane.</div></details>
       <details><summary>Czy da się uszczelnić dach płaski bez zrywania starej papy?</summary>
-        <div class="a">Zwykle tak. Żywicę poliuretanową nakładamy na przygotowane podłoże — papę, beton, blachę lub membranę bitumiczną. Powstaje jedna, bezspoinowa powłoka, bez ingerencji w konstrukcję i bez wyłączania budynku z użytkowania.</div></details>
+        <div class="a">Często tak. Żywicę poliuretanową nakładamy na przygotowane podłoże — papę, beton, blachę lub membranę bitumiczną. Powstaje jedna, bezspoinowa powłoka, bez ingerencji w konstrukcję. Możliwość zależy od stanu istniejących warstw, wilgotności i przyczepności podłoża — ocenimy to podczas oględzin.</div></details>
       <details><summary>Kuna zniszczyła poddasze — co robicie?</summary>
         <div class="a">Lokalizujemy miejsca wejścia, usuwamy zniszczoną wełnę i zanieczyszczenia, uzupełniamy ocieplenie i membranę, a na koniec zabezpieczamy okapy i szczeliny, żeby kuna nie wróciła.</div></details>
     </div>
@@ -551,15 +569,17 @@ footer b{color:var(--ink)}
   <div class="in">
     <div>
       <div class="eyebrow" style="color:#e08a68">Kontakt</div>
-      <h2 class="sec">Wyceń swój projekt.<br>Odpowiadamy w 24 h.</h2>
-      <p class="lead">Możesz też po prostu wysłać nam zdjęcia dachu, elewacji lub tarasu na WhatsApp — oddzwonimy z wyceną.</p>
+      <h2 class="sec">Wyceń swój projekt.<br>Odpowiadamy w 24 h (dni robocze).</h2>
+      <p class="lead">Możesz też po prostu wysłać nam zdjęcia dachu, elewacji lub tarasu na WhatsApp — oddzwonimy i podamy orientacyjny przedział cenowy. Wiążącą ofertę przygotowujemy po bezpłatnych oględzinach.</p>
+      <a class="btn btn-wa" href="https://wa.me/48608355327?text=Dzie%C5%84%20dobry%2C%20chc%C4%99%20zapyta%C4%87%20o%20wycen%C4%99.%20Wysy%C5%82am%20zdj%C4%99cia%3A" target="_blank" rel="noopener">Wyślij zdjęcia na WhatsApp</a>
       <div class="osoba">
         <img src="img/przemyslaw-obrusnik.webp" alt="Przemysław Obruśnik" width="96" height="96" loading="lazy">
         <div><b>Przemysław Obruśnik</b><span>założyciel PAO Elite</span>
           <p style="font-style:italic">„Życie należy do tych, którzy działają.”</p></div>
       </div>
       <div class="direct">
-        <div><small>Telefon / WhatsApp</small><a href="tel:+48608355327">+48 608 355 327</a></div>
+        <div><small>Telefon</small><a href="tel:+48608355327">+48 608 355 327</a></div>
+        <div><small>WhatsApp</small><a href="https://wa.me/48608355327?text=Dzie%C5%84%20dobry%2C%20chc%C4%99%20zapyta%C4%87%20o%20wycen%C4%99.%20Wysy%C5%82am%20zdj%C4%99cia%3A" target="_blank" rel="noopener">Napisz na WhatsApp</a></div>
         <div><small>E-mail</small><a href="mailto:p.obrusnik@wp.pl">p.obrusnik@wp.pl</a></div>
         <div><small>Obszar działania</small>Cała Polska</div>
       </div>
@@ -579,20 +599,22 @@ footer b{color:var(--ink)}
           <option>Odnowa elewacji</option>
           <option>Czyszczenie i malowanie dachów</option>
           <option>Hydroizolacja dachu płaskiego</option>
-          <option>Wymiana dachu i eternitu</option>
+          <option>Wymiana pokrycia dachowego, w tym pokryć z eternitu</option>
           <option>Posadzki żywiczne</option>
           <option>Taras i schody</option>
           <option>Docieplanie</option>
-          <option>Likwidacja kuny i naprawa</option>
+          <option>Naprawa poddasza po kunach i zabezpieczenie przed ich powrotem</option>
           <option>Inne / nie wiem</option>
         </select>
       </div>
+      <div><label for="fArea">Orientacyjna powierzchnia <span class="opc">(opcjonalnie, m²)</span></label><input id="fArea" name="area" inputmode="numeric" placeholder="np. 150"></div>
       <div><label for="fMsg">Wiadomość</label><textarea id="fMsg" name="message" placeholder="Opisz krótko, co chcesz odnowić (możesz podać adres i metraż)…"></textarea></div>
       <label class="rodo"><input type="checkbox" id="fRodo" required>
         Wyrażam zgodę na przetwarzanie moich danych osobowych przez PAO Elite w celu udzielenia odpowiedzi na zapytanie (RODO, art. 6 ust. 1 lit. a).</label>
       <button class="btn btn-accent" type="submit">Wyślij zapytanie</button>
+      <p class="fnote">Wycena na podstawie zdjęć jest orientacyjna. Wiążącą ofertę przygotowujemy po bezpłatnych oględzinach.</p>
       <div class="fierr" id="formErr" role="alert"></div>
-      <div class="form-ok" id="formOk">Dziękujemy! Odezwiemy się w ciągu 24 godzin.</div>
+      <div class="form-ok" id="formOk">Dziękujemy! Oddzwonimy w ciągu 24 godzin w dni robocze.</div>
     </form>
   </div>
 </section>
@@ -691,6 +713,13 @@ vjourney.addEventListener('mouseleave', () => { hover = false; vjourney.classLis
 document.addEventListener('visibilitychange', () => { document.hidden ? vids.forEach(v => v.pause()) : vids[cur].play().catch(() => {}); });
 schedule();
 
+/* menu mobilne */
+const menuBtn = document.getElementById('menuBtn'), mobMenu = document.getElementById('mobMenu');
+function setMenu(o){ mobMenu.classList.toggle('open', o); menuBtn.setAttribute('aria-expanded', o); }
+menuBtn.onclick = () => setMenu(!mobMenu.classList.contains('open'));
+mobMenu.addEventListener('click', e => { if (e.target.closest('a')) setMenu(false); });
+addEventListener('keydown', e => { if (e.key === 'Escape') setMenu(false); });
+
 /* nagłówek: przezroczysty nad karuzelą, jasny po zjechaniu w dół */
 function onScrollHdr(){ hd.classList.toggle('onpage', vjourney.getBoundingClientRect().bottom < innerHeight * 0.55); }
 addEventListener('scroll', onScrollHdr, {passive:true}); onScrollHdr();
@@ -720,10 +749,10 @@ document.getElementById('quoteForm').addEventListener('submit',async e=>{
   btn.disabled=true; const tekst=btn.textContent; btn.textContent='Wysyłam…'; ok.style.display='none';
   try{
     const r=await fetch(WYCENA_API,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({
-      imie:f.name.value,telefon:f.phone.value,email:f.email.value,miejscowosc:f.city.value,usluga:f.service.value,wiadomosc:f.message.value,rodo:true,firma:f.firma?f.firma.value:''})});
+      imie:f.name.value,telefon:f.phone.value,email:f.email.value,miejscowosc:f.city.value,usluga:f.service.value,wiadomosc:f.message.value+(f.area.value.trim()?'\n[Orientacyjna powierzchnia: '+f.area.value.trim()+' m²]':''),rodo:true,firma:f.firma?f.firma.value:''})});
     const d=await r.json().catch(()=>({}));
     if(!r.ok||!d.ok)throw new Error(d.blad||'błąd');
-    ok.textContent='Dziękujemy! Zadzwonimy w ciągu 24 godzin.'; ok.style.display='block'; btn.textContent='Wysłano ✓';
+    ok.textContent='Dziękujemy! Oddzwonimy w ciągu 24 godzin w dni robocze.'; ok.style.display='block'; btn.textContent='Wysłano ✓';
   }catch(err){
     blad('Nie udało się wysłać zgłoszenia. Zadzwoń: 608 355 327.'); btn.disabled=false; btn.textContent=tekst;
   }

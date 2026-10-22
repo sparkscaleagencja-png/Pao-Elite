@@ -142,7 +142,9 @@ ul.layers li small{margin-left:auto;color:var(--muted);font-size:.7rem}
 .sto{display:inline-flex;align-items:center;gap:.5rem;margin-top:10px;font-size:.74rem;color:var(--muted)}
 .sto .logo{display:inline-flex;align-items:center;justify-content:center;height:26px;min-width:52px;padding:0 .6rem;border-radius:3px;
   background:#1d2126;color:#fff;font-weight:800;letter-spacing:.04em;font-size:.86rem}
-.sto img{height:26px;display:block}
+.sto img{height:26px;width:auto;display:block}
+.stoi{height:1.05em;width:auto;vertical-align:-.12em;display:inline-block;margin:0 .1em}
+.ly .stoi{height:.95em}.svc button small .stoi{height:.95em}
 .gal{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}
 .gal div{aspect-ratio:4/3;border-radius:6px;background:#efede8;box-shadow:inset 0 0 0 1px var(--line);
   display:flex;align-items:center;justify-content:center;text-align:center;font-size:.6rem;color:var(--muted);padding:4px;line-height:1.3}
@@ -254,14 +256,15 @@ const ROOF_LAYERS = [
   {id:"laty",      nazwa:"Łaty",                         kol:"#cfa476"},
   {id:"pokrycie",  nazwa:"Pokrycie",                     kol:"#b4553a"}
 ];
+const STOI = '<img class="stoi" src="../img/sto-logo.png" alt="Sto" width="411" height="70">';   // logo Sto wstawiane w miejsca wzmianek o marce
 const WALL_LAYERS = [
   {id:"mur",    nazwa:"Mur — ściana nośna",                         th:.30,  kol:"#a5583f"},
   {id:"klej",   nazwa:"Klej do płyt",                               th:.012, kol:"#9a9993"},
   {id:"eps",    nazwa:"Ocieplenie — styropian",                     th:.14,  kol:"#f4f4f1"},
   {id:"siatka", nazwa:"Zaprawa klejowa + siatka z włókna szklanego", th:.012, kol:"#c9d9b4"},
   {id:"grunt",  nazwa:"Grunt podtynkowy",                           th:.004, kol:"#e8e3d3"},
-  {id:"tynk",   nazwa:"Tynk Sto",                                   th:.015, kol:"#ede7da"},
-  {id:"farba",  nazwa:"Żywica silikonowa Sto — 2 warstwy",          th:.006, kol:"#f2f0ea"}
+  {id:"tynk",   nazwa:"Tynk " + STOI + "",                                   th:.015, kol:"#ede7da"},
+  {id:"farba",  nazwa:"Farba silikonowa marki " + STOI + " — 2 warstwy",          th:.006, kol:"#f2f0ea"}
 ];
 
 const STO = '<div class="sto"><span class="logo" id="stoLogo">Sto</span><span>Pracujemy na systemach i produktach Sto</span></div>';
@@ -948,12 +951,12 @@ MODES.kuna = {part:"dach", krotko:"Kuna", kicker:"Dach · poddasze", cam:"kuna",
 
 MODES.odnowa = {part:"elewacja", krotko:"Odnowa elewacji", kicker:"Elewacja · kompleksowo", cam:"elewacja",
   tytul:"Odnowa elewacji",
-  lead:"Kompleksowo: naprawa pęknięć, nowa struktura tynku, mycie ciśnieniowe i dwukrotne malowanie żywicą silikonową Sto. Przesuń suwak — przed i po.",
+  lead:"Kompleksowo: naprawa pęknięć, nowa struktura tynku, mycie ciśnieniowe i dwukrotne malowanie farbą silikonową marki " + STOI + ". Przesuń suwak — przed i po.",
   enter(){ setDirtFacade(1); S.acryl = 0; setTimeout(() => tweenVal(() => facadeState.dirt, setDirtFacade, 0, 2600), 700);
     setTimeout(() => { if (mode === "odnowa") tw("acryl", 1, 2400); }, 3300); },
   exit(){ setDirtFacade(0); tw("wallT", 0, 1000); tw("acryl", 0, 400); },
   panel(){ return head(this) + baSlider("baFacade", 0) + STO +
-    steps(["Czyszczenie myjką wysokociśnieniową", "Naprawa pęknięć i ubytków", "Nowa struktura tynku", "Dwukrotne malowanie farbą silikonową marki Sto", "Akrylowanie styku ram okien i drzwi z tynkiem"]) +
+    steps(["Czyszczenie myjką wysokociśnieniową", "Naprawa pęknięć i ubytków", "Nowa struktura tynku", "Dwukrotne malowanie farbą silikonową marki " + STOI, "Akrylowanie styku ram okien i drzwi z tynkiem"]) +
     why(["Dom wygląda jak nowy bez skuwania starego tynku", "Powłoka silikonowa ogranicza nasiąkanie i osiadanie brudu", "Okna i drzwi uszczelnione na styku z elewacją"]) +
     '<div class="act"><button class="btn btn-g" id="bAkryl">▶ Pokaż akrylowanie okien i drzwi</button><button class="btn btn-g" data-go="docieplanie">Pokaż warstwy ściany →</button></div>' + CTA; },
   bar:"fasada"};
@@ -964,7 +967,7 @@ MODES.docieplanie = {part:"elewacja", krotko:"Docieplanie", kicker:"Elewacja · 
   enter(){ tw("wallT", 1, 1700); },
   exit(){ tw("wallT", 0, 1100); },
   panel(){ return head(this) + layersList(WALL_LAYERS, "Warstwy ściany (od muru)") + STO +
-    steps(["Przygotowanie i gruntowanie muru", "Klejenie płyt ocieplenia", "Warstwa zbrojona: zaprawa klejowa + siatka", "Grunt i tynk Sto", "Malowanie żywicą silikonową Sto"]) +
+    steps(["Przygotowanie i gruntowanie muru", "Klejenie płyt ocieplenia", "Warstwa zbrojona: zaprawa klejowa + siatka", "Grunt i tynk " + STOI, "Malowanie farbą silikonową marki " + STOI]) +
     why(["Niższe rachunki za ogrzewanie", "Cieplejsze ściany — mniej wilgoci i pleśni w środku", "Przy okazji zupełnie nowa elewacja"]) + CTA; },
   bar:"fasada"};
 
@@ -1000,7 +1003,7 @@ MODES.taras = {part:"taras", krotko:"Kamienny dywan", kicker:"Taras i schody", c
   bar:"kamien"};
 Object.keys(MODES).forEach(k => MODES[k].id = k);
 
-const SVC_LIST = [["odnowa", "Odnowa elewacji", "naprawa, tynk, malowanie Sto"], ["dachowka", "Czyszczenie i malowanie dachówki", "ceramika · cement · blacha"],
+const SVC_LIST = [["odnowa", "Odnowa elewacji", "naprawa, tynk, malowanie " + STOI], ["dachowka", "Czyszczenie i malowanie dachówki", "ceramika · cement · blacha"],
   ["hydro", "Hydroizolacja dachu płaskiego", "żywica poliuretanowa"], ["wymiana", "Wymiana dachu i eternitu", "rozkład dachu na warstwy"],
   ["posadzka", "Posadzki żywiczne", "garaż"], ["taras", "Taras i schody", "kamienny dywan"], ["docieplanie", "Docieplanie", "warstwy ściany"], ["kuna", "Likwidacja kuny", "i naprawa szkód"], ["podbitka", "Podbitka", "wymiana i impregnacja"]];
 
@@ -1018,7 +1021,7 @@ function renderBar(){
     h += '<div class="bar-grp"><span class="bar-lbl">Kolor</span><div class="sw">' + COVER[roofTyp].kolory.map(([n, c]) => `<button data-cover="${c}" class="${c === coverState.kolor ? "on" : ""}" style="background:${c}" title="${n}"><span>${n}</span></button>`).join("") + "</div></div>";
   } else if (kind === "fasada"){
     h += '<div class="bar-grp"><span class="bar-lbl">Kolor elewacji</span><div class="sw">' + FASADA.map(([n, c]) => `<button data-fas="${c}" class="${c === facadeState.kolor ? "on" : ""}" style="background:${c}" title="${n}"><span>${n}</span></button>`).join("") + "</div></div>";
-    h += '<span class="bar-lbl" style="letter-spacing:.04em;text-transform:none;font-weight:500">pełna paleta Sto — wkrótce</span>';
+    h += '<span class="bar-lbl" style="letter-spacing:.04em;text-transform:none;font-weight:500">pełna paleta ' + STOI + ' — wkrótce</span>';
   } else if (kind === "posadzka"){
     h += '<div class="bar-grp"><span class="bar-lbl">Kolor posadzki</span><div class="sw">' + POSADZKA.map(([n, c]) => `<button data-flo="${c}" class="${c === floorState.kolor ? "on" : ""}" style="background:${c}" title="${n}"><span>${n}</span></button>`).join("") + "</div></div>";
   } else if (kind === "kamien"){
@@ -1032,8 +1035,8 @@ function renderBar(){
 function renderPanel(){ panelEl.innerHTML = '<div class="in">' + (mode === "dom" ? panelHome() : MODES[mode].panel()) + "</div>";
   const logo = panelEl.querySelector("#stoLogo");
   if (logo && stoLogoOk !== false){ const im = new Image(); im.alt = "Sto";
-    im.onload = () => { stoLogoOk = true; logo.replaceWith(im); }; im.onerror = () => { stoLogoOk = false; }; im.src = "../img/sto-logo.svg"; } }
-let stoLogoOk = null;   // oficjalne logo: wrzuc plik img/sto-logo.svg — do tego czasu znak tekstowy
+    im.onload = () => { stoLogoOk = true; logo.replaceWith(im); }; im.onerror = () => { stoLogoOk = false; }; im.src = "../img/sto-logo.png"; } }
+let stoLogoOk = null;   // oficjalne logo: img/sto-logo.png (do czasu zaladowania — znak tekstowy)
 
 const PILLS = {dach:["wymiana", "dachowka"], elewacja:["odnowa", "docieplanie", "podbitka"]};
 const hist = [];
@@ -1153,8 +1156,8 @@ const OPISY = {
   "sciana-eps":    ["Ocieplenie — styropian", "Klejemy płyty na mijankę, bez szczelin, i kołkujemy. Docieplona ściana mniej wychładza dom."],
   "sciana-siatka": ["Warstwa zbrojona", "Wtapiamy siatkę z włókna szklanego w zaprawę klejową. Zabezpiecza elewację przed pękaniem."],
   "sciana-grunt":  ["Grunt podtynkowy", "Gruntujemy warstwę zbrojoną, żeby tynk dobrze się trzymał i schnął równomiernie."],
-  "sciana-tynk":   ["Tynk Sto", "Nakładamy tynk Sto i nadajemy mu fakturę — cienkowarstwowy, odporny na pęknięcia."],
-  "sciana-farba":  ["Żywica silikonowa Sto — 2 warstwy", "Malujemy dwukrotnie żywicą silikonową Sto. Powłoka odporna na algi, brud i deszcz."]
+  "sciana-tynk":   ["Tynk " + STOI, "Nakładamy tynk " + STOI + " i nadajemy mu fakturę — cienkowarstwowy, odporny na pęknięcia."],
+  "sciana-farba":  ["Farba silikonowa marki " + STOI + " — 2 warstwy", "Malujemy dwukrotnie farbą silikonową marki " + STOI + ". Powłoka odporna na algi, brud i deszcz."]
 };
 let GAL_DATA = {};
 fetch("../galeria/manifest.json", {cache:"no-cache"}).then(r => r.ok ? r.json() : {}).then(j => { GAL_DATA = j || {}; renderCallout(); renderGal(); }).catch(() => {});

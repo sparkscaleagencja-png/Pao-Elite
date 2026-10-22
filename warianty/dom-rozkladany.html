@@ -377,10 +377,16 @@ const texMembrane = ctex(512, 256, (g, w, h) => {
   for (let y = 70; y < h; y += 80) for (let x = 20; x < w; x += 200) g.fillText("MEMBRANA", x, y);
 }, true);
 
+/* tekstury z Pracowni / zdjec REVO (warianty/tex, razem ~0,7 MB): dorysowywane po wczytaniu, do tego czasu wersja proceduralna */
+const TEXP = {};
+function tileImg(g, im, w, h, s){ for (let y = 0; y < h; y += s) for (let x = 0; x < w; x += s) g.drawImage(im, x, y, s, s); }
+function nakladka(g, im, w, h, s, op, a){ g.save(); g.globalCompositeOperation = op; g.globalAlpha = a; tileImg(g, im, w, h, s); g.restore(); }   // detal szary 128 = kolor bez zmian
+
 /* pokrycie dachu: dachowka/blacha + mech (dirt 0..1) */
 const coverState = {typ:"ceramiczna", kolor:"#b4553a", dirt:0};
 function drawCover(g, w, h){
   const {typ, kolor, dirt} = coverState; const R = rng(21);
+  g.save(); g.scale(w / 512, h / 128); w = 512; h = 128;       // rysunek w skali 512x128, plotno 2x ostrzejsze
   const n = 8, tw = w / n;
   if (typ === "blacha"){
     for (let i = 0; i < n; i++){
@@ -406,6 +412,7 @@ function drawCover(g, w, h){
       g.fillRect(i * tw, 0, tw, h);
       g.fillStyle = "rgba(0,0,0,.22)"; g.fillRect((i + 1) * tw - 2, 0, 2, h);
     }
+    if (TEXP["dachowka-detal"]) nakladka(g, TEXP["dachowka-detal"], w, h, 64, "overlay", typ === "ceramiczna" ? .5 : .9);   // pory i kruszywo dachowki po malowaniu (wykon REVO)
     const st = g.createLinearGradient(0, 0, 0, h); st.addColorStop(0, "rgba(255,255,255,.06)"); st.addColorStop(.8, "rgba(0,0,0,0)"); st.addColorStop(1, "rgba(0,0,0,.5)");
     g.fillStyle = st; g.fillRect(0, 0, w, h);
   }
@@ -415,13 +422,10 @@ function drawCover(g, w, h){
     for (let i = 0; i < 46; i++) blob(g, R2() * w, R2() * h, 6 + R2() * 22, "rgba(78,98,52,A)", .85 * dirt);
     for (let i = 0; i < 26; i++) blob(g, R2() * w, R2() * h, 3 + R2() * 8, "rgba(190,185,120,A)", .7 * dirt);
   }
+  g.restore();
 }
-const texCover = ctex(512, 128, drawCover, true);
-
-/* tekstury z Pracowni / zdjec REVO (warianty/tex, razem ~0,6 MB): dorysowywane po wczytaniu, do tego czasu wersja proceduralna */
-const TEXP = {};
-function tileImg(g, im, w, h, s){ for (let y = 0; y < h; y += s) for (let x = 0; x < w; x += s) g.drawImage(im, x, y, s, s); }
-function nakladka(g, im, w, h, s, op, a){ g.save(); g.globalCompositeOperation = op; g.globalAlpha = a; tileImg(g, im, w, h, s); g.restore(); }   // detal szary 128 = kolor bez zmian
+const texCover = ctex(1024, 256, drawCover, true);
+const COVER_N = {blacha:0, ceramiczna:.5, cementowa:1.2, eternit:.6};   // sila reliefu ziarna wg typu pokrycia
 
 /* elewacja + brud */
 const facadeState = {kolor:"#f2f0ea", dirt:0};
@@ -950,9 +954,11 @@ const TEX_GOTOWA = {
                            [M.zywica, M.zywicaB].forEach(m => { m.map = t; m.color.set("#f4f8fb"); m.roughness = .22; m.needsUpdate = true; }); },
   "pu-normal":     im => dodajN([M.zywica, M.zywicaB], texN(im, 1024, 1024, 512), .7),
   "papa":          im => redraw(texTar, (g, W, H) => tileImg(g, im, W, H, W / 2)),
-  "papa-normal":   im => dodajN([M.papa], texN(im, 1024, 1024, 512), .6)
+  "papa-normal":   im => dodajN([M.papa], texN(im, 1024, 1024, 512), .6),
+  "dachowka-detal": () => redraw(texCover, drawCover),
+  "dachowka-normal": im => dodajN([M.pokrycie], texN(im, 1024, 256, 128, true), COVER_N[coverState.typ] ?? .5)
 };
-Object.keys(TEX_GOTOWA).forEach(n => { const im = new Image(); im.onload = () => { TEXP[n] = im; TEX_GOTOWA[n](im); }; im.src = "tex/" + n + ".webp?v=5"; });
+Object.keys(TEX_GOTOWA).forEach(n => { const im = new Image(); im.onload = () => { TEXP[n] = im; TEX_GOTOWA[n](im); }; im.src = "tex/" + n + ".webp?v=8"; });
 // rzygacz przez attyke + rynna wzdluz prawego boku + rura spustowa
 { const ry = reg("garaz-dach", ink(box(.42, .1, .26, M.rynna))); ry.position.set(GX1 + .3, BASE - .1, GCZ); scene.add(ry);
   const half = new THREE.CylinderGeometry(.11, .11, GD + .3, 18, 1, true, Math.PI / 2, Math.PI);
@@ -1020,7 +1026,8 @@ function tweenVal(get, set, to, dur, done){ const o = {key:"_" + Math.random(), 
 
 /* =========================================================== STAN WIZUALNY */
 function setCover(typ, kolor){ coverState.typ = typ; coverState.kolor = kolor; M.pokrycie.metalness = typ === "blacha" ? .45 : 0; M.pokrycie.roughness = typ === "blacha" ? .38 : (typ === "cementowa" ? .8 : .62);
-  M.kalenica.color.set(typ === "eternit" ? "#7f837e" : shade(kolor, -.06)); redraw(texCover, drawCover); }
+  M.kalenica.color.set(typ === "eternit" ? "#7f837e" : shade(kolor, -.06)); redraw(texCover, drawCover);
+  if (M.pokrycie.normalMap){ const k = COVER_N[typ] ?? .5; M.pokrycie.normalScale.set(k, k); } }
 function setFacade(kolor){ facadeState.kolor = kolor; redraw(texFacade, drawFacade); redraw(texFacadeSide, drawFacade); }
 function setDirtRoof(v){ coverState.dirt = v; redraw(texCover, drawCover); const sl = document.getElementById("baRoof"); if (sl && document.activeElement !== sl) sl.value = Math.round((1 - v) * 100); }
 function setDirtFacade(v){ facadeState.dirt = v; redraw(texFacade, drawFacade); redraw(texFacadeSide, drawFacade); const sl = document.getElementById("baFacade"); if (sl && document.activeElement !== sl) sl.value = Math.round((1 - v) * 100); }

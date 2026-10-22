@@ -26,6 +26,16 @@ def podpis(nazwa):
     n = re.sub(r"^\d+[_\-. ]+", "", os.path.splitext(nazwa)[0])
     return re.sub(r"[_\-]+", " ", n).strip()
 
+# Własne podpisy (z polskimi znakami): galeria/podpisy.json  {"klucz/plik.jpg": "Podpis"}  — mają pierwszeństwo przed nazwą pliku.
+try:
+    with open(os.path.join(ROOT, "podpisy.json"), encoding="utf-8") as fh:
+        PODPISY = json.load(fh)
+except (OSError, ValueError):
+    PODPISY = {}
+
+# Aliasy: tryb bez własnych zdjęć pokazuje zdjęcia innego (bez kopiowania plików).  alias -> klucz źródłowy
+ALIASY = {"wymiana": "dachowka", "docieplanie": "odnowa", "podbitka": "odnowa"}
+
 manifest = {"opisy": {}}
 for klucz in sorted(os.listdir(ROOT)):
     p = os.path.join(ROOT, klucz)
@@ -41,7 +51,7 @@ for klucz in sorted(os.listdir(ROOT)):
     for f in pliki:
         base, ext = os.path.splitext(f); ext = ext.lower()
         if ext in WIDEO:
-            w = {"typ": "wideo", "src": f"{klucz}/{f}", "podpis": podpis(f)}
+            w = {"typ": "wideo", "src": f"{klucz}/{f}", "podpis": PODPISY.get(f"{klucz}/{f}", podpis(f))}
             for pe in (".jpg", ".jpeg", ".png", ".webp"):
                 if os.path.exists(os.path.join(p, base + pe)):
                     w["poster"] = f"{klucz}/{base}{pe}"; break
@@ -49,9 +59,13 @@ for klucz in sorted(os.listdir(ROOT)):
         elif ext in FOTO:
             if any(os.path.splitext(x)[0] == base and os.path.splitext(x)[1].lower() in WIDEO for x in pliki):
                 continue            # to plakat filmu, nie osobne zdjecie
-            wpisy.append({"typ": "foto", "src": f"{klucz}/{f}", "podpis": podpis(f)})
+            wpisy.append({"typ": "foto", "src": f"{klucz}/{f}", "podpis": PODPISY.get(f"{klucz}/{f}", podpis(f))})
     if wpisy:
         manifest[klucz] = wpisy
+
+for alias, zrodlo in ALIASY.items():
+    if alias not in manifest and zrodlo in manifest:
+        manifest[alias] = manifest[zrodlo]
 
 with open(os.path.join(ROOT, "manifest.json"), "w", encoding="utf-8") as fh:
     json.dump(manifest, fh, ensure_ascii=False, indent=2)

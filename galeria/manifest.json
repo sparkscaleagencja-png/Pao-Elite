@@ -1,1 +1,120 @@
-{"opisy":{}}
+{
+  "opisy": {
+    "dach-pokrycie": {
+      "foto": "opisy/dach-pokrycie.jpg"
+    },
+    "sciana-farba": {
+      "foto": "opisy/sciana-farba.jpg"
+    }
+  },
+  "dachowka": [
+    {
+      "typ": "foto",
+      "src": "dachowka/01_dachowka-z-mchem.jpg",
+      "podpis": "Dachówka z mchem i porostami"
+    },
+    {
+      "typ": "foto",
+      "src": "dachowka/02_blacha-zmatowiala.jpg",
+      "podpis": "Zmatowiała blacha z ogniskami rdzy"
+    },
+    {
+      "typ": "foto",
+      "src": "dachowka/03_luszczaca-sie-farba.jpg",
+      "podpis": "Łuszcząca się powłoka na blachodachówce"
+    },
+    {
+      "typ": "foto",
+      "src": "dachowka/04_blachodachowka-czerwona.jpg",
+      "podpis": "Blachodachówka w kolorze czerwonym"
+    }
+  ],
+  "odnowa": [
+    {
+      "typ": "foto",
+      "src": "odnowa/01_zabezpieczone-drzwi.jpg",
+      "podpis": "Zabezpieczone drzwi przed malowaniem"
+    },
+    {
+      "typ": "foto",
+      "src": "odnowa/02_zabezpieczone-okno.jpg",
+      "podpis": "Zabezpieczone okno taśmą i folią"
+    },
+    {
+      "typ": "foto",
+      "src": "odnowa/03_slup-i-podbitka.jpg",
+      "podpis": "Zabezpieczony słup i malowana podbitka"
+    },
+    {
+      "typ": "foto",
+      "src": "odnowa/04_akryl-przy-ramie.jpg",
+      "podpis": "Akrylowanie styku ramy okna z tynkiem"
+    }
+  ],
+  "wymiana": [
+    {
+      "typ": "foto",
+      "src": "dachowka/01_dachowka-z-mchem.jpg",
+      "podpis": "Dachówka z mchem i porostami"
+    },
+    {
+      "typ": "foto",
+      "src": "dachowka/02_blacha-zmatowiala.jpg",
+      "podpis": "Zmatowiała blacha z ogniskami rdzy"
+    },
+    {
+      "typ": "foto",
+      "src": "dachowka/03_luszczaca-sie-farba.jpg",
+      "podpis": "Łuszcząca się powłoka na blachodachówce"
+    },
+    {
+      "typ": "foto",
+      "src": "dachowka/04_blachodachowka-czerwona.jpg",
+      "podpis": "Blachodachówka w kolorze czerwonym"
+    }
+  ],
+  "docieplanie": [
+    {
+      "typ": "foto",
+      "src": "odnowa/01_zabezpieczone-drzwi.jpg",
+      "podpis": "Zabezpieczone drzwi przed malowaniem"
+    },
+    {
+      "typ": "foto",
+      "src": "odnowa/02_zabezpieczone-okno.jpg",
+      "podpis": "Zabezpieczone okno taśmą i folią"
+    },
+    {
+      "typ": "foto",
+      "src": "odnowa/03_slup-i-podbitka.jpg",
+      "podpis": "Zabezpieczony słup i malowana podbitka"
+    },
+    {
+      "typ": "foto",
+      "src": "odnowa/04_akryl-przy-ramie.jpg",
+      "podpis": "Akrylowanie styku ramy okna z tynkiem"
+    }
+  ],
+  "podbitka": [
+    {
+      "typ": "foto",
+      "src": "odnowa/01_zabezpieczone-drzwi.jpg",
+      "podpis": "Zabezpieczone drzwi przed malowaniem"
+    },
+    {
+      "typ": "foto",
+      "src": "odnowa/02_zabezpieczone-okno.jpg",
+      "podpis": "Zabezpieczone okno taśmą i folią"
+    },
+    {
+      "typ": "foto",
+      "src": "odnowa/03_slup-i-podbitka.jpg",
+      "podpis": "Zabezpieczony słup i malowana podbitka"
+    },
+    {
+      "typ": "foto",
+      "src": "odnowa/04_akryl-przy-ramie.jpg",
+      "podpis": "Akrylowanie styku ramy okna z tynkiem"
+    }
+  ]
+}

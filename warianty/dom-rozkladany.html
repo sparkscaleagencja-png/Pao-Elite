@@ -418,12 +418,19 @@ function drawCover(g, w, h){
 }
 const texCover = ctex(512, 128, drawCover, true);
 
+/* tekstury z Pracowni / zdjec REVO (warianty/tex, razem ~0,6 MB): dorysowywane po wczytaniu, do tego czasu wersja proceduralna */
+const TEXP = {};
+function tileImg(g, im, w, h, s){ for (let y = 0; y < h; y += s) for (let x = 0; x < w; x += s) g.drawImage(im, x, y, s, s); }
+function nakladka(g, im, w, h, s, op, a){ g.save(); g.globalCompositeOperation = op; g.globalAlpha = a; tileImg(g, im, w, h, s); g.restore(); }   // detal szary 128 = kolor bez zmian
+
 /* elewacja + brud */
 const facadeState = {kolor:"#f2f0ea", dirt:0};
 function drawFacade(g, w, h){
   const {kolor, dirt} = facadeState; const R = rng(9);
   g.fillStyle = kolor; g.fillRect(0, 0, w, h);
-  for (let i = 0; i < 2600; i++){ g.fillStyle = `rgba(0,0,0,${R() * .035})`; g.fillRect(R() * w, R() * h, 2, 2); }
+  g.save(); g.scale(w / 1024, h / 384); w = 1024; h = 384;      // brud liczony w starej skali 1024x384
+  if (TEXP["tynk-detal"]) nakladka(g, TEXP["tynk-detal"], w, h, 96, "multiply", 1);   // ziarno tynku silikonowego (zblizenie z wykonu REVO)
+  else for (let i = 0; i < 2600; i++){ g.fillStyle = `rgba(0,0,0,${R() * .035})`; g.fillRect(R() * w, R() * h, 2, 2); }
   if (dirt > .01){
     g.fillStyle = `rgba(110,104,88,${.28 * dirt})`; g.fillRect(0, 0, w, h);
     for (let i = 0; i < 26; i++){ const x = R() * w; const gr = g.createLinearGradient(0, 0, 0, h * (.25 + R() * .3));
@@ -434,18 +441,20 @@ function drawFacade(g, w, h){
     g.strokeStyle = `rgba(60,58,52,${.7 * dirt})`; g.lineWidth = 2;
     for (let i = 0; i < 6; i++){ let x = R() * w, y = R() * h; g.beginPath(); g.moveTo(x, y); for (let k = 0; k < 6; k++){ x += (R() - .5) * 40; y += R() * 30; g.lineTo(x, y); } g.stroke(); }
   }
+  g.restore();
 }
-const texFacade = ctex(1024, 384, drawFacade);
+const texFacade = ctex(2048, 768, drawFacade);
 texFacade.repeat.set(1 / 7.4, 1 / 8.3); texFacade.offset.set(.5, 0);
-const texFacadeSide = ctex(1024, 384, drawFacade);
+const texFacadeSide = ctex(2048, 768, drawFacade);
 
 /* posadzka z posypka */
 const floorState = {kolor:"#8f999f"};
 function drawFloor(g, w, h){
   const R = rng(31); g.fillStyle = floorState.kolor; g.fillRect(0, 0, w, h);
-  const chips = ["#f3f3f1", "#1d1e20", "#a8adb2", shade(floorState.kolor, .18)];
-  for (let i = 0; i < 2600; i++){ g.fillStyle = chips[(R() * chips.length) | 0]; g.save(); g.translate(R() * w, R() * h); g.rotate(R() * 3);
-    g.fillRect(-3, -2, 3 + R() * 5, 2 + R() * 3); g.restore(); }
+  if (TEXP["epoksyd-detal"]) nakladka(g, TEXP["epoksyd-detal"], w, h, 512, "overlay", 1);
+  else { const chips = ["#f3f3f1", "#1d1e20", "#a8adb2", shade(floorState.kolor, .18)];
+    for (let i = 0; i < 2600; i++){ g.fillStyle = chips[(R() * chips.length) | 0]; g.save(); g.translate(R() * w, R() * h); g.rotate(R() * 3);
+      g.fillRect(-3, -2, 3 + R() * 5, 2 + R() * 3); g.restore(); } }
   const gl = g.createRadialGradient(w * .45, h * .35, 0, w * .45, h * .35, w * .6); gl.addColorStop(0, "rgba(255,255,255,.16)"); gl.addColorStop(1, "rgba(255,255,255,0)");
   g.fillStyle = gl; g.fillRect(0, 0, w, h);
 }
@@ -453,7 +462,20 @@ const texFloor = ctex(1024, 1024, drawFloor);
 
 /* kamienny dywan */
 const stoneState = {cols:KAMIEN[10][1]};
+let kamienPx = null;
 function drawStone(g, w, h){
+  const im = TEXP["kamien-mapa"];
+  if (im){   // R = cien w obrebie kamyka, G = jasnosc kamyka -> kolor z mieszanki (ciemne kamyki = najciemniejszy kolor)
+    if (!kamienPx){ const c = document.createElement("canvas"); c.width = im.width; c.height = im.height; const x = c.getContext("2d"); x.drawImage(im, 0, 0); kamienPx = x.getImageData(0, 0, c.width, c.height); }
+    const cols = stoneState.cols.map(k => new THREE.Color(k)).sort((a, b) => (a.r * .3 + a.g * .59 + a.b * .11) - (b.r * .3 + b.g * .59 + b.b * .11));
+    const n = cols.length, src = kamienPx.data, c = document.createElement("canvas"); c.width = kamienPx.width; c.height = kamienPx.height;
+    const x = c.getContext("2d"), out = x.createImageData(c.width, c.height), d = out.data;
+    for (let i = 0; i < src.length; i += 4){
+      const k = cols[Math.min(n - 1, (src[i + 1] * n / 256) | 0)], s = src[i] / 170 * 255;
+      d[i] = k.r * s; d[i + 1] = k.g * s; d[i + 2] = k.b * s; d[i + 3] = 255;
+    }
+    x.putImageData(out, 0, 0); tileImg(g, c, w, h, w); return;
+  }
   const R = rng(41); g.fillStyle = shade(stoneState.cols[0], -.15); g.fillRect(0, 0, w, h);
   for (let i = 0; i < 5200; i++){
     const x = R() * w, y = R() * h, r = 2 + R() * 4.2, c = stoneState.cols[(R() * stoneState.cols.length) | 0];
@@ -464,10 +486,10 @@ function drawStone(g, w, h){
     }
   }
 }
-const texStone = ctex(512, 512, drawStone, true);
+const texStone = ctex(1024, 1024, drawStone, true);
 
 /* dach plaski garazu: stara papa + zywica rozlewana maska */
-const texTar = ctex(512, 512, (g, w, h) => {
+const texTar = ctex(1024, 1024, (g, w, h) => {
   const R = rng(51); g.fillStyle = "#3b3c3a"; g.fillRect(0, 0, w, h);
   for (let i = 0; i < 4000; i++){ g.fillStyle = `rgba(255,255,255,${R() * .06})`; g.fillRect(R() * w, R() * h, 2, 2); }
   g.strokeStyle = "rgba(20,20,20,.9)"; g.lineWidth = 2;
@@ -915,6 +937,22 @@ const resinUp = [];
 { const UH = .18, t = .012, x0 = GX0 + .06, x1 = GX1, z0 = GZ0 + .1, z1 = GZ1 - .1, y = BASE + UH / 2 - .02;
   [[x1 - x0, t, (x0 + x1) / 2, z0], [x1 - x0, t, (x0 + x1) / 2, z1], [t, z1 - z0, x1, (z0 + z1) / 2], [t, z1 - z0, x0, (z0 + z1) / 2]].forEach(([w, d, x, z]) => {
     const m = reg("garaz-dach", box(w, UH, d, M.zywicaB), false); m.position.set(x, y, z); scene.add(m); resinUp.push(m); }); }
+// tekstury z plikow: relief (normal mapy) + dokladniejsze faktury tynku, posadzki, kamiennego dywanu, zywicy PU i papy
+function texN(im, w, h, s, rep){ const t = ctex(w, h, (g, W, H) => tileImg(g, im, W, H, s), rep); t.encoding = THREE.LinearEncoding; return t; }
+function dodajN(mats, t, k){ mats.forEach(m => { m.normalMap = t; m.normalScale.set(k, k); m.needsUpdate = true; }); }
+const TEX_GOTOWA = {
+  "tynk-detal":    () => { redraw(texFacade, drawFacade); redraw(texFacadeSide, drawFacade); },
+  "tynk-normal":   im => dodajN([M.farba, M.sciana], texN(im, 2048, 768, 192), .8),
+  "epoksyd-detal": () => redraw(texFloor, drawFloor),
+  "kamien-mapa":   () => redraw(texStone, drawStone),
+  "kamien-normal": im => dodajN([M.kamien, M.kamienS], texN(im, 1024, 1024, 1024, true), .9),
+  "pu":            im => { const t = ctex(1024, 1024, (g, W, H) => tileImg(g, im, W, H, W / 2));   // calkowity rozmiar kafla: ulamkowy dawal widoczne szwy
+                           [M.zywica, M.zywicaB].forEach(m => { m.map = t; m.color.set("#f4f8fb"); m.roughness = .22; m.needsUpdate = true; }); },
+  "pu-normal":     im => dodajN([M.zywica, M.zywicaB], texN(im, 1024, 1024, 512), .7),
+  "papa":          im => redraw(texTar, (g, W, H) => tileImg(g, im, W, H, W / 2)),
+  "papa-normal":   im => dodajN([M.papa], texN(im, 1024, 1024, 512), .6)
+};
+Object.keys(TEX_GOTOWA).forEach(n => { const im = new Image(); im.onload = () => { TEXP[n] = im; TEX_GOTOWA[n](im); }; im.src = "tex/" + n + ".webp?v=5"; });
 // rzygacz przez attyke + rynna wzdluz prawego boku + rura spustowa
 { const ry = reg("garaz-dach", ink(box(.42, .1, .26, M.rynna))); ry.position.set(GX1 + .3, BASE - .1, GCZ); scene.add(ry);
   const half = new THREE.CylinderGeometry(.11, .11, GD + .3, 18, 1, true, Math.PI / 2, Math.PI);

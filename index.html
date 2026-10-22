@@ -368,6 +368,21 @@ textarea{min-height:110px;resize:vertical}
 @media(max-width:860px){.contact .in{grid-template-columns:1fr}.frow{grid-template-columns:1fr}}
 footer{padding:2rem 1.6rem;text-align:center;font-size:.75rem;color:var(--muted)}
 footer b{color:var(--ink)}
+/* animacja sekcji „Jak pracujemy": brudna ściana zamalowywana na biało wałkiem, potem punkty pojawiają się po kolei */
+.why{position:relative;overflow-x:clip}
+.pt-wall{position:absolute;inset:0;z-index:6;pointer-events:none}
+.pt-clean{position:absolute;inset:0;background:#fff;transition:opacity .45s ease}
+.pt-band{position:absolute;left:0;right:0;overflow:hidden}
+.pt-img{position:absolute;left:0;right:0;background:url(img/sciana-brudna.webp) center/cover #8b8b87}
+.pt-roller{position:absolute;left:-4%;top:0;width:0;z-index:2;transition:top .26s ease}
+.pt-roller svg{position:absolute;left:-43px;top:0;height:100%;overflow:visible;filter:drop-shadow(0 6px 8px rgba(0,0,0,.28))}
+.pt-roller.rtl svg{transform:scaleX(-1);transform-origin:43px 0}
+.why.pt-run .pt-i{opacity:0;transform:translateY(16px);filter:blur(5px);transition:opacity .6s ease,transform .7s cubic-bezier(.2,.7,.3,1),filter .6s ease}
+.why.pt-run .pt-i.pt-show{opacity:1;transform:none;filter:none}
+.pt-replay{position:absolute;right:16px;bottom:14px;z-index:7;width:30px;height:30px;border-radius:50%;border:1px solid #d9d6cf;background:#fff;color:#8a8f95;font-size:15px;line-height:1;cursor:pointer;opacity:.5;transition:opacity .2s}
+.pt-replay:hover{opacity:1}
+.pe-on .pt-wall,.pe-on .pt-replay{display:none!important}
+.pe-on .why.pt-run .pt-i{opacity:1!important;transform:none!important;filter:none!important}
 .ffirma{margin-top:.9rem;font-size:.72rem;line-height:1.6}
 .stoi{height:1.05em;width:auto;vertical-align:-.12em;display:inline-block;margin:0 .1em}
 .fpartner{margin-top:.8rem;font-size:.66rem;letter-spacing:.02em;opacity:.8}
@@ -786,6 +801,89 @@ document.getElementById('quoteForm').addEventListener('submit',async e=>{
     blad('Nie udało się wysłać zgłoszenia. Zadzwoń: 608 355 327.'); btn.disabled=false; btn.textContent=tekst;
   }
 });
+</script>
+<script>
+/* Sekcja „Jak pracujemy": brudna szara ściana -> 3 pociągnięcia wałka białą farbą -> punkty pojawiają się po kolei.
+   Bez JS / przy „ogranicz ruch" / w edytorze strony treść jest po prostu widoczna. */
+(function(){
+  var sec=document.getElementById('proces'); if(!sec) return;
+  if(matchMedia('(prefers-reduced-motion: reduce)').matches||!('IntersectionObserver' in window)||!Element.prototype.animate) return;
+  var items=[].slice.call(sec.querySelectorAll('.eyebrow,h2.sec')), glowne=items.length;
+  items=items.concat([].slice.call(sec.querySelectorAll('ol li')),[].slice.call(sec.querySelectorAll('.badge')));
+  items.forEach(function(e){e.classList.add('pt-i')});
+  var wall=null, stan='idle', btn=null;
+  var ROLLER='<div class="pt-roller"><svg width="190" aria-hidden="true"><defs>'+
+    '<linearGradient id="ptn" x1="0" x2="1" y1="0" y2="0"><stop offset="0" stop-color="#c4cad1"/><stop offset=".28" stop-color="#fff"/><stop offset=".62" stop-color="#f1f3f5"/><stop offset="1" stop-color="#b3bac3"/></linearGradient>'+
+    '<pattern id="ptp" width="7" height="7" patternUnits="userSpaceOnUse"><circle cx="2" cy="2" r="1.1" fill="rgba(0,0,0,.07)"/><circle cx="5.5" cy="5.5" r="1" fill="rgba(0,0,0,.05)"/></pattern></defs>'+
+    '<rect x="18" y="0" width="50" height="100%" rx="11" fill="url(#ptn)" stroke="#a9b0b8" stroke-width="1"/>'+
+    '<rect x="18" y="0" width="50" height="100%" rx="11" fill="url(#ptp)"/>'+
+    '<rect x="38" y="-5" width="10" height="6" rx="2" fill="#3b4148"/><rect x="38" y="100%" width="10" height="6" rx="2" fill="#3b4148"/>'+
+    '<path d="M43 -2 V-16 Q43 -26 55 -26 H104" fill="none" stroke="#3b4148" stroke-width="4" stroke-linecap="round"/>'+
+    '<path d="M104 -26 L176 -44" stroke="#9a4414" stroke-width="18" stroke-linecap="round"/>'+
+    '<path d="M104 -26 L176 -44" stroke="#ff8a3d" stroke-width="13" stroke-linecap="round"/>'+
+    '<path d="M112 -30 L168 -44" stroke="rgba(255,255,255,.45)" stroke-width="3" stroke-linecap="round"/></svg></div>';
+  function K(){return window.PT_TEMPO||1}   // mnożnik tempa (tylko do testów; domyślnie 1)
+  function czekaj(ms){return new Promise(function(r){setTimeout(r,ms*K())})}
+  function uklad(){
+    var H=sec.offsetHeight, h=H/3;
+    [].forEach.call(wall.querySelectorAll('.pt-band'),function(b,i){b.style.top=(i*h)+'px';b.style.height=(h+1)+'px';var im=b.firstChild;im.style.top=(-i*h)+'px';im.style.height=H+'px';});
+    wall.querySelector('.pt-roller').style.height=h+'px';
+  }
+  function ustaw(){
+    if(wall) return;
+    sec.classList.add('pt-run');
+    wall=document.createElement('div'); wall.className='pt-wall'; wall.setAttribute('aria-hidden','true');
+    wall.innerHTML='<div class="pt-clean"></div>'+'<div class="pt-band"><div class="pt-img"></div></div>'.repeat(3)+ROLLER;
+    sec.appendChild(wall); uklad(); stan='gotowe';
+    var im=new Image(); im.src='img/sciana-brudna.webp';
+  }
+  addEventListener('resize',function(){ if(wall&&stan!=='koniec') uklad(); });
+  function pociagnij(i,dir,ms){
+    var h=sec.offsetHeight/3, b=wall.querySelectorAll('.pt-band')[i], r=wall.querySelector('.pt-roller');
+    r.classList.toggle('rtl',dir>0); r.style.top=(i*h)+'px';       // uchwyt zawsze ZA wałkiem (idzie za nim)
+    var od=dir>0?-4:104, dod=dir>0?104:-4, opt={duration:ms*K(),easing:'cubic-bezier(.5,.05,.35,1)',fill:'forwards'};
+    r.animate([{left:od+'%'},{left:dod+'%'}],opt);
+    b.animate(dir>0?[{clipPath:'inset(0 0 0 '+od+'%)'},{clipPath:'inset(0 0 0 '+dod+'%)'}]
+                   :[{clipPath:'inset(0 '+(100-od)+'% 0 0)'},{clipPath:'inset(0 '+(100-dod)+'% 0 0)'}],opt);
+    return czekaj(ms);
+  }
+  function odslon(){
+    items.forEach(function(e,i){ e.style.transitionDelay=(i<glowne?i*0.1:0.45+(i-glowne)*0.3)+'s'; });
+    requestAnimationFrame(function(){requestAnimationFrame(function(){items.forEach(function(e){e.classList.add('pt-show')})})});
+    return (0.45+(items.length-glowne-1)*0.3+0.9)*1000;
+  }
+  function posprzataj(){
+    if(wall){wall.remove(); wall=null;}
+    sec.classList.remove('pt-run');
+    items.forEach(function(e){e.style.transitionDelay='';e.classList.remove('pt-show')});
+    stan='koniec';
+    if(!btn){ btn=document.createElement('button'); btn.type='button'; btn.className='pt-replay'; btn.setAttribute('aria-label','Odtwórz animację ponownie'); btn.title='Odtwórz ponownie'; btn.textContent='\u21BB'; btn.onclick=powtorz; sec.appendChild(btn); }
+  }
+  function graj(){
+    if(stan!=='gotowe') return; stan='gra';
+    czekaj(700).then(function(){return pociagnij(0,1,1000)}).then(function(){return czekaj(250)})
+      .then(function(){return pociagnij(1,-1,1000)}).then(function(){return czekaj(250)})
+      .then(function(){return pociagnij(2,1,1000)})
+      .then(function(){
+        if(!wall) return;
+        wall.querySelector('.pt-roller').animate([{opacity:1},{opacity:0}],{duration:300,fill:'forwards'});
+        wall.querySelector('.pt-clean').style.opacity='0';
+        var ms=odslon(); return czekaj(ms);
+      }).then(posprzataj);
+  }
+  function powtorz(){
+    if(stan==='gra'||stan==='gotowe') return;
+    if(btn){btn.remove(); btn=null;}
+    stan='idle'; wall=null; ustaw(); czekaj(80).then(graj);
+  }
+  var ioA=new IntersectionObserver(function(es){es.forEach(function(en){ if(en.isIntersecting){ ustaw(); ioA.disconnect(); } });},{rootMargin:'0px 0px 900px 0px'});
+  var ioB=new IntersectionObserver(function(es){es.forEach(function(en){
+    if(en.isIntersecting&&en.intersectionRatio>=.3){ if(stan==='idle') ustaw(); if(stan==='gotowe') graj(); }
+    else if(!en.isIntersecting&&en.boundingClientRect.bottom<0&&stan==='gotowe'){ posprzataj(); }
+  });},{threshold:[0,.3]});
+  ioA.observe(sec); ioB.observe(sec);
+  window.PaoProces={ustaw:ustaw,graj:graj,powtorz:powtorz,stan:function(){return stan}};
+})();
 </script>
 </body>
 </html>

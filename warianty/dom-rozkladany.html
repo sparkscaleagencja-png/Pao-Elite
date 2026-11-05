@@ -86,6 +86,10 @@ button{font-family:inherit}
 .tabs button{border:none;background:none;padding:.42rem .75rem;border-radius:6px;font-size:.78rem;font-weight:600;color:var(--muted);cursor:pointer;transition:all .2s}
 .tabs button.on{background:#fff;color:var(--ink);box-shadow:0 1px 4px rgba(20,24,30,.12)}
 .sw{display:flex;gap:8px;flex-wrap:wrap}
+/* pasek nad domkiem: paleta w jednym rzedzie (przewijana), zeby nie spychac domku i galerii */
+.bar .sw{flex-wrap:nowrap;overflow-x:auto;max-width:100%;padding:4px 4px 22px;margin-bottom:-14px;scrollbar-width:thin}
+.bar .sw button{flex:none}
+.bar-grp:has(>.sw){flex:1 1 320px;min-width:0}
 .sw button{width:34px;height:34px;border-radius:50%;border:3px solid #fff;box-shadow:0 0 0 1px var(--line);cursor:pointer;position:relative;padding:0;
   transition:transform .2s var(--ease), box-shadow .2s}
 .sw button:hover{transform:translateY(-2px)}
@@ -107,7 +111,7 @@ button{font-family:inherit}
 .embed body{overflow:hidden}
 .embed .stage{height:460px}
 .embed .panel{max-height:550px}
-.embed .q-in{max-height:350px}
+.embed .q-in{max-height:300px}
 @media(max-width:700px){.embed .stage{height:440px;min-height:0}}
 @keyframes wej{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
 .back{border:none;background:none;color:var(--muted);font-size:.78rem;font-weight:600;cursor:pointer;padding:0;margin-bottom:10px}
@@ -169,28 +173,36 @@ ul.layers li small{margin-left:auto;color:var(--muted);font-size:.7rem}
 .lead-line path{fill:none;stroke:var(--ink);stroke-width:1.6;stroke-linejoin:round}
 .lead-line circle{fill:var(--accent);stroke:#fff;stroke-width:2}
 @media(max-width:700px){.callout{width:150px;top:62px}.co-foto{display:none}.co-txt{font-size:.72rem}}
-/* szybki panel z lewej: przed/po + krotki opis uslugi (wysuwa sie po wejsciu w czesc domu) */
-.quick{position:absolute;left:14px;top:66px;width:252px;z-index:2;color:var(--ink);background:rgba(255,255,255,.95);border-radius:12px;padding:10px 10px 12px;
-  box-shadow:0 16px 36px rgba(20,24,30,.24), inset 0 0 0 1px var(--line);transform:translateX(-125%);opacity:0;pointer-events:none;
-  transition:transform .55s var(--ease), opacity .4s var(--ease)}
-.q-in{max-height:calc(min(68vh,640px) - 110px);overflow:auto;scrollbar-width:thin}
+/* szybki panel z lewej: przed/po + krotki opis; ksztalt ze scietymi (trojkatnymi) naroznikami, bez kwadratow */
+.quick{position:absolute;left:14px;top:66px;width:252px;z-index:2;color:var(--ink);transform:translateX(-125%);opacity:0;pointer-events:none;
+  transition:transform .55s var(--ease), opacity .4s var(--ease);display:flex;flex-direction:column;gap:8px}
 .quick.on{transform:none;opacity:1;pointer-events:auto}
-.qba{--p:50%;position:relative;aspect-ratio:6/7;border-radius:8px;overflow:hidden;background:#efede8;touch-action:none;cursor:ew-resize;user-select:none;-webkit-user-select:none}
+.q-card{--c:26px;--r:12px;position:relative;background:var(--accent);padding:2px;
+  clip-path:polygon(0 var(--c),var(--c) 0,calc(100% - var(--r)) 0,100% var(--r),100% calc(100% - var(--r)),calc(100% - var(--r)) 100%,var(--c) 100%,0 calc(100% - var(--c)))}
+.q-in{background:rgba(255,255,255,.97);padding:10px 10px 12px;max-height:calc(min(68vh,640px) - 150px);overflow:auto;scrollbar-width:thin;
+  clip-path:polygon(0 calc(var(--c) - 1px),calc(var(--c) - 1px) 0,calc(100% - var(--r)) 0,100% var(--r),100% calc(100% - var(--r)),calc(100% - var(--r)) 100%,calc(var(--c) - 1px) 100%,0 calc(100% - var(--c) + 1px))}
+.qba{--p:50%;position:relative;aspect-ratio:6/7;overflow:hidden;background:#efede8;touch-action:none;cursor:ew-resize;user-select:none;-webkit-user-select:none;
+  clip-path:polygon(0 18px,18px 0,100% 0,100% 100%,0 100%)}
 .qba img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;pointer-events:none}
 .qba .qpo{clip-path:inset(0 0 0 var(--p))}
 .qba .qh{position:absolute;top:0;bottom:0;left:var(--p);width:2px;margin-left:-1px;background:#fff;box-shadow:0 0 0 1px rgba(0,0,0,.25);pointer-events:none}
 .qba .qh::after{content:"↔";position:absolute;top:50%;left:50%;width:30px;height:30px;margin:-15px 0 0 -15px;border-radius:50%;background:#fff;color:var(--ink);
   box-shadow:0 2px 8px rgba(0,0,0,.3);display:flex;align-items:center;justify-content:center;font-size:.9rem}
-.qba .ql,.qba .qr{position:absolute;top:8px;font-size:.62rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:#fff;background:rgba(29,33,38,.78);padding:.2rem .5rem;border-radius:99px;pointer-events:none}
-.qba .ql{left:8px}.qba .qr{right:8px}
+.qba .ql,.qba .qr{position:absolute;top:8px;font-size:.62rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:#fff;background:rgba(29,33,38,.78);padding:.2rem .5rem;pointer-events:none;
+  clip-path:polygon(6px 0,100% 0,100% 100%,0 100%,0 6px)}
+.qba .ql{left:22px}.qba .qr{right:8px}
 .q-tyt{margin:.65rem 0 .25rem;font-size:1rem;font-weight:800;line-height:1.2}
 .q-txt{margin:0;font-size:.78rem;line-height:1.45;color:#3a4047}
-.q-spec{margin-top:.55rem;padding:.5rem .6rem;border-radius:8px;background:var(--chip);font-size:.74rem;line-height:1.4;color:var(--ink)}
-.q-spec b{display:block;font-size:.66rem;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);margin-bottom:.15rem}
-.q-x{position:absolute;right:-6px;top:-6px;width:24px;height:24px;border:none;border-radius:50%;background:var(--ink);color:#fff;cursor:pointer;font-size:.9rem;line-height:1}
+/* wlatuje z lewej, gdy na domku leci akrylowanie; trojkatne wciecie w lewej krawedzi */
+.q-spec{align-self:flex-start;background:var(--ink);color:#fff;padding:.7rem 1rem .7rem 1.7rem;font-size:.78rem;font-weight:800;letter-spacing:.02em;line-height:1.25;
+  clip-path:polygon(0 0,100% 0,calc(100% - 12px) 50%,100% 100%,0 100%,16px 50%);transform:translateX(-140%);opacity:0;
+  transition:transform .6s cubic-bezier(.2,1.25,.4,1), opacity .3s}
+.q-spec b{display:block;font-size:.6rem;letter-spacing:.16em;text-transform:uppercase;color:#ff9a63;margin-bottom:.1rem}
+.q-spec.show{transform:none;opacity:1}
+.q-x{position:absolute;right:2px;top:2px;width:24px;height:24px;border:none;border-radius:50%;background:var(--ink);color:#fff;cursor:pointer;font-size:.9rem;line-height:1;z-index:1}
 .q-x:hover{background:var(--accent)}
-@media(max-width:700px){.quick{width:164px;top:58px;padding:7px 7px 9px}.q-txt{font-size:.68rem}.q-spec{font-size:.64rem}.q-tyt{font-size:.85rem}.qba{aspect-ratio:1/1}}
-@media(prefers-reduced-motion:reduce){.quick{transition:opacity .2s}}
+@media(max-width:700px){.quick{width:170px;top:58px}.q-in{padding:7px 7px 9px}.q-txt{font-size:.68rem}.q-spec{font-size:.66rem;padding:.5rem .7rem .5rem 1.3rem}.q-tyt{font-size:.85rem}.qba{aspect-ratio:1/1}}
+@media(prefers-reduced-motion:reduce){.quick,.q-spec{transition:opacity .2s}.q-spec{transform:none}}
 /* galeria wykonu (pasek na dole, przewijany, dowolnie dluga) */
 .gal-sec{margin-top:16px;background:var(--panel);border-radius:12px;box-shadow:inset 0 0 0 1px var(--line);padding:14px 14px 16px}
 .gal-head{display:flex;align-items:baseline;gap:.7rem;margin-bottom:10px;flex-wrap:wrap}
@@ -1136,7 +1148,7 @@ MODES.odnowa = {part:"elewacja", krotko:"Renowacja elewacji", kicker:"Elewacja �
   tytul:"Renowacja elewacji",
   lead:"Kompleksowo: naprawa pęknięć, nowa struktura tynku, mycie ciśnieniowe i dwukrotne malowanie farbą silikonową marki " + STOI + ". Przesuń suwak — przed i po.",
   enter(){ setDirtFacade(1); S.acryl = 0; setTimeout(() => tweenVal(() => facadeState.dirt, setDirtFacade, 0, 2600), 700);
-    setTimeout(() => { if (mode === "odnowa") tw("acryl", 1, 2400); }, 3300); },
+    setTimeout(() => { if (mode === "odnowa"){ tw("acryl", 1, 2400); showSpec(); } }, 3300); },
   exit(){ setDirtFacade(0); tw("wallT", 0, 1000); tw("acryl", 0, 400); },
   panel(){ return head(this) + baSlider("baFacade", 0) + STO +
     steps(["Zabezpieczenie okien, drzwi, rynien i otoczenia", "Czyszczenie myjką wysokociśnieniową", "Naprawa pęknięć i ubytków, łatanie i podcinanie krawędzi", "Całkowicie nowa struktura tynku", "Dwukrotne malowanie farbą silikonową marki " + STOI, "Wykończenie krawędzi i akrylowanie okien i drzwi"]) +
@@ -1232,7 +1244,7 @@ function go(next, fromBack){
   if (next === mode) return;
   if (next === "dom") hist.length = 0; else if (!fromBack) hist.push(mode);
   if (mode !== "dom") MODES[mode].exit();
-  sel = null; highlightLayer(null);
+  sel = null; highlightLayer(null); specOn = false;
   mode = next;
   if (mode !== "dom"){ MODES[mode].enter(); camGo(MODES[mode].cam); }
   else camGo("dom");
@@ -1259,7 +1271,7 @@ document.addEventListener("click", e => {
   const lw = e.target.closest("[data-layer]"); if (lw){ selectLayer(lw.dataset.layer); return; }
   const gi = e.target.closest(".gi[data-i]"); if (gi){ otworzLb(+gi.dataset.i); return; }
   if (e.target.closest(".gal-head .arr button")){ const st = $("#galStrip"); if (st) st.scrollBy({left:(e.target.dataset.d === "p" ? -1 : 1) * 420, behavior:"smooth"}); return; }
-  if (e.target.id === "bAkryl"){ S.acryl = 0; tw("acryl", 1, 2400); return; }
+  if (e.target.id === "bAkryl"){ S.acryl = 0; tw("acryl", 1, 2400); showSpec(); return; }
   if (e.target.id === "bPodb"){ S.podb = 0; tw("podb", 1, 4200, t => t); return; }
   if (e.target.id === "bZloz"){ tw("roofT", S.roofT > .5 ? 0 : 1, 1500); return; }
   if (e.target.id === "bEternit"){ eternitShow(); return; }
@@ -1365,27 +1377,28 @@ function selectLayer(id, obj){
 const coEl = $("#callout"), leadEl = $("#leadLine"), leadPath = $("#leadPath"), leadDot = $("#leadDot"), quickEl = $("#quick");
 /* szybki opis uslugi: [tytul, opis, wyroznik?] — pokazuje sie z lewej po wejsciu w czesc domu */
 const QUICK = {
-  odnowa: ["Renowacja elewacji", "To nie samo malowanie. Zabezpieczamy okna, drzwi i otoczenie, naprawiamy ubytki i robimy całkowicie nową strukturę tynku. Krawędzie podcinamy i wykańczamy, a całość malujemy dwukrotnie farbą silikonową marki " + STOI + ".",
-    ["Nasza specjalność: akrylowanie", "Akrylowanie okien i drzwi zwykle robią glazurnicy. My wyszkoliliśmy w tym własnych pracowników. To nie jest zwykłe silikonowanie."]],
-  docieplanie: ["Termomodernizacja", "Ocieplenie ścian w systemie " + STOI + ": klej, płyty, siatka, grunt, nowy tynk i farba. Krawędzie i obróbki wykańczamy starannie."],
-  podbitka: ["Podbitka", "Wymieniamy uszkodzone deski i impregnujemy całość. Szare, wyblakłe drewno odzyskuje kolor."],
-  wymiana: ["Wymiana dachu", "Wymieniamy całe pokrycie, w tym utylizacja eternitu. Kontrolujemy więźbę i dajemy nową membranę, łaty i pokrycie."],
-  dachowka: ["Konserwacja dachu", "Mycie ciśnieniowe, gruntowanie i dwukrotna powłoka ochronna w nowym kolorze z palety RAL."],
-  kuna: ["Kuna na poddaszu", "Naprawiamy ocieplenie i membranę po kunie i zabezpieczamy poddasze przed jej powrotem."],
-  hydro: ["Hydroizolacja dachu płaskiego", "Bezspoinowa membrana z żywicy epoksydowo-poliuretanowej, w wielu przypadkach bez zrywania starej papy."],
-  posadzka: ["Posadzki żywiczne", "Trwałe i łatwe w czyszczeniu wykończenie garażu, dobrane do podłoża."],
-  taras: ["Taras i schody", "Kamienny dywan i żywice na tarasy, balkony i schody. Wykończenie antypoślizgowe, dobrane do podłoża."]
+  odnowa: ["Renowacja elewacji", "Zabezpieczamy, naprawiamy ubytki, robimy nową strukturę tynku i malujemy. Krawędzie wykańczamy starannie."],
+  docieplanie: ["Termomodernizacja", "Ocieplenie ścian warstwa po warstwie, od kleju po nowy tynk i farbę."],
+  podbitka: ["Podbitka", "Wymiana uszkodzonych desek i impregnacja. Drewno odzyskuje kolor."],
+  wymiana: ["Wymiana dachu", "Nowe pokrycie, membrana i łaty. Eternit utylizujemy."],
+  dachowka: ["Konserwacja dachu", "Mycie, gruntowanie i dwukrotna powłoka w nowym kolorze."],
+  kuna: ["Kuna na poddaszu", "Naprawiamy szkody i zabezpieczamy poddasze przed powrotem kuny."],
+  hydro: ["Hydroizolacja dachu płaskiego", "Bezspoinowa membrana, często bez zrywania starej papy."],
+  posadzka: ["Posadzki żywiczne", "Trwałe, łatwe w czyszczeniu wykończenie garażu."],
+  taras: ["Taras i schody", "Kamienny dywan i żywice, wykończenie antypoślizgowe."]
 };
+let specOn = false;
+function showSpec(){ if (mode !== "odnowa") return; specOn = true; const e = quickEl.querySelector(".q-spec"); if (e) e.classList.add("show"); }
 const esc = s => String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 function renderQuick(){
   const q = mode !== "dom" && !sel ? QUICK[mode] : null;
   if (!q){ quickEl.classList.remove("on"); return; }
   const pp = (GAL_DATA.przedpo || {})[mode];
   quickEl.classList.remove("on");
-  quickEl.innerHTML = `<button class="q-x" type="button" aria-label="Zamknij">×</button><div class="q-in">` +
+  quickEl.innerHTML = `<div class="q-card"><button class="q-x" type="button" aria-label="Zamknij">×</button><div class="q-in">` +
     (pp ? `<div class="qba" id="qba"><img src="${galSrc(pp.przed)}" alt="Przed"><img class="qpo" src="${galSrc(pp.po)}" alt="Po"><span class="qh"></span><span class="ql">Przed</span><span class="qr">Po</span></div>` : "") +
-    `<div class="q-tyt">${q[0]}</div><p class="q-txt">${q[1]}</p>` +
-    (q[2] ? `<div class="q-spec"><b>${q[2][0]}</b>${q[2][1]}</div>` : "") + `</div>`;
+    `<div class="q-tyt">${q[0]}</div><p class="q-txt">${q[1]}</p></div></div>` +
+    (mode === "odnowa" ? `<div class="q-spec${specOn ? " show" : ""}"><b>Nasza specjalność</b>akrylowanie okien</div>` : "");
   requestAnimationFrame(() => requestAnimationFrame(() => { if (mode !== "dom" && !sel) quickEl.classList.add("on"); }));
 }
 (function(){ let drag = false; const set = (b, x) => { const r = b.getBoundingClientRect(); b.style.setProperty("--p", Math.max(0, Math.min(100, (x - r.left) / r.width * 100)) + "%"); };

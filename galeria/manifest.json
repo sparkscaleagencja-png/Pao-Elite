@@ -27,9 +27,80 @@
       "typ": "foto",
       "src": "dachowka/04_blachodachowka-czerwona.jpg",
       "podpis": "Blachodachówka w kolorze czerwonym"
+    },
+    {
+      "typ": "foto",
+      "src": "dachowka/05_dach-przed.jpg",
+      "podpis": "Dach przed renowacją"
+    },
+    {
+      "typ": "foto",
+      "src": "dachowka/06_dach-po.jpg",
+      "podpis": "Dach po renowacji"
     }
   ],
   "odnowa": [
+    {
+      "typ": "wideo",
+      "src": "odnowa/00-00_mycie-lanca.mp4",
+      "podpis": "Mycie ciśnieniowe elewacji — glony schodzą pasami",
+      "poster": "odnowa/00-00_mycie-lanca.jpg"
+    },
+    {
+      "typ": "foto",
+      "src": "odnowa/00-01_przed-i-po-szeregowiec.jpg",
+      "podpis": "Przed (po lewej) i po (po prawej) — elewacja domu szeregowego"
+    },
+    {
+      "typ": "foto",
+      "src": "odnowa/00-02_przed-i-po-dom-z-dachowka.jpg",
+      "podpis": "Po (u góry) i przed (na dole) — elewacja domu z czerwoną dachówką"
+    },
+    {
+      "typ": "foto",
+      "src": "odnowa/00-03_przed-i-po-szary-dom.jpg",
+      "podpis": "Przed (u góry) i po (na dole) — naprawa i malowanie elewacji"
+    },
+    {
+      "typ": "foto",
+      "src": "odnowa/00-04_przed-dom-44.jpg",
+      "podpis": "Dom przed renowacją elewacji i dachu"
+    },
+    {
+      "typ": "foto",
+      "src": "odnowa/00-05_po-dom-44.jpg",
+      "podpis": "Ten sam dom po renowacji elewacji i dachu"
+    },
+    {
+      "typ": "foto",
+      "src": "odnowa/00-06_efekt-brzoskwinia.jpg",
+      "podpis": "Efekt końcowy — nowa elewacja w kolorze brzoskwini"
+    },
+    {
+      "typ": "foto",
+      "src": "odnowa/00-07_efekt-jasna-elewacja.jpg",
+      "podpis": "Efekt końcowy — jasna elewacja i odświeżona podbitka"
+    },
+    {
+      "typ": "foto",
+      "src": "odnowa/00-08_efekt-garaz.jpg",
+      "podpis": "Efekt końcowy — garaż z nową elewacją"
+    },
+    {
+      "typ": "foto",
+      "src": "odnowa/00-09_efekt-dom-18-balkon.jpg",
+      "podpis": "Efekt końcowy — elewacja z balkonami"
+    },
+    {
+      "typ": "foto",
+      "src": "odnowa/00-10_efekt-dom-18.jpg",
+      "podpis": "Efekt końcowy — nowa elewacja trzykondygnacyjnego domu"
+    },
+    {
+      "typ": "foto",
+      "src": "odnowa/00-11_efekt-rynna.jpg",
+      "podpis": "Efekt końcowy — świeża elewacja przy rynnie i balkonie"
+    },
     {
       "typ": "foto",
       "src": "odnowa/01_zabezpieczone-drzwi.jpg",
@@ -49,6 +120,91 @@
       "typ": "foto",
       "src": "odnowa/04_akryl-przy-ramie.jpg",
       "podpis": "Akrylowanie styku ramy okna z tynkiem"
+    },
+    {
+      "typ": "foto",
+      "src": "odnowa/05_mycie-ciśnieniowe.jpg",
+      "podpis": "Mycie ciśnieniowe elewacji z glonów"
+    },
+    {
+      "typ": "foto",
+      "src": "odnowa/06_odpadajacy-tynk.jpg",
+      "podpis": "Elewacja przed naprawą — odspojona powłoka i rusztowanie"
+    },
+    {
+      "typ": "foto",
+      "src": "odnowa/07_odspojenia-w-powloce.jpg",
+      "podpis": "Odspojenia i ubytki w powłoce elewacji"
+    },
+    {
+      "typ": "foto",
+      "src": "odnowa/08_naprawa-naroznika.jpg",
+      "podpis": "Naprawa narożnika z siatką zbrojącą"
+    },
+    {
+      "typ": "foto",
+      "src": "odnowa/09_styk-sciany-z-posadzka.jpg",
+      "podpis": "Styk ściany z posadzką przed uszczelnieniem"
+    },
+    {
+      "typ": "foto",
+      "src": "odnowa/10_pekniecie-przy-ramie.jpg",
+      "podpis": "Pęknięcie na styku ramy okna z tynkiem"
+    },
+    {
+      "typ": "foto",
+      "src": "odnowa/11_naprawa-i-gruntowanie.jpg",
+      "podpis": "Natrysk, naprawa ubytku przy parapecie i grunt"
+    },
+    {
+      "typ": "foto",
+      "src": "odnowa/12_natrysk-przy-cokole.jpg",
+      "podpis": "Natrysk przy cokole z zabezpieczeniem taśmą"
+    },
+    {
+      "typ": "foto",
+      "src": "odnowa/13_swieza-struktura-tynku.jpg",
+      "podpis": "Świeża struktura tynku po natrysku"
+    },
+    {
+      "typ": "foto",
+      "src": "odnowa/14_zabezpieczone-okna-i-drzwi.jpg",
+      "podpis": "Zabezpieczone okna i drzwi przed malowaniem"
+    },
+    {
+      "typ": "foto",
+      "src": "odnowa/15_zabezpieczony-cokol.jpg",
+      "podpis": "Zabezpieczony cokół folią i taśmą"
+    },
+    {
+      "typ": "foto",
+      "src": "odnowa/16_zabezpieczony-daszek.jpg",
+      "podpis": "Zabezpieczony daszek i drabina przed pracami"
+    },
+    {
+      "typ": "foto",
+      "src": "odnowa/17_zabezpieczone-rosliny.jpg",
+      "podpis": "Rośliny zabezpieczone włókniną"
+    },
+    {
+      "typ": "foto",
+      "src": "odnowa/18_rusztowanie-balkon.jpg",
+      "podpis": "Rusztowanie przy balkonie"
+    },
+    {
+      "typ": "foto",
+      "src": "odnowa/19_rusztowanie-i-praca.jpg",
+      "podpis": "Rusztowanie i prace na elewacji"
+    },
+    {
+      "typ": "foto",
+      "src": "odnowa/20_praca-na-rusztowaniu.jpg",
+      "podpis": "Praca przy ścianie na rusztowaniu"
+    },
+    {
+      "typ": "foto",
+      "src": "odnowa/21_stanowisko-pracy.jpg",
+      "podpis": "Stanowisko pracy przy elewacji"
     }
   ],
   "przedpo": {
@@ -85,10 +241,81 @@
       "typ": "foto",
       "src": "dachowka/04_blachodachowka-czerwona.jpg",
       "podpis": "Blachodachówka w kolorze czerwonym"
+    },
+    {
+      "typ": "foto",
+      "src": "dachowka/05_dach-przed.jpg",
+      "podpis": "Dach przed renowacją"
+    },
+    {
+      "typ": "foto",
+      "src": "dachowka/06_dach-po.jpg",
+      "podpis": "Dach po renowacji"
     }
   ],
   "docieplanie": [
     {
+      "typ": "wideo",
+      "src": "odnowa/00-00_mycie-lanca.mp4",
+      "podpis": "Mycie ciśnieniowe elewacji — glony schodzą pasami",
+      "poster": "odnowa/00-00_mycie-lanca.jpg"
+    },
+    {
+      "typ": "foto",
+      "src": "odnowa/00-01_przed-i-po-szeregowiec.jpg",
+      "podpis": "Przed (po lewej) i po (po prawej) — elewacja domu szeregowego"
+    },
+    {
+      "typ": "foto",
+      "src": "odnowa/00-02_przed-i-po-dom-z-dachowka.jpg",
+      "podpis": "Po (u góry) i przed (na dole) — elewacja domu z czerwoną dachówką"
+    },
+    {
+      "typ": "foto",
+      "src": "odnowa/00-03_przed-i-po-szary-dom.jpg",
+      "podpis": "Przed (u góry) i po (na dole) — naprawa i malowanie elewacji"
+    },
+    {
+      "typ": "foto",
+      "src": "odnowa/00-04_przed-dom-44.jpg",
+      "podpis": "Dom przed renowacją elewacji i dachu"
+    },
+    {
+      "typ": "foto",
+      "src": "odnowa/00-05_po-dom-44.jpg",
+      "podpis": "Ten sam dom po renowacji elewacji i dachu"
+    },
+    {
+      "typ": "foto",
+      "src": "odnowa/00-06_efekt-brzoskwinia.jpg",
+      "podpis": "Efekt końcowy — nowa elewacja w kolorze brzoskwini"
+    },
+    {
+      "typ": "foto",
+      "src": "odnowa/00-07_efekt-jasna-elewacja.jpg",
+      "podpis": "Efekt końcowy — jasna elewacja i odświeżona podbitka"
+    },
+    {
+      "typ": "foto",
+      "src": "odnowa/00-08_efekt-garaz.jpg",
+      "podpis": "Efekt końcowy — garaż z nową elewacją"
+    },
+    {
+      "typ": "foto",
+      "src": "odnowa/00-09_efekt-dom-18-balkon.jpg",
+      "podpis": "Efekt końcowy — elewacja z balkonami"
+    },
+    {
+      "typ": "foto",
+      "src": "odnowa/00-10_efekt-dom-18.jpg",
+      "podpis": "Efekt końcowy — nowa elewacja trzykondygnacyjnego domu"
+    },
+    {
+      "typ": "foto",
+      "src": "odnowa/00-11_efekt-rynna.jpg",
+      "podpis": "Efekt końcowy — świeża elewacja przy rynnie i balkonie"
+    },
+    {
       "typ": "foto",
       "src": "odnowa/01_zabezpieczone-drzwi.jpg",
       "podpis": "Zabezpieczone drzwi przed malowaniem"
@@ -107,10 +334,156 @@
       "typ": "foto",
       "src": "odnowa/04_akryl-przy-ramie.jpg",
       "podpis": "Akrylowanie styku ramy okna z tynkiem"
+    },
+    {
+      "typ": "foto",
+      "src": "odnowa/05_mycie-ciśnieniowe.jpg",
+      "podpis": "Mycie ciśnieniowe elewacji z glonów"
+    },
+    {
+      "typ": "foto",
+      "src": "odnowa/06_odpadajacy-tynk.jpg",
+      "podpis": "Elewacja przed naprawą — odspojona powłoka i rusztowanie"
+    },
+    {
+      "typ": "foto",
+      "src": "odnowa/07_odspojenia-w-powloce.jpg",
+      "podpis": "Odspojenia i ubytki w powłoce elewacji"
+    },
+    {
+      "typ": "foto",
+      "src": "odnowa/08_naprawa-naroznika.jpg",
+      "podpis": "Naprawa narożnika z siatką zbrojącą"
+    },
+    {
+      "typ": "foto",
+      "src": "odnowa/09_styk-sciany-z-posadzka.jpg",
+      "podpis": "Styk ściany z posadzką przed uszczelnieniem"
+    },
+    {
+      "typ": "foto",
+      "src": "odnowa/10_pekniecie-przy-ramie.jpg",
+      "podpis": "Pęknięcie na styku ramy okna z tynkiem"
+    },
+    {
+      "typ": "foto",
+      "src": "odnowa/11_naprawa-i-gruntowanie.jpg",
+      "podpis": "Natrysk, naprawa ubytku przy parapecie i grunt"
+    },
+    {
+      "typ": "foto",
+      "src": "odnowa/12_natrysk-przy-cokole.jpg",
+      "podpis": "Natrysk przy cokole z zabezpieczeniem taśmą"
+    },
+    {
+      "typ": "foto",
+      "src": "odnowa/13_swieza-struktura-tynku.jpg",
+      "podpis": "Świeża struktura tynku po natrysku"
+    },
+    {
+      "typ": "foto",
+      "src": "odnowa/14_zabezpieczone-okna-i-drzwi.jpg",
+      "podpis": "Zabezpieczone okna i drzwi przed malowaniem"
+    },
+    {
+      "typ": "foto",
+      "src": "odnowa/15_zabezpieczony-cokol.jpg",
+      "podpis": "Zabezpieczony cokół folią i taśmą"
+    },
+    {
+      "typ": "foto",
+      "src": "odnowa/16_zabezpieczony-daszek.jpg",
+      "podpis": "Zabezpieczony daszek i drabina przed pracami"
+    },
+    {
+      "typ": "foto",
+      "src": "odnowa/17_zabezpieczone-rosliny.jpg",
+      "podpis": "Rośliny zabezpieczone włókniną"
+    },
+    {
+      "typ": "foto",
+      "src": "odnowa/18_rusztowanie-balkon.jpg",
+      "podpis": "Rusztowanie przy balkonie"
+    },
+    {
+      "typ": "foto",
+      "src": "odnowa/19_rusztowanie-i-praca.jpg",
+      "podpis": "Rusztowanie i prace na elewacji"
+    },
+    {
+      "typ": "foto",
+      "src": "odnowa/20_praca-na-rusztowaniu.jpg",
+      "podpis": "Praca przy ścianie na rusztowaniu"
+    },
+    {
+      "typ": "foto",
+      "src": "odnowa/21_stanowisko-pracy.jpg",
+      "podpis": "Stanowisko pracy przy elewacji"
     }
   ],
   "podbitka": [
     {
+      "typ": "wideo",
+      "src": "odnowa/00-00_mycie-lanca.mp4",
+      "podpis": "Mycie ciśnieniowe elewacji — glony schodzą pasami",
+      "poster": "odnowa/00-00_mycie-lanca.jpg"
+    },
+    {
+      "typ": "foto",
+      "src": "odnowa/00-01_przed-i-po-szeregowiec.jpg",
+      "podpis": "Przed (po lewej) i po (po prawej) — elewacja domu szeregowego"
+    },
+    {
+      "typ": "foto",
+      "src": "odnowa/00-02_przed-i-po-dom-z-dachowka.jpg",
+      "podpis": "Po (u góry) i przed (na dole) — elewacja domu z czerwoną dachówką"
+    },
+    {
+      "typ": "foto",
+      "src": "odnowa/00-03_przed-i-po-szary-dom.jpg",
+      "podpis": "Przed (u góry) i po (na dole) — naprawa i malowanie elewacji"
+    },
+    {
+      "typ": "foto",
+      "src": "odnowa/00-04_przed-dom-44.jpg",
+      "podpis": "Dom przed renowacją elewacji i dachu"
+    },
+    {
+      "typ": "foto",
+      "src": "odnowa/00-05_po-dom-44.jpg",
+      "podpis": "Ten sam dom po renowacji elewacji i dachu"
+    },
+    {
+      "typ": "foto",
+      "src": "odnowa/00-06_efekt-brzoskwinia.jpg",
+      "podpis": "Efekt końcowy — nowa elewacja w kolorze brzoskwini"
+    },
+    {
+      "typ": "foto",
+      "src": "odnowa/00-07_efekt-jasna-elewacja.jpg",
+      "podpis": "Efekt końcowy — jasna elewacja i odświeżona podbitka"
+    },
+    {
+      "typ": "foto",
+      "src": "odnowa/00-08_efekt-garaz.jpg",
+      "podpis": "Efekt końcowy — garaż z nową elewacją"
+    },
+    {
+      "typ": "foto",
+      "src": "odnowa/00-09_efekt-dom-18-balkon.jpg",
+      "podpis": "Efekt końcowy — elewacja z balkonami"
+    },
+    {
+      "typ": "foto",
+      "src": "odnowa/00-10_efekt-dom-18.jpg",
+      "podpis": "Efekt końcowy — nowa elewacja trzykondygnacyjnego domu"
+    },
+    {
+      "typ": "foto",
+      "src": "odnowa/00-11_efekt-rynna.jpg",
+      "podpis": "Efekt końcowy — świeża elewacja przy rynnie i balkonie"
+    },
+    {
       "typ": "foto",
       "src": "odnowa/01_zabezpieczone-drzwi.jpg",
       "podpis": "Zabezpieczone drzwi przed malowaniem"
@@ -129,6 +502,91 @@
       "typ": "foto",
       "src": "odnowa/04_akryl-przy-ramie.jpg",
       "podpis": "Akrylowanie styku ramy okna z tynkiem"
+    },
+    {
+      "typ": "foto",
+      "src": "odnowa/05_mycie-ciśnieniowe.jpg",
+      "podpis": "Mycie ciśnieniowe elewacji z glonów"
+    },
+    {
+      "typ": "foto",
+      "src": "odnowa/06_odpadajacy-tynk.jpg",
+      "podpis": "Elewacja przed naprawą — odspojona powłoka i rusztowanie"
+    },
+    {
+      "typ": "foto",
+      "src": "odnowa/07_odspojenia-w-powloce.jpg",
+      "podpis": "Odspojenia i ubytki w powłoce elewacji"
+    },
+    {
+      "typ": "foto",
+      "src": "odnowa/08_naprawa-naroznika.jpg",
+      "podpis": "Naprawa narożnika z siatką zbrojącą"
+    },
+    {
+      "typ": "foto",
+      "src": "odnowa/09_styk-sciany-z-posadzka.jpg",
+      "podpis": "Styk ściany z posadzką przed uszczelnieniem"
+    },
+    {
+      "typ": "foto",
+      "src": "odnowa/10_pekniecie-przy-ramie.jpg",
+      "podpis": "Pęknięcie na styku ramy okna z tynkiem"
+    },
+    {
+      "typ": "foto",
+      "src": "odnowa/11_naprawa-i-gruntowanie.jpg",
+      "podpis": "Natrysk, naprawa ubytku przy parapecie i grunt"
+    },
+    {
+      "typ": "foto",
+      "src": "odnowa/12_natrysk-przy-cokole.jpg",
+      "podpis": "Natrysk przy cokole z zabezpieczeniem taśmą"
+    },
+    {
+      "typ": "foto",
+      "src": "odnowa/13_swieza-struktura-tynku.jpg",
+      "podpis": "Świeża struktura tynku po natrysku"
+    },
+    {
+      "typ": "foto",
+      "src": "odnowa/14_zabezpieczone-okna-i-drzwi.jpg",
+      "podpis": "Zabezpieczone okna i drzwi przed malowaniem"
+    },
+    {
+      "typ": "foto",
+      "src": "odnowa/15_zabezpieczony-cokol.jpg",
+      "podpis": "Zabezpieczony cokół folią i taśmą"
+    },
+    {
+      "typ": "foto",
+      "src": "odnowa/16_zabezpieczony-daszek.jpg",
+      "podpis": "Zabezpieczony daszek i drabina przed pracami"
+    },
+    {
+      "typ": "foto",
+      "src": "odnowa/17_zabezpieczone-rosliny.jpg",
+      "podpis": "Rośliny zabezpieczone włókniną"
+    },
+    {
+      "typ": "foto",
+      "src": "odnowa/18_rusztowanie-balkon.jpg",
+      "podpis": "Rusztowanie przy balkonie"
+    },
+    {
+      "typ": "foto",
+      "src": "odnowa/19_rusztowanie-i-praca.jpg",
+      "podpis": "Rusztowanie i prace na elewacji"
+    },
+    {
+      "typ": "foto",
+      "src": "odnowa/20_praca-na-rusztowaniu.jpg",
+      "podpis": "Praca przy ścianie na rusztowaniu"
+    },
+    {
+      "typ": "foto",
+      "src": "odnowa/21_stanowisko-pracy.jpg",
+      "podpis": "Stanowisko pracy przy elewacji"
     }
   ]
 }

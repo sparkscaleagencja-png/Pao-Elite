@@ -1454,6 +1454,9 @@ function katOf(it){
   return "Inne";
 }
 let galCat = "Wszystkie";
+/* zdjecia, w ktorych kadr karty ma pokazywac dol obrazu (object-position) */
+const FOKUS_DOL = /slup-i-podbitka|natrysk-przy-cokole/;
+const fokus = it => FOKUS_DOL.test(String(it.src)) ? ' style="object-position:50% 100%"' : "";
 function renderGal(){
   const mk = sel ? sel.key : (mode === "dom" ? "ogolne" : mode);
   let items = GAL_DATA[mk] || [], tytul = sel ? (OPISY[sel.key] || [sel.id])[0] : (mode === "dom" ? "Realizacje" : MODES[mode].krotko);
@@ -1475,7 +1478,7 @@ function renderGal(){
     `<span class="arr"><button type="button" data-d="p" aria-label="Wstecz">‹</button><button type="button" data-d="n" aria-label="Dalej">›</button></span></div>` +
     `<div class="gal-strip" id="galStrip">` + shown.map((it, i) => it.typ === "wideo"
       ? `<button class="gi" type="button" data-i="${i}"><video muted preload="metadata" src="${galSrc(it.src)}#t=0.4"${it.poster ? ` poster="${galSrc(it.poster)}"` : ""}></video><span class="play">▶</span>${it.podpis ? `<span class="cap">${esc(it.podpis)}</span>` : ""}</button>`
-      : `<button class="gi" type="button" data-i="${i}"><img loading="lazy" src="${galSrc(it.src)}" alt="${esc(it.podpis || "")}">${it.podpis ? `<span class="cap">${esc(it.podpis)}</span>` : ""}</button>`).join("") +
+      : `<button class="gi" type="button" data-i="${i}"><img loading="lazy"${fokus(it)} src="${galSrc(it.src)}" alt="${esc(it.podpis || "")}">${it.podpis ? `<span class="cap">${esc(it.podpis)}</span>` : ""}</button>`).join("") +
     `</div></div>`;
 }
 let lbI = 0;

@@ -18,7 +18,7 @@ html,body{margin:0}
 body{font-family:"Inter","Segoe UI",system-ui,sans-serif;background:var(--bg);color:var(--ink);-webkit-font-smoothing:antialiased}
 button{font-family:inherit}
 
-.dom3d{max-width:1400px;margin:0 auto;padding:0 24px 40px}
+.dom3d{max-width:1400px;margin:0 auto;padding:28px 24px 40px}
 /* PAS Z CIEMNEGO BETONU na cala szerokosc + pasek LED u gory (poswiata na wideo nad ramka jest rysowana na stronie glownej) */
 .dom3d-head{position:relative;text-align:center;width:100vw;max-width:none;margin:0 calc(50% - 50vw) 30px;padding:46px max(24px,calc(50vw - 410px)) 42px;color:#fff;
   background:linear-gradient(180deg,rgba(255,138,61,.10),rgba(255,138,61,0) 27%),linear-gradient(rgba(18,14,10,.22),rgba(18,14,10,.22)),url(../img/drewno-bar.webp) center top/auto 520px repeat-x #2b2621;
@@ -251,12 +251,6 @@ ul.layers li small{margin-left:auto;color:var(--muted);font-size:.7rem}
 <body>
 
 <section class="dom3d" id="dom3d">
-  <div class="dom3d-head">
-    <div class="kicker">Interaktywny dom PAO Elite</div>
-    <h2>Kliknij część domu — rozłożymy ją na części pierwsze</h2>
-    <p>Dach, elewacja, dach płaski, garaż, taras i schody. Zobacz, z czego są zbudowane, co robimy i jak to będzie wyglądać u Ciebie.</p>
-  </div>
-
   <div class="dom3d-grid">
     <div class="stage-col">
       <div class="bar" id="bar"></div>

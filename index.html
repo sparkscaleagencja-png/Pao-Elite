@@ -136,12 +136,7 @@ header.onpage .menu-btn span{background:var(--ink)}
 .vov .vcta.ghost{background:#ffffff1f;backdrop-filter:blur(6px);box-shadow:inset 0 0 0 1px #ffffff88}
 .vov .vcta.ghost:hover{background:#ffffff38}
 #vfade{position:absolute;left:0;right:0;bottom:0;height:16vh;pointer-events:none;z-index:5;background:linear-gradient(180deg, rgba(20,22,25,0) 0%, rgba(20,22,25,.82) 100%)}
-/* poświata paska LED (z ramki z domkiem) na dole wideo */
 .dom3d-sec{position:relative}
-.dom3d-sec::before{content:"";position:absolute;left:0;right:0;bottom:100%;height:105px;z-index:8;pointer-events:none;mix-blend-mode:screen;
-  background:linear-gradient(0deg,rgba(255,138,61,.43) 0%,rgba(255,138,61,.17) 38%,rgba(255,138,61,0) 100%);animation:ledGlow 4s ease-in-out infinite}
-@keyframes ledGlow{0%,100%{opacity:.82}50%{opacity:1}}
-@media(prefers-reduced-motion:reduce){.dom3d-sec::before{animation:none}}
 .varr{position:absolute;top:50%;z-index:10;width:52px;height:52px;margin-top:-26px;border:none;border-radius:50%;cursor:pointer;color:#fff;font-size:1.5rem;line-height:1;
   background:rgba(10,13,18,.38);backdrop-filter:blur(8px);box-shadow:inset 0 0 0 1px #ffffff55;transition:background .25s,transform .25s}
 .varr:hover{background:var(--accent);transform:scale(1.08)}
@@ -269,7 +264,7 @@ header.onpage .menu-btn span{background:var(--ink)}
 body.touch .fallback{display:flex}
 
 /* ================= SEKCJE ================= */
-.tiles-sec{padding:5.5rem 1.6rem;max-width:1300px;margin:0 auto}
+.tiles-sec{padding:2.8rem 1.6rem 2.6rem;max-width:1300px;margin:0 auto}
 /* sekcja Uslugi: belka w kolorach loga PAO Elite (antracyt #3d3d3d, biel, jasnoszary #d3d3d3) na cala szerokosc ekranu */
 .fsoc{margin-top:.7rem;display:flex;gap:1.2rem;justify-content:center;flex-wrap:wrap}.fsoc a,footer a{color:inherit;text-decoration:none;font-weight:600}.fsoc a:hover,footer a:hover{color:var(--accent)}
 .uslugi-band{width:100%;background:linear-gradient(rgba(20,22,25,.28),rgba(20,22,25,.28)),url(img/beton-tlo.webp) center top/696px 900px repeat #2c2f33;color:#fff}
@@ -280,16 +275,17 @@ body.touch .fallback{display:flex}
 .eyebrow{font-size:.72rem;letter-spacing:.3em;text-transform:uppercase;color:var(--accent);font-weight:800;margin-bottom:.8rem}
 h2.sec{font-size:clamp(1.5rem,2.8vw,2.2rem);font-weight:800;letter-spacing:-.01em;max-width:660px}
 .lead-d{margin-top:1rem;color:var(--muted);max-width:560px;line-height:1.65;font-size:.95rem}
-.tiles{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;margin-top:2.4rem}
-.tile{position:relative;height:300px;border-radius:6px;overflow:hidden;text-decoration:none;color:#fff;display:flex;align-items:flex-end}
+.tiles{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;margin-top:1.4rem}
+.tile{position:relative;height:190px;border-radius:6px;overflow:hidden;text-decoration:none;color:#fff;display:flex;align-items:flex-end}
 .tile .bgimg{position:absolute;inset:0;transition:transform .6s cubic-bezier(.2,.6,.2,1),filter .4s}
 .tile:hover .bgimg{transform:scale(1.07);filter:brightness(.72)}
 .tile .shade{position:absolute;inset:0;background:linear-gradient(180deg,rgba(18,22,27,.05) 30%,rgba(18,22,27,.82))}
-.tile .tcont{position:relative;padding:1.3rem;width:100%}
-.tile h3{font-size:1.15rem;font-weight:800;letter-spacing:.01em;transition:color .3s}
+.tile .tcont{position:relative;padding:1rem 1.1rem;width:100%}
+.tile h3{font-size:1.02rem;font-weight:800;letter-spacing:.01em;transition:color .3s}
 .tile:hover h3{color:#ffd9c9}
-.tile p{margin-top:.35rem;font-size:.8rem;color:#ffffffc4;line-height:1.45}
-.tile .go{margin-top:.7rem;display:inline-block;font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;font-weight:700;
+.tile p{margin-top:.3rem;font-size:.76rem;color:#ffffffc4;line-height:1.4;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.pe-on .tile{height:auto;min-height:190px}.pe-on .tile p{-webkit-line-clamp:unset;overflow:visible}
+.tile .go{margin-top:.45rem;display:inline-block;font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;font-weight:700;
   border-bottom:2px solid var(--accent);padding-bottom:.15rem}
 .bg-fac{background:linear-gradient(120deg,#b7b1a4 0 44%,#f3f0e8 44%)}
 .bg-roof{background:repeating-linear-gradient(112deg,#7c4634 0 22px,#94523a 22px 44px)}
@@ -300,7 +296,7 @@ h2.sec{font-size:clamp(1.5rem,2.8vw,2.2rem);font-weight:800;letter-spacing:-.01e
 .bg-stone{background:radial-gradient(circle at 30% 30%,#e2bba9 2.6px,transparent 3.4px) 0 0/11px 11px,radial-gradient(circle at 70% 60%,#9a5848 2.4px,transparent 3.2px) 0 0/13px 13px,#b8735f}
 .bg-insul{background:linear-gradient(90deg,#a5583f 0 22%,#9a9993 22% 26%,#f4f4f1 26% 64%,#c9d9b4 64% 70%,#ede7da 70%)}
 @media(max-width:1000px){.tiles{grid-template-columns:1fr 1fr}}
-@media(max-width:560px){.tiles{grid-template-columns:1fr}.tile{height:220px}}
+@media(max-width:560px){.tiles{grid-template-columns:1fr}.tile{height:170px}}
 .why{background:#fff;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
 .why .in{max-width:1300px;margin:0 auto;padding:4.5rem 1.6rem;display:grid;grid-template-columns:1fr 1fr;gap:3rem;align-items:start}
 .why ol{list-style:none;counter-reset:st;margin-top:1.6rem}
@@ -480,12 +476,6 @@ footer b{color:var(--ink)}
   </div>
 </div>
 
-<!-- ==================== HERO Z INTERAKTYWNYM DOMKIEM ==================== -->
-<section id="dom" class="dom3d-sec">
-  <iframe id="dom3dFrame" src="warianty/dom-rozkladany.html?v=20261105d" title="Interaktywny dom PAO Elite — kliknij część domu"
-    loading="lazy" style="display:block;width:100%;height:1040px;border:0;background:var(--bg)"></iframe>
-</section>
-
 <!-- ==================== KAFELKI ==================== -->
 <section class="uslugi-band" id="uslugi">
 <div class="tiles-sec">
@@ -527,6 +517,12 @@ footer b{color:var(--ink)}
     </a>
   </div>
 </div>
+</section>
+
+<!-- ==================== HERO Z INTERAKTYWNYM DOMKIEM ==================== -->
+<section id="dom" class="dom3d-sec">
+  <iframe id="dom3dFrame" src="warianty/dom-rozkladany.html?v=20261105e" title="Interaktywny dom PAO Elite — kliknij część domu"
+    loading="lazy" style="display:block;width:100%;height:1040px;border:0;background:var(--bg)"></iframe>
 </section>
 
 <!-- ==================== PROCES / DLACZEGO ==================== -->

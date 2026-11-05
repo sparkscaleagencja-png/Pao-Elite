@@ -39,6 +39,83 @@
       "podpis": "Dach po renowacji"
     }
   ],
+  "hydro": [
+    {
+      "typ": "foto",
+      "src": "hydro/00-01_po-dach-plaski-osiedle.jpg",
+      "podpis": "Dach płaski po hydroizolacji — jednolita biała powłoka"
+    },
+    {
+      "typ": "foto",
+      "src": "hydro/00-02_po-dach-plaski-hala.jpg",
+      "podpis": "Dach płaski hali po hydroizolacji — szara membrana"
+    },
+    {
+      "typ": "foto",
+      "src": "hydro/00-03_po-dach-plaski-obrobki.jpg",
+      "podpis": "Dach płaski po hydroizolacji — komplet obróbek i wywiewek"
+    },
+    {
+      "typ": "foto",
+      "src": "hydro/00-04_po-dach-plaski-komin-i-antena.jpg",
+      "podpis": "Dach płaski po — membrana wokół kominów i wywiewek"
+    },
+    {
+      "typ": "foto",
+      "src": "hydro/00-05_po-dach-plaski-detal-komina.jpg",
+      "podpis": "Dach płaski po — obróbka komina z cegły"
+    },
+    {
+      "typ": "foto",
+      "src": "hydro/00-06_po-dach-plaski-przy-attyce.jpg",
+      "podpis": "Dach płaski po — powłoka wywinięta na attykę"
+    },
+    {
+      "typ": "foto",
+      "src": "hydro/00-07_po-dach-plaski-widok.jpg",
+      "podpis": "Dach płaski po hydroizolacji — widok na sąsiedztwo"
+    },
+    {
+      "typ": "foto",
+      "src": "hydro/00-08_po-dach-plaski-wywiewka.jpg",
+      "podpis": "Dach płaski po — obróbka wywiewki"
+    },
+    {
+      "typ": "foto",
+      "src": "hydro/00-09_po-dach-plaski-komin-ceglany.jpg",
+      "podpis": "Dach płaski po — komin ceglany z wywiniętą membraną"
+    },
+    {
+      "typ": "foto",
+      "src": "hydro/00-10_po-dach-plaski-przy-kominie.jpg",
+      "podpis": "Dach płaski po — gładka powierzchnia przy kominie"
+    },
+    {
+      "typ": "foto",
+      "src": "hydro/01_stan-poczatkowy-papa-osiedle.jpg",
+      "podpis": "Stary dach płaski z papy przed hydroizolacją"
+    },
+    {
+      "typ": "foto",
+      "src": "hydro/02_stan-poczatkowy-papa-spekania.jpg",
+      "podpis": "Papa przed hydroizolacją — spękania i plamy"
+    },
+    {
+      "typ": "foto",
+      "src": "hydro/03_walek-biala-membrana-na-papie.jpg",
+      "podpis": "W trakcie prac — biała membrana na starej papie"
+    },
+    {
+      "typ": "foto",
+      "src": "hydro/04_probka-pedzlem-na-papie.jpg",
+      "podpis": "Próbka powłoki nałożona pędzlem na starej papie"
+    },
+    {
+      "typ": "foto",
+      "src": "hydro/05_walek-na-papie.jpg",
+      "podpis": "Nakładanie powłoki wałkiem na papie"
+    }
+  ],
   "odnowa": [
     {
       "typ": "wideo",
@@ -208,6 +285,10 @@
     }
   ],
   "przedpo": {
+    "hydro": {
+      "po": "przedpo/hydro_po.jpg",
+      "przed": "przedpo/hydro_przed.jpg"
+    },
     "odnowa": {
       "po": "przedpo/odnowa_po.jpg",
       "przed": "przedpo/odnowa_przed.jpg"

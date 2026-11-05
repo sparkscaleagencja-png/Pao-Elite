@@ -596,7 +596,7 @@ const M = {
   brama:    new THREE.MeshStandardMaterial({color:"#d9dbdb", roughness:.5, metalness:.25}),
   attyka:   new THREE.MeshStandardMaterial({color:"#9fa3a4", roughness:.7}),
   papa:     new THREE.MeshStandardMaterial({map:texTar, roughness:.9}),
-  zywica:   new THREE.MeshStandardMaterial({color:"#d8e9f3", roughness:.12, metalness:.08, alphaMap:texResinMask, transparent:true}),
+  zywica:   new THREE.MeshStandardMaterial({color:"#f3f4f2", roughness:.62, metalness:0, alphaMap:texResinMask, transparent:true}),
   posadzka: new THREE.MeshStandardMaterial({map:texFloor, roughness:.25}),
   kamien:   new THREE.MeshStandardMaterial({map:texStone, roughness:.75}),
   kamienS:  new THREE.MeshStandardMaterial({map:texStone, roughness:.75}),
@@ -983,8 +983,16 @@ const kanalMat = new THREE.MeshStandardMaterial({color:"#3f6a88", roughness:.25,
   const lm = new THREE.LineBasicMaterial({color:0x6f93aa, transparent:true, opacity:.55}); kanalLines = lm;
   scene.add(new THREE.LineSegments(lg, lm));
   for (let i = -2; i <= 2; i++){ const r = box(.3, .025, .025, M.attyka); r.position.set(wp.position.x, wp.position.y + .012, GCZ + i * .06); scene.add(r); } }
+/* wywiewki (czarna nasadka) i maly komin na dachu plaskim, jak na prawdziwych realizacjach; membrana wywinieta na ich podstawe */
+{ const cx = GX0 + .06 + RW / 2, ventM = new THREE.MeshStandardMaterial({color:"#f3f4f2", roughness:.6}), capM = new THREE.MeshStandardMaterial({color:"#1c1d1f", roughness:.45});
+  for (const [ux, uz] of [[-.28, -.3], [.12, .3], [-.05, .34]]){
+    const x = cx + ux * RW, z = GCZ + uz * RDp, y = BASE - .02;
+    const base = reg("garaz-dach", new THREE.Mesh(new THREE.CylinderGeometry(.045, .05, .1, 16), ventM), false); base.position.set(x, y + .05, z); scene.add(base);
+    const cap = reg("garaz-dach", new THREE.Mesh(new THREE.CylinderGeometry(.07, .07, .035, 16), capM), false); cap.position.set(x, y + .118, z); scene.add(cap); }
+  const ch = reg("garaz-dach", ink(box(.2, .26, .2, ventM), true), false); ch.position.set(cx - RW * .34, BASE - .02 + .13, GCZ + RDp * .1); scene.add(ch);
+  const chc = reg("garaz-dach", box(.25, .03, .25, M.attyka), false); chc.position.set(ch.position.x, ch.position.y + .145, ch.position.z); scene.add(chc); }
 // wywiniecie zywicy na attyke i sciane domu (basen) — pojawia sie na koniec wylewania
-M.zywicaB = new THREE.MeshStandardMaterial({color:"#d8e9f3", roughness:.12, metalness:.08, transparent:true, opacity:1});
+M.zywicaB = new THREE.MeshStandardMaterial({color:"#f3f4f2", roughness:.62, metalness:0, transparent:true, opacity:1});
 const resinUp = [];
 { const UH = .18, t = .012, x0 = GX0 + .06, x1 = GX1, z0 = GZ0 + .1, z1 = GZ1 - .1, y = BASE + UH / 2 - .02;
   [[x1 - x0, t, (x0 + x1) / 2, z0], [x1 - x0, t, (x0 + x1) / 2, z1], [t, z1 - z0, x1, (z0 + z1) / 2], [t, z1 - z0, x0, (z0 + z1) / 2]].forEach(([w, d, x, z]) => {
@@ -999,7 +1007,7 @@ const TEX_GOTOWA = {
   "kamien-mapa":   () => redraw(texStone, drawStone),
   "kamien-normal": im => dodajN([M.kamien, M.kamienS], texN(im, 1024, 1024, 1024, true), .9),
   "pu":            im => { const t = ctex(1024, 1024, (g, W, H) => tileImg(g, im, W, H, W / 2));   // calkowity rozmiar kafla: ulamkowy dawal widoczne szwy
-                           [M.zywica, M.zywicaB].forEach(m => { m.map = t; m.color.set("#f4f8fb"); m.roughness = .22; m.needsUpdate = true; }); },
+                           [M.zywica, M.zywicaB].forEach(m => { m.map = t; m.color.set("#f6f6f4"); m.roughness = .6; m.needsUpdate = true; }); },
   "pu-normal":     im => dodajN([M.zywica, M.zywicaB], texN(im, 1024, 1024, 512), .7),
   "papa":          im => redraw(texTar, (g, W, H) => tileImg(g, im, W, H, W / 2)),
   "papa-normal":   im => dodajN([M.papa], texN(im, 1024, 1024, 512), .6),
@@ -1441,9 +1449,11 @@ function updateLead(){
 }
 const galEl = $("#galSec");
 let galItems = [];
-const KAT_ORDER = ["Realizacje", "Mycie", "Prace tynkarskie", "Akrylowanie", "Zabezpieczanie", "Rusztowania", "Dachy", "Inne"];
+const KAT_ORDER = ["Realizacje", "Stan przed", "Aplikacja", "Mycie", "Prace tynkarskie", "Akrylowanie", "Zabezpieczanie", "Rusztowania", "Dachy", "Inne"];
 function katOf(it){
   const f = String(it.src).toLowerCase(), t = f + " " + String(it.podpis || "").toLowerCase();
+  if (/poczatkow/.test(f)) return "Stan przed";
+  if (/walek|probka/.test(f)) return "Aplikacja";
   if (/(^|[\/_-])(przed-i-po|przed-|po-|efekt)/.test(f.split("/").pop().replace(/^[\d-]+_/, "_"))) return "Realizacje";
   if (/mycie/.test(f)) return "Mycie";
   if (/dachowk|blach|\bdach/.test(f)) return "Dachy";
@@ -1470,7 +1480,7 @@ function renderGal(){
   let inne = false;
   if (!items.length){
     if (!sel && mode === "dom") items = wszystkie();                       // widok calego domu: wszystko, zeby galeria nigdy nie byla pusta
-    else { items = wszystkie().filter(it => katOf(it) === "Realizacje"); inne = items.length > 0; }   // usluga bez wlasnych zdjec: pokaz gotowe realizacje
+    else { items = (GAL_DATA.odnowa || []).filter(it => katOf(it) === "Realizacje"); inne = items.length > 0; }   // usluga bez wlasnych zdjec: pokaz gotowe realizacje
   } else if (SERWIS_KAT[mode]) items = items.filter(it => SERWIS_KAT[mode].includes(katOf(it)));   // kazda usluga ma swoje rodzaje folderow
   const counts = {}; items.forEach(it => { const k = katOf(it); counts[k] = (counts[k] || 0) + 1; });
   const cats = KAT_ORDER.filter(k => counts[k]);

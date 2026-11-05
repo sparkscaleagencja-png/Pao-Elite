@@ -47,6 +47,15 @@ for klucz in sorted(os.listdir(ROOT)):
             if os.path.splitext(f)[1].lower() in FOTO:
                 manifest["opisy"][os.path.splitext(f)[0]] = {"foto": "opisy/" + f}
         continue
+    if klucz == "przedpo":
+        # szybkie przed/po (panel z lewej): pliki <klucz>_przed.jpg i <klucz>_po.jpg, np. odnowa_przed.jpg + odnowa_po.jpg
+        pary = {}
+        for f in pliki:
+            m = re.match(r"^(.+)_(przed|po)\.(\w+)$", f, re.I)
+            if m and "." + m.group(3).lower() in FOTO:
+                pary.setdefault(m.group(1), {})[m.group(2).lower()] = "przedpo/" + f
+        manifest["przedpo"] = {k: v for k, v in pary.items() if "przed" in v and "po" in v}
+        continue
     wpisy, nazwy = [], {os.path.splitext(f)[0] for f in pliki}
     for f in pliki:
         base, ext = os.path.splitext(f); ext = ext.lower()
@@ -66,6 +75,11 @@ for klucz in sorted(os.listdir(ROOT)):
 for alias, zrodlo in ALIASY.items():
     if alias not in manifest and zrodlo in manifest:
         manifest[alias] = manifest[zrodlo]
+
+for alias, zrodlo in ALIASY.items():        # przed/po tak samo: tryby tej samej czesci domu dziela pare
+    pp = manifest.get("przedpo")
+    if pp is not None and alias not in pp and zrodlo in pp:
+        pp[alias] = pp[zrodlo]
 
 with open(os.path.join(ROOT, "manifest.json"), "w", encoding="utf-8") as fh:
     json.dump(manifest, fh, ensure_ascii=False, indent=2)

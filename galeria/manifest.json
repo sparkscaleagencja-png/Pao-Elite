@@ -51,6 +51,20 @@
       "podpis": "Akrylowanie styku ramy okna z tynkiem"
     }
   ],
+  "przedpo": {
+    "odnowa": {
+      "po": "przedpo/odnowa_po.jpg",
+      "przed": "przedpo/odnowa_przed.jpg"
+    },
+    "docieplanie": {
+      "po": "przedpo/odnowa_po.jpg",
+      "przed": "przedpo/odnowa_przed.jpg"
+    },
+    "podbitka": {
+      "po": "przedpo/odnowa_po.jpg",
+      "przed": "przedpo/odnowa_przed.jpg"
+    }
+  },
   "wymiana": [
     {
       "typ": "foto",

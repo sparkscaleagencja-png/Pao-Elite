@@ -105,8 +105,9 @@ button{font-family:inherit}
 .panel .in{animation:wej .45s var(--ease)}
 /* osadzone w iframe na stronie glownej: bez vh (vh liczy sie od ramki) */
 .embed body{overflow:hidden}
-.embed .stage{height:620px}
-.embed .panel{max-height:706px}
+.embed .stage{height:460px}
+.embed .panel{max-height:550px}
+.embed .q-in{max-height:350px}
 @media(max-width:700px){.embed .stage{height:440px;min-height:0}}
 @keyframes wej{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
 .back{border:none;background:none;color:var(--muted);font-size:.78rem;font-weight:600;cursor:pointer;padding:0;margin-bottom:10px}
@@ -199,7 +200,7 @@ ul.layers li small{margin-left:auto;color:var(--muted);font-size:.7rem}
 .gal-head .arr button{width:32px;height:32px;border:none;border-radius:50%;background:var(--chip);cursor:pointer;font-size:1rem;color:var(--ink)}
 .gal-head .arr button:hover{background:var(--accent);color:#fff}
 .gal-strip{display:flex;gap:10px;overflow-x:auto;scroll-snap-type:x proximity;padding-bottom:6px;scrollbar-width:thin}
-.gi{flex:none;width:200px;aspect-ratio:4/3;border:none;padding:0;border-radius:8px;overflow:hidden;position:relative;cursor:pointer;scroll-snap-align:start;
+.gi{flex:none;width:175px;aspect-ratio:4/3;border:none;padding:0;border-radius:8px;overflow:hidden;position:relative;cursor:pointer;scroll-snap-align:start;
   background:#efede8;box-shadow:inset 0 0 0 1px var(--line);transition:transform .2s var(--ease), box-shadow .2s}
 .gi:hover{transform:translateY(-2px);box-shadow:inset 0 0 0 1px var(--accent), 0 8px 18px rgba(20,24,30,.12)}
 .gi img,.gi video{width:100%;height:100%;object-fit:cover;display:block}
@@ -228,6 +229,7 @@ ul.layers li small{margin-left:auto;color:var(--muted);font-size:.7rem}
 
   <div class="dom3d-grid">
     <div class="stage-col">
+      <div class="bar" id="bar"></div>
       <div class="stage" id="stage">
         <canvas id="cv" aria-label="Model 3D domu — kliknij część, aby zobaczyć usługę"></canvas>
         <div class="labels" id="labels"></div>
@@ -238,7 +240,6 @@ ul.layers li small{margin-left:auto;color:var(--muted);font-size:.7rem}
         <button class="nav-back off" id="navBack" type="button" aria-label="Wstecz — poprzedni widok" title="Wstecz">←</button>
         <div class="stage-tip" id="tip">przeciągnij, aby obrócić · kliknij część domu</div>
       </div>
-      <div class="bar" id="bar"></div>
     </div>
     <aside class="panel" id="panel" aria-live="polite"></aside>
   </div>
@@ -1418,6 +1419,11 @@ function renderGal(){
   const mk = sel ? sel.key : (mode === "dom" ? "ogolne" : mode);
   let items = GAL_DATA[mk] || [], tytul = sel ? (OPISY[sel.key] || [sel.id])[0] : (mode === "dom" ? "Realizacje" : MODES[mode].krotko);
   if (sel && !items.length && GAL_DATA[mode] && GAL_DATA[mode].length){ items = GAL_DATA[mode]; tytul = MODES[mode].krotko; }
+  if (!items.length && !sel && mode === "dom"){   // widok calego domu: pokaz wszystkie zdjecia, zeby galeria nigdy nie byla pusta
+    const seen = new Set(); items = [];
+    for (const k of Object.keys(GAL_DATA)){ if (!Array.isArray(GAL_DATA[k])) continue;
+      for (const it of GAL_DATA[k]){ if (!seen.has(it.src)){ seen.add(it.src); items.push(it); } } }
+  }
   galItems = items;
   const n = items.length, pad = Math.max(0, 6 - n);
   galEl.innerHTML = `<div class="gal-head"><b>Zdjęcia i filmy z realizacji — ${tytul}</b><small>${n ? n + " materiałów" : "wkrótce"}</small>` +

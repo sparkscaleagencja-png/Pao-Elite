@@ -170,6 +170,7 @@ ul.layers li small{margin-left:auto;color:var(--muted);font-size:.7rem}
 .co-x{position:absolute;right:-6px;top:-6px;width:24px;height:24px;border:none;border-radius:50%;background:var(--ink);color:#fff;cursor:pointer;font-size:.9rem;line-height:1}
 .co-x:hover{background:var(--accent)}
 .lead-line{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:1;overflow:visible}
+.lead-line{display:none!important}   /* linia z kropka do warstwy usunieta na zyczenie */
 .lead-line path{fill:none;stroke:var(--ink);stroke-width:1.6;stroke-linejoin:round}
 .lead-line circle{fill:var(--accent);stroke:#fff;stroke-width:2}
 @media(max-width:700px){.callout{width:150px;top:62px}.co-foto{display:none}.co-txt{font-size:.72rem}}
@@ -203,6 +204,15 @@ ul.layers li small{margin-left:auto;color:var(--muted);font-size:.7rem}
 .q-x:hover{background:var(--accent)}
 @media(max-width:700px){.quick{width:170px;top:58px}.q-in{padding:7px 7px 9px}.q-txt{font-size:.68rem}.q-spec{font-size:.66rem;padding:.5rem .7rem .5rem 1.3rem}.q-tyt{font-size:.85rem}.qba{aspect-ratio:1/1}}
 @media(prefers-reduced-motion:reduce){.quick,.q-spec{transition:opacity .2s}.q-spec{transform:none}}
+/* szerokie ekrany: panel stoi w pustym polu po lewej stronie sceny, wyzszy kadr zdjec */
+@media(min-width:1900px){.stage{overflow:visible}#cv{border-radius:14px}.quick{left:-262px;top:0;width:244px}.qba{aspect-ratio:4/5}.q-in{max-height:none}}
+/* panel po prawej: glownie opis uslugi */
+.desc p{margin:0 0 .7rem;font-size:.9rem;line-height:1.6;color:#2d3238}
+.desc p:last-child{margin-bottom:0}
+.when{list-style:none;margin:0;padding:0;display:grid;gap:.4rem}
+.when li{position:relative;padding-left:1.15rem;font-size:.86rem;line-height:1.45;color:#2d3238}
+.when li::before{content:"";position:absolute;left:.1rem;top:.5em;width:.5rem;height:.5rem;background:var(--accent);clip-path:polygon(0 0,100% 50%,0 100%)}
+.wycena{margin-top:.2rem;padding:.7rem .85rem;background:var(--chip);font-size:.8rem;line-height:1.5;color:#3a4047;clip-path:polygon(0 0,100% 0,100% calc(100% - 10px),calc(100% - 10px) 100%,0 100%)}
 /* galeria wykonu (pasek na dole, przewijany, dowolnie dluga) */
 /* galeria: drewniany pas na cala szerokosc jak naglowek, LED odwrocony o 180 stopni (swieci na dole, poswiata w gore) */
 .gal-sec{--gp:max(28px,calc(50vw - 760px));position:relative;width:100vw;max-width:none;margin:30px calc(50% - 50vw) -40px;padding:0 0 46px;color:#fff;
@@ -1114,7 +1124,37 @@ const MODES = {};
 
 function sibs(cur){ const part = MODES[cur].part; const list = GROUPS[part];
   return list.length > 1 ? '<div class="sibs">' + list.map(m => `<button data-go="${m}" class="${m === cur ? "on" : ""}">${MODES[m].krotko}</button>`).join("") + "</div>" : ""; }
-function head(m){ return `<button class="back" data-go="dom">← cały dom</button><div class="p-kick">${m.kicker}</div><h3>${m.tytul}</h3>${sibs(m.id)}<p class="lead">${m.lead}</p>`; }
+const WYCENA = "Wstępną wycenę robimy ze zdjęć, a wiążącą po oględzinach. Termin realizacji ustalamy i zapisujemy w umowie.";
+const OPIS = {
+  odnowa: {p:["To pełna odnowa elewacji bez skuwania starego tynku. Zaczynamy od zabezpieczenia okien, drzwi, rynien i otoczenia, potem myjemy ciśnieniowo i usuwamy glony oraz luźne fragmenty. Pęknięcia i ubytki naprawiamy, krawędzie podcinamy i starannie wykańczamy, a tynk dostaje całkowicie nową strukturę.",
+    "Całość malujemy dwukrotnie farbą silikonową marki " + STOI + " lub innego sprawdzonego producenta. Technologię dobieramy do podłoża, a nie odwrotnie.",
+    "Okna i drzwi uszczelniamy na styku z tynkiem akrylem. To nasza specjalność: zwykle robią to glazurnicy, a my wyszkoliliśmy w tym własnych pracowników. To nie jest zwykłe silikonowanie."],
+    kiedy:["Zielony nalot z glonów lub brudne zacieki", "Pęknięcia, odspajająca się farba i ubytki tynku", "Wyblakły lub nierówny kolor", "Chcesz zmienić kolor domu"]},
+  docieplanie: {p:["Termomodernizacja to ocieplenie ścian w systemie " + STOI + ": przygotowanie muru, klejenie płyt ocieplenia, warstwa zbrojona z siatką, grunt, nowy tynk i farba. Każda warstwa ma swoje zadanie. Kliknij ją na liście, a pokażemy ją na modelu.",
+    "Krawędzie, ościeża i obróbki wykańczamy starannie, żeby całość była szczelna i trwała."],
+    kiedy:["Ściany szybko się wychładzają", "Wilgoć lub pleśń przy zewnętrznych ścianach", "Chcesz ocieplić dom przy okazji remontu elewacji"]},
+  podbitka: {p:["Wymieniamy uszkodzone deski i deskę czołową przy okapie, zmatawiamy całą podbitkę i impregnujemy ją w jednym kolorze. Stare i nowe drewno wygląda potem tak samo.",
+    "Robimy to osobno albo razem z renowacją elewacji."],
+    kiedy:["Szare, wyblakłe drewno", "Spróchniałe lub wypaczone deski", "Ślady wilgoci przy okapie"]},
+  wymiana: {p:["Rozbieramy dach do więźby i składamy go od nowa: kontrola więźby, deskowanie, membrana, kontrłaty i łaty, a na końcu nowe pokrycie z obróbkami, gąsiorami i rynnami. Pokrycie wybierasz z ceramiki, cementu albo blachodachówki.",
+    "Eternit i azbest demontujemy i utylizujemy zgodnie z przepisami. Ostateczny termin usunięcia azbestu i eternitu z budynków to 31 grudnia 2032 roku."],
+    kiedy:["Eternit lub azbest na dachu", "Dach przecieka mimo napraw", "Zniszczona lub zawilgocona więźba"]},
+  dachowka: {p:["Myjemy dach ciśnieniowo, usuwamy mech i porosty, gruntujemy i nakładamy dwukrotną powłokę ochronną w nowym kolorze z palety RAL. Dotyczy dachówki ceramicznej, cementowej i blachy.",
+    "Po ocenie stanu technicznego dachu to często tańsza opcja niż wymiana całego pokrycia."],
+    kiedy:["Mech i porosty na dachówce", "Wyblakły kolor lub ogniska rdzy na blasze", "Łuszcząca się powłoka"]},
+  kuna: {p:["Usuwamy zniszczoną wełnę i membranę, naprawiamy poddasze i uzupełniamy ocieplenie. Zabezpieczamy okapy i szczeliny, żeby kuna nie wróciła."],
+    kiedy:["Hałasy i zapach na poddaszu", "Zniszczone ocieplenie", "Kuna wchodzi przez okapy"]},
+  hydro: {p:["Zamiast kolejnej warstwy papy kładziemy bezspoinową membranę z żywicy epoksydowo-poliuretanowej. Czyścimy podłoże, gruntujemy, wzmacniamy narożniki i przejścia przez dach, a potem nakładamy powłokę na całą powierzchnię. Wywijamy ją na attykę i obróbki.",
+    "W wielu przypadkach da się to zrobić bez zrywania starej papy, jeśli pozwala na to stan podłoża."],
+    kiedy:["Przecieki i stojąca woda na dachu", "Spękana lub pęcherzykowata papa", "Nie chcesz zrywać starych warstw"]},
+  posadzka: {p:["Posadzki żywiczne do garażu w wybranym kolorze, łatwe w utrzymaniu. Odporność na ścieranie, oleje, paliwa i chemię zależy od zastosowanego systemu żywicy. Wywijamy ją na ściany, żeby powstała szczelna wanna."],
+    kiedy:["Pylący, kruszący się beton", "Plamy po oleju", "Chcesz łatwo sprzątać garaż"]},
+  taras: {p:["Kamienny dywan i żywice na tarasy, balkony i schody. Wykończenie jest antypoślizgowe, a hydroizolację i odporność na mróz oraz UV dobieramy do podłoża i systemu."],
+    kiedy:["Śliskie lub zniszczone schody", "Pękające płytki na tarasie", "Woda zalewa podłoże"]}
+};
+function opisHtml(id){ const o = OPIS[id]; if (!o) return ""; return '<div class="sec desc"><h4>O usłudze</h4>' + o.p.map(t => `<p>${t}</p>`).join("") + "</div>" +
+  (o.kiedy ? '<div class="sec"><h4>Kiedy to ma sens</h4><ul class="when">' + o.kiedy.map(t => `<li>${t}</li>`).join("") + "</ul></div>" : "") + `<div class="sec"><div class="wycena">${WYCENA}</div></div>`; }
+function head(m){ return `<button class="back" data-go="dom">← cały dom</button><div class="p-kick">${m.kicker}</div><h3>${m.tytul}</h3>${sibs(m.id)}` + (OPIS[m.id] ? opisHtml(m.id) : `<p class="lead">${m.lead}</p>`); }
 function steps(a){ return '<div class="sec"><h4>Na czym polega</h4><ol class="steps">' + a.map(s => `<li>${s}</li>`).join("") + "</ol></div>"; }
 function why(a){ return '<div class="sec"><h4>Dlaczego warto</h4><ul class="why">' + a.map(s => `<li>${s}</li>`).join("") + "</ul></div>"; }
 function layersList(arr, tytul){ return `<div class="sec"><h4>${tytul}</h4><ul class="layers">` + arr.map((L, i) => `<li data-layer="${L.id}"><b style="background:${L.kol}"></b>${L.nazwa}<small>${i + 1}</small></li>`).join("") + "</ul></div>"; }

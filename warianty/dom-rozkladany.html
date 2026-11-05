@@ -204,15 +204,33 @@ ul.layers li small{margin-left:auto;color:var(--muted);font-size:.7rem}
 @media(max-width:700px){.quick{width:170px;top:58px}.q-in{padding:7px 7px 9px}.q-txt{font-size:.68rem}.q-spec{font-size:.66rem;padding:.5rem .7rem .5rem 1.3rem}.q-tyt{font-size:.85rem}.qba{aspect-ratio:1/1}}
 @media(prefers-reduced-motion:reduce){.quick,.q-spec{transition:opacity .2s}.q-spec{transform:none}}
 /* galeria wykonu (pasek na dole, przewijany, dowolnie dluga) */
-.gal-sec{margin-top:16px;background:var(--panel);border-radius:12px;box-shadow:inset 0 0 0 1px var(--line);padding:14px 14px 16px}
-.gal-head{display:flex;align-items:baseline;gap:.7rem;margin-bottom:10px;flex-wrap:wrap}
-.gal-head b{font-size:.95rem;font-weight:800}
-.gal-head small{color:var(--muted);font-size:.74rem}
-.gal-head .arr{margin-left:auto;display:flex;gap:6px}
-.gal-head .arr button{width:32px;height:32px;border:none;border-radius:50%;background:var(--chip);cursor:pointer;font-size:1rem;color:var(--ink)}
-.gal-head .arr button:hover{background:var(--accent);color:#fff}
-.gal-strip{display:flex;gap:10px;overflow-x:auto;scroll-snap-type:x proximity;padding-bottom:6px;scrollbar-width:thin}
-.gi{flex:none;width:175px;aspect-ratio:4/3;border:none;padding:0;border-radius:8px;overflow:hidden;position:relative;cursor:pointer;scroll-snap-align:start;
+/* galeria: drewniany pas na cala szerokosc jak naglowek, LED odwrocony o 180 stopni (swieci na dole, poswiata w gore) */
+.gal-sec{--gp:max(28px,calc(50vw - 760px));position:relative;width:100vw;max-width:none;margin:30px calc(50% - 50vw) -40px;padding:0 0 46px;color:#fff;
+  background:linear-gradient(0deg,rgba(255,138,61,.10),rgba(255,138,61,0) 27%),linear-gradient(rgba(18,14,10,.22),rgba(18,14,10,.22)),url(../img/drewno-bar.webp) center bottom/auto 520px repeat-x #2b2621;
+  box-shadow:0 -18px 38px rgba(20,24,30,.28)}
+.gal-sec::before{content:"";position:absolute;left:0;right:0;bottom:0;height:7px;z-index:2;
+  background:linear-gradient(0deg,#fff1dc 0%,#ffb066 38%,#ff8a3d 100%);
+  box-shadow:0 0 10px 2px rgba(255,138,61,.6),0 -7px 32px 8px rgba(255,138,61,.27);animation:ledPulse 4s ease-in-out infinite}
+.gal-sec::after{content:"";position:absolute;left:0;right:0;bottom:7px;height:49px;pointer-events:none;background:linear-gradient(0deg,rgba(255,138,61,.21),rgba(255,138,61,0))}
+@media(prefers-reduced-motion:reduce){.gal-sec::before{animation:none}}
+.gal-cats{position:relative;z-index:1;display:flex;gap:8px;flex-wrap:wrap;justify-content:center;padding:18px var(--gp);background:rgba(10,8,6,.62);border-bottom:2px solid #ff8a3d;box-shadow:0 10px 26px rgba(0,0,0,.35)}
+.gal-cat{--c:12px;border:2px solid rgba(255,255,255,.28);background:rgba(255,255,255,.06);color:#fff;cursor:pointer;font-family:inherit;font-weight:800;font-size:.8rem;letter-spacing:.04em;text-transform:uppercase;white-space:nowrap;
+  padding:.7rem .8rem;display:inline-flex;align-items:center;gap:.45rem;transition:background .2s,color .2s,transform .2s;
+  clip-path:polygon(var(--c) 0,100% 0,100% calc(100% - var(--c)),calc(100% - var(--c)) 100%,0 100%,0 var(--c))}
+.gal-cat small{font-size:.72rem;font-weight:800;background:rgba(255,255,255,.18);padding:.12rem .5rem;border-radius:99px;letter-spacing:.02em}
+.gal-cat:hover{background:rgba(255,138,61,.35);transform:translateY(-2px)}
+.gal-cat.on{background:#ff8a3d;border-color:#ff8a3d;color:#1d2126}
+.gal-cat.on small{background:rgba(29,33,38,.2)}
+.gal-in{position:relative;z-index:1;padding:22px var(--gp) 0}
+.gal-head{display:flex;align-items:baseline;gap:.8rem;margin-bottom:14px;flex-wrap:wrap}
+.gal-head b{font-size:1.15rem;font-weight:800;color:#fff;text-shadow:0 2px 10px rgba(0,0,0,.5)}
+.gal-head small{color:#cfd4d9;font-size:.82rem}
+.gal-head .arr{margin-left:auto;display:flex;gap:8px}
+.gal-head .arr button{width:40px;height:40px;border:none;border-radius:50%;background:rgba(255,255,255,.16);cursor:pointer;font-size:1.2rem;color:#fff}
+.gal-head .arr button:hover{background:#ff8a3d;color:#1d2126}
+.gal-strip{display:flex;gap:14px;overflow-x:auto;scroll-snap-type:x proximity;padding-bottom:12px;scrollbar-width:thin;scrollbar-color:#ff8a3d rgba(255,255,255,.12)}
+@media(max-width:700px){.gal-cats{flex-wrap:nowrap;overflow-x:auto;justify-content:flex-start;padding:12px 16px;scrollbar-width:none}.gal-cat{flex:none;font-size:.78rem;padding:.7rem 1rem}.gal-in{padding:16px 16px 0}}
+.gi{flex:none;width:clamp(210px,19vw,300px);aspect-ratio:4/3;border:none;padding:0;border-radius:8px;overflow:hidden;position:relative;cursor:pointer;scroll-snap-align:start;
   background:#efede8;box-shadow:inset 0 0 0 1px var(--line);transition:transform .2s var(--ease), box-shadow .2s}
 .gi:hover{transform:translateY(-2px);box-shadow:inset 0 0 0 1px var(--accent), 0 8px 18px rgba(20,24,30,.12)}
 .gi img,.gi video{width:100%;height:100%;object-fit:cover;display:block}
@@ -1269,8 +1287,9 @@ document.addEventListener("click", e => {
   if (e.target.closest("#navBack")){ back(); return; }
   if (e.target.closest(".co-x")){ selectLayer(null); return; }
   const lw = e.target.closest("[data-layer]"); if (lw){ selectLayer(lw.dataset.layer); return; }
+  const kc = e.target.closest(".gal-cat"); if (kc){ galCat = kc.dataset.kat; renderGal(); return; }
   const gi = e.target.closest(".gi[data-i]"); if (gi){ otworzLb(+gi.dataset.i); return; }
-  if (e.target.closest(".gal-head .arr button")){ const st = $("#galStrip"); if (st) st.scrollBy({left:(e.target.dataset.d === "p" ? -1 : 1) * 420, behavior:"smooth"}); return; }
+  if (e.target.closest(".gal-head .arr button")){ const st = $("#galStrip"); if (st) st.scrollBy({left:(e.target.dataset.d === "p" ? -1 : 1) * 640, behavior:"smooth"}); return; }
   if (e.target.id === "bAkryl"){ S.acryl = 0; tw("acryl", 1, 2400); showSpec(); return; }
   if (e.target.id === "bPodb"){ S.podb = 0; tw("podb", 1, 4200, t => t); return; }
   if (e.target.id === "bZloz"){ tw("roofT", S.roofT > .5 ? 0 : 1, 1500); return; }
@@ -1428,23 +1447,42 @@ function updateLead(){
 }
 const galEl = $("#galSec");
 let galItems = [];
+const KAT_ORDER = ["Realizacje", "Mycie", "Prace tynkarskie", "Akrylowanie", "Zabezpieczanie", "Rusztowania", "Dachy", "Inne"];
+function katOf(it){
+  const f = String(it.src).toLowerCase(), t = f + " " + String(it.podpis || "").toLowerCase();
+  if (/(^|[\/_-])(przed-i-po|przed-|po-|efekt)/.test(f.split("/").pop().replace(/^[\d-]+_/, "_"))) return "Realizacje";
+  if (/mycie/.test(f)) return "Mycie";
+  if (/dachowk|blach|\bdach/.test(f)) return "Dachy";
+  if (/akryl|pekniecie|styk/.test(f) || /akryl/.test(t)) return "Akrylowanie";
+  if (/zabezpiecz/.test(t)) return "Zabezpieczanie";
+  if (/rusztowan|stanowisko/.test(t)) return "Rusztowania";
+  if (/napraw|odspoj|odpadaj|tynk|natrysk|grunt|ubyt/.test(t)) return "Prace tynkarskie";
+  return "Inne";
+}
+let galCat = "Wszystkie";
 function renderGal(){
   const mk = sel ? sel.key : (mode === "dom" ? "ogolne" : mode);
   let items = GAL_DATA[mk] || [], tytul = sel ? (OPISY[sel.key] || [sel.id])[0] : (mode === "dom" ? "Realizacje" : MODES[mode].krotko);
   if (sel && !items.length && GAL_DATA[mode] && GAL_DATA[mode].length){ items = GAL_DATA[mode]; tytul = MODES[mode].krotko; }
   if (!items.length && !sel && mode === "dom"){   // widok calego domu: pokaz wszystkie zdjecia, zeby galeria nigdy nie byla pusta
     const seen = new Set(); items = [];
-    for (const k of Object.keys(GAL_DATA)){ if (!Array.isArray(GAL_DATA[k])) continue;
+    for (const k of ["odnowa"].concat(Object.keys(GAL_DATA))){ if (!Array.isArray(GAL_DATA[k])) continue;
       for (const it of GAL_DATA[k]){ if (!seen.has(it.src)){ seen.add(it.src); items.push(it); } } }
   }
-  galItems = items;
-  const n = items.length, pad = Math.max(0, 6 - n);
-  galEl.innerHTML = `<div class="gal-head"><b>Zdjęcia i filmy z realizacji — ${tytul}</b><small>${n ? n + " materiałów" : "wkrótce"}</small>` +
+  const counts = {}; items.forEach(it => { const k = katOf(it); counts[k] = (counts[k] || 0) + 1; });
+  const cats = KAT_ORDER.filter(k => counts[k]);
+  if (galCat !== "Wszystkie" && !counts[galCat]) galCat = "Wszystkie";
+  const shown = galCat === "Wszystkie" ? items : items.filter(it => katOf(it) === galCat);
+  galItems = shown;
+  const n = shown.length;
+  galEl.innerHTML = (cats.length > 1 ? `<div class="gal-cats" role="tablist" aria-label="Kategorie zdjęć">` +
+      [["Wszystkie", items.length]].concat(cats.map(k => [k, counts[k]])).map(([k, c]) => `<button class="gal-cat${k === galCat ? " on" : ""}" type="button" role="tab" data-kat="${k}">${k}<small>${c}</small></button>`).join("") + `</div>` : "") +
+    `<div class="gal-in"><div class="gal-head"><b>Zdjęcia i filmy z realizacji — ${galCat !== "Wszystkie" && mode === "dom" && !sel ? "" : tytul}${galCat !== "Wszystkie" ? (mode === "dom" && !sel ? "" : " · ") + galCat : ""}</b><small>${n ? n + " materiałów" : "wkrótce"}</small>` +
     `<span class="arr"><button type="button" data-d="p" aria-label="Wstecz">‹</button><button type="button" data-d="n" aria-label="Dalej">›</button></span></div>` +
-    `<div class="gal-strip" id="galStrip">` + items.map((it, i) => it.typ === "wideo"
-      ? `<button class="gi" type="button" data-i="${i}"><video muted preload="metadata" src="${galSrc(it.src)}#t=0.4"${it.poster ? ` poster="${galSrc(it.poster)}"` : ""}></video><span class="play">▶</span>${it.podpis ? `<span class="cap">${it.podpis}</span>` : ""}</button>`
-      : `<button class="gi" type="button" data-i="${i}"><img loading="lazy" src="${galSrc(it.src)}" alt="${it.podpis || ""}">${it.podpis ? `<span class="cap">${it.podpis}</span>` : ""}</button>`).join("") +
-    Array.from({length:pad}, () => '<div class="gi pusty"></div>').join("") + `</div>`;
+    `<div class="gal-strip" id="galStrip">` + shown.map((it, i) => it.typ === "wideo"
+      ? `<button class="gi" type="button" data-i="${i}"><video muted preload="metadata" src="${galSrc(it.src)}#t=0.4"${it.poster ? ` poster="${galSrc(it.poster)}"` : ""}></video><span class="play">▶</span>${it.podpis ? `<span class="cap">${esc(it.podpis)}</span>` : ""}</button>`
+      : `<button class="gi" type="button" data-i="${i}"><img loading="lazy" src="${galSrc(it.src)}" alt="${esc(it.podpis || "")}">${it.podpis ? `<span class="cap">${esc(it.podpis)}</span>` : ""}</button>`).join("") +
+    `</div></div>`;
 }
 let lbI = 0;
 const lb = $("#lb"), lbBody = $("#lbBody"), lbCap = $("#lbCap");

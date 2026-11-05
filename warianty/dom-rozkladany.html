@@ -1437,7 +1437,7 @@ function renderQuick(){
   const pp = (GAL_DATA.przedpo || {})[mode];
   quickEl.classList.remove("on");
   quickEl.innerHTML = `<div class="q-card"><button class="q-x" type="button" aria-label="Zamknij">×</button><div class="q-in">` +
-    (pp ? `<div class="qba" id="qba"><img src="${galSrc(pp.przed)}" alt="Przed"><img class="qpo" src="${galSrc(pp.po)}" alt="Po"><span class="qh"></span><span class="ql">Przed</span><span class="qr">Po</span></div>` : "") +
+    (pp ? `<div class="qba" id="qba"><img src="${galSrc(pp.przed)}?v=3" alt="Przed"><img class="qpo" src="${galSrc(pp.po)}?v=3" alt="Po"><span class="qh"></span><span class="ql">Przed</span><span class="qr">Po</span></div>` : "") +
     `<div class="q-tyt">${q[0]}</div><p class="q-txt">${q[1]}</p></div></div>` +
     (mode === "odnowa" ? `<div class="q-spec${specOn ? " show" : ""}"><b>Nasza specjalność</b>akrylowanie okien</div>` : "");
   requestAnimationFrame(() => requestAnimationFrame(() => { if (mode !== "dom" && !sel) quickEl.classList.add("on"); }));

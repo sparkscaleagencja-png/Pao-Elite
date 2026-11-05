@@ -1266,7 +1266,7 @@ function go(next, fromBack){
     t.innerHTML = list.map(m => `<button type="button" data-go="${m}" class="${m === mode ? "on" : ""}">${MODES[m].krotko}</button>`).join(""); }
   $("#navBack").classList.toggle("off", mode === "dom");
   $("#tip").textContent = mode === "posadzka" ? "zmieniaj kolor posadzki pod sceną" : "przeciągnij, aby obrócić · kliknij część domu";
-  renderPanel(); renderBar(); renderCallout(); renderGal();
+  galCat = "Wszystkie"; renderPanel(); renderBar(); renderCallout(); renderGal();
 }
 
 /* ---------- zdarzenia UI */
@@ -1454,6 +1454,8 @@ function katOf(it){
   return "Inne";
 }
 let galCat = "Wszystkie";
+/* ktore rodzaje zdjec pasuja do uslugi (gdy zdjecia sa wspolne z inna usluga) */
+const SERWIS_KAT = {docieplanie:["Realizacje", "Prace tynkarskie", "Zabezpieczanie", "Rusztowania"], podbitka:["Realizacje", "Zabezpieczanie", "Rusztowania"]};
 /* zdjecia, w ktorych kadr karty ma pokazywac dol obrazu (object-position) */
 const FOKUS_DOL = /slup-i-podbitka|natrysk-przy-cokole/;
 const fokus = it => FOKUS_DOL.test(String(it.src)) ? ' style="object-position:50% 100%"' : "";
@@ -1461,11 +1463,15 @@ function renderGal(){
   const mk = sel ? sel.key : (mode === "dom" ? "ogolne" : mode);
   let items = GAL_DATA[mk] || [], tytul = sel ? (OPISY[sel.key] || [sel.id])[0] : (mode === "dom" ? "Realizacje" : MODES[mode].krotko);
   if (sel && !items.length && GAL_DATA[mode] && GAL_DATA[mode].length){ items = GAL_DATA[mode]; tytul = MODES[mode].krotko; }
-  if (!items.length && !sel && mode === "dom"){   // widok calego domu: pokaz wszystkie zdjecia, zeby galeria nigdy nie byla pusta
-    const seen = new Set(); items = [];
+  const wszystkie = () => { const seen = new Set(), out = [];
     for (const k of ["odnowa"].concat(Object.keys(GAL_DATA))){ if (!Array.isArray(GAL_DATA[k])) continue;
-      for (const it of GAL_DATA[k]){ if (!seen.has(it.src)){ seen.add(it.src); items.push(it); } } }
-  }
+      for (const it of GAL_DATA[k]){ if (!seen.has(it.src)){ seen.add(it.src); out.push(it); } } }
+    return out; };
+  let inne = false;
+  if (!items.length){
+    if (!sel && mode === "dom") items = wszystkie();                       // widok calego domu: wszystko, zeby galeria nigdy nie byla pusta
+    else { items = wszystkie().filter(it => katOf(it) === "Realizacje"); inne = items.length > 0; }   // usluga bez wlasnych zdjec: pokaz gotowe realizacje
+  } else if (SERWIS_KAT[mode]) items = items.filter(it => SERWIS_KAT[mode].includes(katOf(it)));   // kazda usluga ma swoje rodzaje folderow
   const counts = {}; items.forEach(it => { const k = katOf(it); counts[k] = (counts[k] || 0) + 1; });
   const cats = KAT_ORDER.filter(k => counts[k]);
   if (galCat !== "Wszystkie" && !counts[galCat]) galCat = "Wszystkie";
@@ -1474,7 +1480,7 @@ function renderGal(){
   const n = shown.length;
   galEl.innerHTML = (cats.length > 1 ? `<div class="gal-cats" role="tablist" aria-label="Kategorie zdjęć">` +
       [["Wszystkie", items.length]].concat(cats.map(k => [k, counts[k]])).map(([k, c]) => `<button class="gal-cat${k === galCat ? " on" : ""}" type="button" role="tab" data-kat="${k}">${k}<small>${c}</small></button>`).join("") + `</div>` : "") +
-    `<div class="gal-in"><div class="gal-head"><b>Zdjęcia i filmy z realizacji — ${galCat !== "Wszystkie" && mode === "dom" && !sel ? "" : tytul}${galCat !== "Wszystkie" ? (mode === "dom" && !sel ? "" : " · ") + galCat : ""}</b><small>${n ? n + " materiałów" : "wkrótce"}</small>` +
+    `<div class="gal-in"><div class="gal-head"><b>Zdjęcia i filmy z realizacji — ${galCat !== "Wszystkie" && mode === "dom" && !sel ? "" : tytul + (inne ? " · przykładowe realizacje" : "")}${galCat !== "Wszystkie" ? (mode === "dom" && !sel ? "" : " · ") + galCat : ""}</b><small>${n ? n + " materiałów" : "wkrótce"}</small>` +
     `<span class="arr"><button type="button" data-d="p" aria-label="Wstecz">‹</button><button type="button" data-d="n" aria-label="Dalej">›</button></span></div>` +
     `<div class="gal-strip" id="galStrip">` + shown.map((it, i) => it.typ === "wideo"
       ? `<button class="gi" type="button" data-i="${i}"><video muted preload="metadata" src="${galSrc(it.src)}#t=0.4"${it.poster ? ` poster="${galSrc(it.poster)}"` : ""}></video><span class="play">▶</span>${it.podpis ? `<span class="cap">${esc(it.podpis)}</span>` : ""}</button>`

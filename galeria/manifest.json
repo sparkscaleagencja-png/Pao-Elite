@@ -37,6 +37,274 @@
       "typ": "foto",
       "src": "dachowka/06_dach-po.jpg",
       "podpis": "Dach po renowacji"
+    },
+    {
+      "typ": "wideo",
+      "src": "dachowka/10-ceramiczna-00_mycie-ciśnieniowe.mp4",
+      "podpis": "Mycie ciśnieniowe dachówki ceramicznej",
+      "poster": "dachowka/10-ceramiczna-00_mycie-ciśnieniowe.jpg"
+    },
+    {
+      "typ": "foto",
+      "src": "dachowka/10-ceramiczna-01_przed-i-po-pomarancz.jpg",
+      "podpis": "Dachówka ceramiczna — przed (u góry) i po (na dole)"
+    },
+    {
+      "typ": "foto",
+      "src": "dachowka/10-ceramiczna-02_przed-i-po-okno-dachowe.jpg",
+      "podpis": "Dachówka ceramiczna — przed (u góry) i po (na dole)"
+    },
+    {
+      "typ": "foto",
+      "src": "dachowka/10-ceramiczna-03_mech.jpg",
+      "podpis": "Dachówka ceramiczna z mchem i zabrudzeniami"
+    },
+    {
+      "typ": "foto",
+      "src": "dachowka/10-ceramiczna-04_mech-przy-kalenicy.jpg",
+      "podpis": "Dachówka ceramiczna z mchem przy kalenicy"
+    },
+    {
+      "typ": "foto",
+      "src": "dachowka/10-ceramiczna-05_po-polysk.jpg",
+      "podpis": "Dachówka ceramiczna po malowaniu — głęboki połysk"
+    },
+    {
+      "typ": "foto",
+      "src": "dachowka/10-ceramiczna-06_po-kalenica.jpg",
+      "podpis": "Dachówka ceramiczna po malowaniu — kalenica"
+    },
+    {
+      "typ": "foto",
+      "src": "dachowka/10-ceramiczna-07_po-czerwien.jpg",
+      "podpis": "Dachówka ceramiczna po malowaniu — czerwony kolor"
+    },
+    {
+      "typ": "foto",
+      "src": "dachowka/10-ceramiczna-08_po.jpg",
+      "podpis": "Dachówka ceramiczna po renowacji"
+    },
+    {
+      "typ": "wideo",
+      "src": "dachowka/20-cementowa-00_mycie-ciśnieniowe.mp4",
+      "podpis": "Mycie ciśnieniowe dachówki cementowej",
+      "poster": "dachowka/20-cementowa-00_mycie-ciśnieniowe.jpg"
+    },
+    {
+      "typ": "wideo",
+      "src": "dachowka/20-cementowa-00_po-malowaniu.mp4",
+      "podpis": "Dachówka cementowa po malowaniu",
+      "poster": "dachowka/20-cementowa-00_po-malowaniu.jpg"
+    },
+    {
+      "typ": "foto",
+      "src": "dachowka/20-cementowa-01_przed-i-po-szary.jpg",
+      "podpis": "Dachówka cementowa — przed (u góry) i po (na dole)"
+    },
+    {
+      "typ": "foto",
+      "src": "dachowka/20-cementowa-02_przed-i-po-zmiana-koloru.jpg",
+      "podpis": "Dachówka cementowa — przed (u góry) i po (na dole)"
+    },
+    {
+      "typ": "foto",
+      "src": "dachowka/20-cementowa-03_przed-i-po-szary-dach.jpg",
+      "podpis": "Dachówka cementowa — przed (u góry) i po (na dole)"
+    },
+    {
+      "typ": "foto",
+      "src": "dachowka/20-cementowa-04_przed-i-po-brazowy.jpg",
+      "podpis": "Dachówka cementowa — przed (u góry) i po (na dole)"
+    },
+    {
+      "typ": "foto",
+      "src": "dachowka/20-cementowa-05_przed-i-po-czerwony.jpg",
+      "podpis": "Dachówka cementowa — przed (u góry) i po (na dole)"
+    },
+    {
+      "typ": "foto",
+      "src": "dachowka/20-cementowa-06_mycie.jpg",
+      "podpis": "Mycie ciśnieniowe dachówki cementowej"
+    },
+    {
+      "typ": "foto",
+      "src": "dachowka/20-cementowa-07_szara-powierzchnia.jpg",
+      "podpis": "Dachówka cementowa — szara, matowa powierzchnia"
+    },
+    {
+      "typ": "foto",
+      "src": "dachowka/20-cementowa-08_mech-i-porosty.jpg",
+      "podpis": "Dachówka cementowa z mchem i porostami"
+    },
+    {
+      "typ": "foto",
+      "src": "dachowka/20-cementowa-09_mech-i-zabrudzenia.jpg",
+      "podpis": "Dachówka cementowa przed renowacją"
+    },
+    {
+      "typ": "foto",
+      "src": "dachowka/30-blacha-01_w-trakcie.jpg",
+      "podpis": "Blacha w trakcie prac — mycie i malowanie"
+    },
+    {
+      "typ": "foto",
+      "src": "dachowka/30-blacha-02_przed.jpg",
+      "podpis": "Blacha przed renowacją — zniszczona powłoka"
+    },
+    {
+      "typ": "foto",
+      "src": "dachowka/30-blacha-03_w-trakcie.jpg",
+      "podpis": "Blacha w trakcie prac — mycie i malowanie"
+    },
+    {
+      "typ": "foto",
+      "src": "dachowka/30-blacha-04_przed.jpg",
+      "podpis": "Blacha przed renowacją — zniszczona powłoka"
+    },
+    {
+      "typ": "foto",
+      "src": "dachowka/30-blacha-05_w-trakcie.jpg",
+      "podpis": "Blacha w trakcie prac — mycie i malowanie"
+    },
+    {
+      "typ": "foto",
+      "src": "dachowka/30-blacha-06_po.jpg",
+      "podpis": "Blacha po renowacji — nowa powłoka"
+    },
+    {
+      "typ": "foto",
+      "src": "dachowka/30-blacha-07_przed.jpg",
+      "podpis": "Blacha przed renowacją — zniszczona powłoka"
+    },
+    {
+      "typ": "foto",
+      "src": "dachowka/30-blacha-08_po.jpg",
+      "podpis": "Blacha po renowacji — nowa powłoka"
+    },
+    {
+      "typ": "foto",
+      "src": "dachowka/30-blacha-09_po.jpg",
+      "podpis": "Blacha po renowacji — nowa powłoka"
+    },
+    {
+      "typ": "foto",
+      "src": "dachowka/30-blacha-10_po.jpg",
+      "podpis": "Blacha po renowacji — nowa powłoka"
+    },
+    {
+      "typ": "foto",
+      "src": "dachowka/30-blacha-11_w-trakcie.jpg",
+      "podpis": "Blacha w trakcie prac — mycie i malowanie"
+    },
+    {
+      "typ": "foto",
+      "src": "dachowka/30-blacha-12_przed.jpg",
+      "podpis": "Blacha przed renowacją — zniszczona powłoka"
+    },
+    {
+      "typ": "foto",
+      "src": "dachowka/30-blacha-13_po.jpg",
+      "podpis": "Blacha po renowacji — nowa powłoka"
+    },
+    {
+      "typ": "foto",
+      "src": "dachowka/30-blacha-14_po.jpg",
+      "podpis": "Blacha po renowacji — nowa powłoka"
+    },
+    {
+      "typ": "foto",
+      "src": "dachowka/30-blacha-15_w-trakcie.jpg",
+      "podpis": "Blacha w trakcie prac — mycie i malowanie"
+    },
+    {
+      "typ": "foto",
+      "src": "dachowka/30-blacha-16_przed.jpg",
+      "podpis": "Blacha przed renowacją — zniszczona powłoka"
+    },
+    {
+      "typ": "foto",
+      "src": "dachowka/30-blacha-17_po.jpg",
+      "podpis": "Blacha po renowacji — nowa powłoka"
+    },
+    {
+      "typ": "foto",
+      "src": "dachowka/30-blacha-18_w-trakcie.jpg",
+      "podpis": "Blacha w trakcie prac — mycie i malowanie"
+    },
+    {
+      "typ": "foto",
+      "src": "dachowka/30-blacha-19_po.jpg",
+      "podpis": "Blacha po renowacji — nowa powłoka"
+    },
+    {
+      "typ": "foto",
+      "src": "dachowka/30-blacha-20_po.jpg",
+      "podpis": "Blacha po renowacji — nowa powłoka"
+    },
+    {
+      "typ": "foto",
+      "src": "dachowka/30-blacha-21_w-trakcie.jpg",
+      "podpis": "Blacha w trakcie prac — mycie i malowanie"
+    },
+    {
+      "typ": "foto",
+      "src": "dachowka/30-blacha-22_w-trakcie.jpg",
+      "podpis": "Blacha w trakcie prac — mycie i malowanie"
+    },
+    {
+      "typ": "foto",
+      "src": "dachowka/30-blacha-23_w-trakcie.jpg",
+      "podpis": "Blacha w trakcie prac — mycie i malowanie"
+    },
+    {
+      "typ": "foto",
+      "src": "dachowka/30-blacha-24_po.jpg",
+      "podpis": "Blacha po renowacji — nowa powłoka"
+    },
+    {
+      "typ": "foto",
+      "src": "dachowka/30-blacha-25_po.jpg",
+      "podpis": "Blacha po renowacji — nowa powłoka"
+    },
+    {
+      "typ": "foto",
+      "src": "dachowka/30-blacha-26_po.jpg",
+      "podpis": "Blacha po renowacji — nowa powłoka"
+    },
+    {
+      "typ": "foto",
+      "src": "dachowka/30-blacha-27_przed.jpg",
+      "podpis": "Blacha przed renowacją — zniszczona powłoka"
+    },
+    {
+      "typ": "foto",
+      "src": "dachowka/30-blacha-28_po.jpg",
+      "podpis": "Blacha po renowacji — nowa powłoka"
+    },
+    {
+      "typ": "foto",
+      "src": "dachowka/30-blacha-29_przed.jpg",
+      "podpis": "Blacha przed renowacją — zniszczona powłoka"
+    },
+    {
+      "typ": "foto",
+      "src": "dachowka/40-dachy-01_przed-i-po-z-drona.jpg",
+      "podpis": "Dach przed (u góry) i po zmianie koloru (na dole) — widok z drona"
+    },
+    {
+      "typ": "foto",
+      "src": "dachowka/40-dachy-02_przed-i-po-domu.jpg",
+      "podpis": "Dom przed (u góry) i po (na dole) renowacji dachu"
+    },
+    {
+      "typ": "foto",
+      "src": "dachowka/40-dachy-03_przed-i-po-domu-2.jpg",
+      "podpis": "Dom przed (u góry) i po (na dole) renowacji dachu"
+    },
+    {
+      "typ": "foto",
+      "src": "dachowka/40-dachy-04_mycie-i-malowanie.jpg",
+      "podpis": "Mycie i malowanie dachu — połowa połaci już pomalowana"
     }
   ],
   "hydro": [
@@ -332,6 +600,274 @@
       "typ": "foto",
       "src": "dachowka/06_dach-po.jpg",
       "podpis": "Dach po renowacji"
+    },
+    {
+      "typ": "wideo",
+      "src": "dachowka/10-ceramiczna-00_mycie-ciśnieniowe.mp4",
+      "podpis": "Mycie ciśnieniowe dachówki ceramicznej",
+      "poster": "dachowka/10-ceramiczna-00_mycie-ciśnieniowe.jpg"
+    },
+    {
+      "typ": "foto",
+      "src": "dachowka/10-ceramiczna-01_przed-i-po-pomarancz.jpg",
+      "podpis": "Dachówka ceramiczna — przed (u góry) i po (na dole)"
+    },
+    {
+      "typ": "foto",
+      "src": "dachowka/10-ceramiczna-02_przed-i-po-okno-dachowe.jpg",
+      "podpis": "Dachówka ceramiczna — przed (u góry) i po (na dole)"
+    },
+    {
+      "typ": "foto",
+      "src": "dachowka/10-ceramiczna-03_mech.jpg",
+      "podpis": "Dachówka ceramiczna z mchem i zabrudzeniami"
+    },
+    {
+      "typ": "foto",
+      "src": "dachowka/10-ceramiczna-04_mech-przy-kalenicy.jpg",
+      "podpis": "Dachówka ceramiczna z mchem przy kalenicy"
+    },
+    {
+      "typ": "foto",
+      "src": "dachowka/10-ceramiczna-05_po-polysk.jpg",
+      "podpis": "Dachówka ceramiczna po malowaniu — głęboki połysk"
+    },
+    {
+      "typ": "foto",
+      "src": "dachowka/10-ceramiczna-06_po-kalenica.jpg",
+      "podpis": "Dachówka ceramiczna po malowaniu — kalenica"
+    },
+    {
+      "typ": "foto",
+      "src": "dachowka/10-ceramiczna-07_po-czerwien.jpg",
+      "podpis": "Dachówka ceramiczna po malowaniu — czerwony kolor"
+    },
+    {
+      "typ": "foto",
+      "src": "dachowka/10-ceramiczna-08_po.jpg",
+      "podpis": "Dachówka ceramiczna po renowacji"
+    },
+    {
+      "typ": "wideo",
+      "src": "dachowka/20-cementowa-00_mycie-ciśnieniowe.mp4",
+      "podpis": "Mycie ciśnieniowe dachówki cementowej",
+      "poster": "dachowka/20-cementowa-00_mycie-ciśnieniowe.jpg"
+    },
+    {
+      "typ": "wideo",
+      "src": "dachowka/20-cementowa-00_po-malowaniu.mp4",
+      "podpis": "Dachówka cementowa po malowaniu",
+      "poster": "dachowka/20-cementowa-00_po-malowaniu.jpg"
+    },
+    {
+      "typ": "foto",
+      "src": "dachowka/20-cementowa-01_przed-i-po-szary.jpg",
+      "podpis": "Dachówka cementowa — przed (u góry) i po (na dole)"
+    },
+    {
+      "typ": "foto",
+      "src": "dachowka/20-cementowa-02_przed-i-po-zmiana-koloru.jpg",
+      "podpis": "Dachówka cementowa — przed (u góry) i po (na dole)"
+    },
+    {
+      "typ": "foto",
+      "src": "dachowka/20-cementowa-03_przed-i-po-szary-dach.jpg",
+      "podpis": "Dachówka cementowa — przed (u góry) i po (na dole)"
+    },
+    {
+      "typ": "foto",
+      "src": "dachowka/20-cementowa-04_przed-i-po-brazowy.jpg",
+      "podpis": "Dachówka cementowa — przed (u góry) i po (na dole)"
+    },
+    {
+      "typ": "foto",
+      "src": "dachowka/20-cementowa-05_przed-i-po-czerwony.jpg",
+      "podpis": "Dachówka cementowa — przed (u góry) i po (na dole)"
+    },
+    {
+      "typ": "foto",
+      "src": "dachowka/20-cementowa-06_mycie.jpg",
+      "podpis": "Mycie ciśnieniowe dachówki cementowej"
+    },
+    {
+      "typ": "foto",
+      "src": "dachowka/20-cementowa-07_szara-powierzchnia.jpg",
+      "podpis": "Dachówka cementowa — szara, matowa powierzchnia"
+    },
+    {
+      "typ": "foto",
+      "src": "dachowka/20-cementowa-08_mech-i-porosty.jpg",
+      "podpis": "Dachówka cementowa z mchem i porostami"
+    },
+    {
+      "typ": "foto",
+      "src": "dachowka/20-cementowa-09_mech-i-zabrudzenia.jpg",
+      "podpis": "Dachówka cementowa przed renowacją"
+    },
+    {
+      "typ": "foto",
+      "src": "dachowka/30-blacha-01_w-trakcie.jpg",
+      "podpis": "Blacha w trakcie prac — mycie i malowanie"
+    },
+    {
+      "typ": "foto",
+      "src": "dachowka/30-blacha-02_przed.jpg",
+      "podpis": "Blacha przed renowacją — zniszczona powłoka"
+    },
+    {
+      "typ": "foto",
+      "src": "dachowka/30-blacha-03_w-trakcie.jpg",
+      "podpis": "Blacha w trakcie prac — mycie i malowanie"
+    },
+    {
+      "typ": "foto",
+      "src": "dachowka/30-blacha-04_przed.jpg",
+      "podpis": "Blacha przed renowacją — zniszczona powłoka"
+    },
+    {
+      "typ": "foto",
+      "src": "dachowka/30-blacha-05_w-trakcie.jpg",
+      "podpis": "Blacha w trakcie prac — mycie i malowanie"
+    },
+    {
+      "typ": "foto",
+      "src": "dachowka/30-blacha-06_po.jpg",
+      "podpis": "Blacha po renowacji — nowa powłoka"
+    },
+    {
+      "typ": "foto",
+      "src": "dachowka/30-blacha-07_przed.jpg",
+      "podpis": "Blacha przed renowacją — zniszczona powłoka"
+    },
+    {
+      "typ": "foto",
+      "src": "dachowka/30-blacha-08_po.jpg",
+      "podpis": "Blacha po renowacji — nowa powłoka"
+    },
+    {
+      "typ": "foto",
+      "src": "dachowka/30-blacha-09_po.jpg",
+      "podpis": "Blacha po renowacji — nowa powłoka"
+    },
+    {
+      "typ": "foto",
+      "src": "dachowka/30-blacha-10_po.jpg",
+      "podpis": "Blacha po renowacji — nowa powłoka"
+    },
+    {
+      "typ": "foto",
+      "src": "dachowka/30-blacha-11_w-trakcie.jpg",
+      "podpis": "Blacha w trakcie prac — mycie i malowanie"
+    },
+    {
+      "typ": "foto",
+      "src": "dachowka/30-blacha-12_przed.jpg",
+      "podpis": "Blacha przed renowacją — zniszczona powłoka"
+    },
+    {
+      "typ": "foto",
+      "src": "dachowka/30-blacha-13_po.jpg",
+      "podpis": "Blacha po renowacji — nowa powłoka"
+    },
+    {
+      "typ": "foto",
+      "src": "dachowka/30-blacha-14_po.jpg",
+      "podpis": "Blacha po renowacji — nowa powłoka"
+    },
+    {
+      "typ": "foto",
+      "src": "dachowka/30-blacha-15_w-trakcie.jpg",
+      "podpis": "Blacha w trakcie prac — mycie i malowanie"
+    },
+    {
+      "typ": "foto",
+      "src": "dachowka/30-blacha-16_przed.jpg",
+      "podpis": "Blacha przed renowacją — zniszczona powłoka"
+    },
+    {
+      "typ": "foto",
+      "src": "dachowka/30-blacha-17_po.jpg",
+      "podpis": "Blacha po renowacji — nowa powłoka"
+    },
+    {
+      "typ": "foto",
+      "src": "dachowka/30-blacha-18_w-trakcie.jpg",
+      "podpis": "Blacha w trakcie prac — mycie i malowanie"
+    },
+    {
+      "typ": "foto",
+      "src": "dachowka/30-blacha-19_po.jpg",
+      "podpis": "Blacha po renowacji — nowa powłoka"
+    },
+    {
+      "typ": "foto",
+      "src": "dachowka/30-blacha-20_po.jpg",
+      "podpis": "Blacha po renowacji — nowa powłoka"
+    },
+    {
+      "typ": "foto",
+      "src": "dachowka/30-blacha-21_w-trakcie.jpg",
+      "podpis": "Blacha w trakcie prac — mycie i malowanie"
+    },
+    {
+      "typ": "foto",
+      "src": "dachowka/30-blacha-22_w-trakcie.jpg",
+      "podpis": "Blacha w trakcie prac — mycie i malowanie"
+    },
+    {
+      "typ": "foto",
+      "src": "dachowka/30-blacha-23_w-trakcie.jpg",
+      "podpis": "Blacha w trakcie prac — mycie i malowanie"
+    },
+    {
+      "typ": "foto",
+      "src": "dachowka/30-blacha-24_po.jpg",
+      "podpis": "Blacha po renowacji — nowa powłoka"
+    },
+    {
+      "typ": "foto",
+      "src": "dachowka/30-blacha-25_po.jpg",
+      "podpis": "Blacha po renowacji — nowa powłoka"
+    },
+    {
+      "typ": "foto",
+      "src": "dachowka/30-blacha-26_po.jpg",
+      "podpis": "Blacha po renowacji — nowa powłoka"
+    },
+    {
+      "typ": "foto",
+      "src": "dachowka/30-blacha-27_przed.jpg",
+      "podpis": "Blacha przed renowacją — zniszczona powłoka"
+    },
+    {
+      "typ": "foto",
+      "src": "dachowka/30-blacha-28_po.jpg",
+      "podpis": "Blacha po renowacji — nowa powłoka"
+    },
+    {
+      "typ": "foto",
+      "src": "dachowka/30-blacha-29_przed.jpg",
+      "podpis": "Blacha przed renowacją — zniszczona powłoka"
+    },
+    {
+      "typ": "foto",
+      "src": "dachowka/40-dachy-01_przed-i-po-z-drona.jpg",
+      "podpis": "Dach przed (u góry) i po zmianie koloru (na dole) — widok z drona"
+    },
+    {
+      "typ": "foto",
+      "src": "dachowka/40-dachy-02_przed-i-po-domu.jpg",
+      "podpis": "Dom przed (u góry) i po (na dole) renowacji dachu"
+    },
+    {
+      "typ": "foto",
+      "src": "dachowka/40-dachy-03_przed-i-po-domu-2.jpg",
+      "podpis": "Dom przed (u góry) i po (na dole) renowacji dachu"
+    },
+    {
+      "typ": "foto",
+      "src": "dachowka/40-dachy-04_mycie-i-malowanie.jpg",
+      "podpis": "Mycie i malowanie dachu — połowa połaci już pomalowana"
     }
   ],
   "docieplanie": [

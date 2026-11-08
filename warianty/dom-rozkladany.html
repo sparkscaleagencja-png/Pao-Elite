@@ -107,10 +107,11 @@ button{font-family:inherit}
   max-height:calc(min(68vh,640px) + 86px);overflow-y:auto;position:relative}
 @media(max-width:1020px){.panel{max-height:none}}
 .panel .in{animation:wej .45s var(--ease)}
+.ptitle{background:var(--accent);color:#fff;font-weight:800;font-size:1.05rem;line-height:1.25;letter-spacing:.01em;padding:.8rem 1rem;border-radius:10px;margin:0 0 16px;box-shadow:0 6px 14px rgba(192,90,60,.22)}
 /* osadzone w iframe na stronie glownej: bez vh (vh liczy sie od ramki) */
 .embed body{overflow:hidden}
 .embed .stage{height:460px}
-.embed .panel{max-height:550px}
+.embed .panel{max-height:572px}
 .embed .q-in{max-height:300px}
 @media(max-width:700px){.embed .stage{height:440px;min-height:0}}
 @keyframes wej{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
@@ -201,7 +202,7 @@ ul.layers li small{margin-left:auto;color:var(--muted);font-size:.7rem}
 @media(max-width:700px){.quick{width:170px;top:58px}.q-in{padding:7px 7px 9px}.q-txt{font-size:.68rem}.q-spec{font-size:.66rem;padding:.5rem .7rem .5rem 1.3rem}.q-tyt{font-size:.85rem}.qba{aspect-ratio:1/1}}
 @media(prefers-reduced-motion:reduce){.quick,.q-spec{transition:opacity .2s}.q-spec{transform:none}}
 /* szerokie ekrany: panel przed/po stoi w wolnym polu po lewej, a strzalka wstecz w lewym gornym rogu poza scena */
-@media(min-width:1650px){.stage{overflow:visible}#cv{border-radius:14px}.quick{left:-150px;top:0;width:262px}.qba{aspect-ratio:4/5}.q-in,.embed .q-in{max-height:none}.nav-back{left:-119px;top:-104px}}
+@media(min-width:1650px){.stage{overflow:visible}#cv{border-radius:14px}.quick{left:-150px;top:0;width:262px;gap:6px}.qba{aspect-ratio:11/6}.q-in,.embed .q-in{max-height:none;padding:8px 8px 10px}.q-tyt{margin:.5rem 0 .2rem;font-size:.95rem}.q-txt{font-size:.74rem;line-height:1.4}.q-spec{padding:.5rem 1rem .5rem 1.7rem}.nav-back{left:-205px;top:-105px}}
 /* panel po prawej: najwazniejsze informacje */
 .fakty{list-style:none;margin:0;padding:0;display:grid;gap:.5rem}
 .fakty li{display:grid;grid-template-columns:96px 1fr;gap:.6rem;font-size:.84rem;line-height:1.4;color:#2d3238}
@@ -1017,7 +1018,7 @@ const TEX_GOTOWA = {
   "dachowka-detal": () => redraw(texCover, drawCover),
   "dachowka-normal": im => dodajN([M.pokrycie], texN(im, 1024, 256, 128, true), COVER_N[coverState.typ] ?? .5)
 };
-Object.keys(TEX_GOTOWA).forEach(n => { const im = new Image(); im.onload = () => { TEXP[n] = im; TEX_GOTOWA[n](im); }; im.src = "tex/" + n + ".webp?v=8"; });
+Object.keys(TEX_GOTOWA).forEach(n => { const im = new Image(); im.onload = () => { TEXP[n] = im; TEX_GOTOWA[n](im); }; im.src = "tex/" + n + ".webp?v=9"; });
 // rzygacz przez attyke + rynna wzdluz prawego boku + rura spustowa
 { const ry = reg("garaz-dach", ink(box(.42, .1, .26, M.rynna))); ry.position.set(GX1 + .3, BASE - .1, GCZ); scene.add(ry);
   const half = new THREE.CylinderGeometry(.11, .11, GD + .3, 18, 1, true, Math.PI / 2, Math.PI);
@@ -1154,7 +1155,7 @@ MODES.wymiana = {part:"dach", krotko:"Wymiana dachu", kicker:"Dach · wymiana po
   lead:"Rozbieramy dach do więźby i składamy go od nowa — warstwa po warstwie. Wybierz pokrycie pod domem, a model pokaże je od razu.",
   enter(){ S.flash = 0; tw("roofT", 1, 1700, ease, () => { if (mode === "wymiana") tw("flash", 1, 1100); }); },
   exit(){ tw("flash", 0, 350); setTimeout(() => tw("roofT", 0, 1200), 250); tw("eternitOut", 0, 600); },
-  panel(){ return head(this) + layersList(roofLayersData(), "Z czego składa się dach (od środka)") +
+  panel(){ return '<div class="ptitle">Wymiana pokrycia dachowego</div>' + layersList(roofLayersData(), "Z czego składa się dach (od środka)") +
     '<div class="act"><button class="btn btn-g" id="bEternit">▶ Pokaż demontaż eternitu</button><button class="btn btn-g" id="bZloz">Złóż / rozłóż dach</button></div>' +
     steps(["Demontaż starego pokrycia — eternit usuwamy i utylizujemy zgodnie z przepisami", "Przegląd więźby, wymiana lub wzmocnienie uszkodzonych elementów", "Deskowanie i membrana dachowa", "Kontrłaty i łaty — wentylowana szczelina pod pokryciem", "Nowe pokrycie: ceramika, cement albo blachodachówka", "Obróbki, gąsiory, rynny i odbiór"]) +
     why(["Jeden wykonawca od demontażu po rynny", "Eternit znika z Twojego dachu na dobre", "Nowa warstwa ochronna pod pokryciem"]) + CTA; },
@@ -1296,7 +1297,7 @@ function go(next, fromBack){
 /* ---------- zdarzenia UI */
 document.addEventListener("click", e => {
   const g = e.target.closest("[data-go]"); if (g){ e.preventDefault(); go(g.dataset.go); return; }
-  const ty = e.target.closest("[data-typ]"); if (ty){ roofTyp = ty.dataset.typ; setCover(roofTyp, COVER[roofTyp].kolory[0][1]); renderBar(); if (mode === "wymiana") renderPanel(); return; }
+  const ty = e.target.closest("[data-typ]"); if (ty){ roofTyp = ty.dataset.typ; setCover(roofTyp, COVER[roofTyp].kolory[0][1]); renderBar(); if (mode === "wymiana") renderPanel(); if (mode === "dachowka" || mode === "wymiana") renderQuick(); return; }
   const cv_ = e.target.closest("[data-cover]"); if (cv_){ setCover(roofTyp, cv_.dataset.cover); renderBar(); if (mode === "wymiana") renderPanel(); return; }
   const f = e.target.closest("[data-fas]"); if (f){ setFacade(f.dataset.fas); renderBar(); return; }
   const fl = e.target.closest("[data-flo]"); if (fl){ setFloor(fl.dataset.flo); renderBar(); return; }
@@ -1430,10 +1431,10 @@ const esc = s => String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":
 function renderQuick(){
   const q = mode !== "dom" && !sel ? QUICK[mode] : null;
   if (!q){ quickEl.classList.remove("on"); return; }
-  const pp = (GAL_DATA.przedpo || {})[mode];
+  const PPD = GAL_DATA.przedpo || {}, pp = (mode === "dachowka" || mode === "wymiana") ? (PPD["dachowka-" + roofTyp] || PPD[mode]) : PPD[mode];
   quickEl.classList.remove("on");
   quickEl.innerHTML = `<div class="q-card"><button class="q-x" type="button" aria-label="Zamknij">×</button><div class="q-in">` +
-    (pp ? `<div class="qba" id="qba"><img src="${galSrc(pp.przed)}?v=3" alt="Przed"><img class="qpo" src="${galSrc(pp.po)}?v=3" alt="Po"><span class="qh"></span><span class="ql">Przed</span><span class="qr">Po</span></div>` : "") +
+    (pp ? `<div class="qba" id="qba"><img src="${galSrc(pp.przed)}?v=4" alt="Przed"><img class="qpo" src="${galSrc(pp.po)}?v=4" alt="Po"><span class="qh"></span><span class="ql">Przed</span><span class="qr">Po</span></div>` : "") +
     `<div class="q-tyt">${q[0]}</div><p class="q-txt">${q[1]}</p></div></div>` +
     (mode === "odnowa" ? `<div class="q-spec${specOn ? " show" : ""}"><b>Nasza specjalność</b>akrylowanie okien</div>` : "");
   requestAnimationFrame(() => requestAnimationFrame(() => { if (mode !== "dom" && !sel) quickEl.classList.add("on"); }));

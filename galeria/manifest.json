@@ -553,6 +553,18 @@
     }
   ],
   "przedpo": {
+    "dachowka-blacha": {
+      "po": "przedpo/dachowka-blacha_po.jpg",
+      "przed": "przedpo/dachowka-blacha_przed.jpg"
+    },
+    "dachowka-cementowa": {
+      "po": "przedpo/dachowka-cementowa_po.jpg",
+      "przed": "przedpo/dachowka-cementowa_przed.jpg"
+    },
+    "dachowka-ceramiczna": {
+      "po": "przedpo/dachowka-ceramiczna_po.jpg",
+      "przed": "przedpo/dachowka-ceramiczna_przed.jpg"
+    },
     "hydro": {
       "po": "przedpo/hydro_po.jpg",
       "przed": "przedpo/hydro_przed.jpg"

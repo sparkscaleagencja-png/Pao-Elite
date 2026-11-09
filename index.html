@@ -279,6 +279,8 @@ h2.sec{font-size:clamp(1.5rem,2.8vw,2.2rem);font-weight:800;letter-spacing:-.01e
 .tile{position:relative;height:190px;border-radius:6px;overflow:hidden;text-decoration:none;color:#fff;display:flex;align-items:flex-end}
 .tile .bgimg{position:absolute;inset:0;transition:transform .6s cubic-bezier(.2,.6,.2,1),filter .4s}
 .tile:hover .bgimg{transform:scale(1.07);filter:brightness(.72)}
+.tile .bgvid{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform .6s cubic-bezier(.2,.6,.2,1),filter .4s}
+.tile:hover .bgvid{transform:scale(1.07);filter:brightness(.72)}
 .tile .shade{position:absolute;inset:0;background:linear-gradient(180deg,rgba(18,22,27,.05) 30%,rgba(18,22,27,.82))}
 .tile .tcont{position:relative;padding:1rem 1.1rem;width:100%}
 .tile h3{font-size:1.02rem;font-weight:800;letter-spacing:.01em;transition:color .3s}
@@ -504,35 +506,35 @@ footer b{color:var(--ink)}
   <p class="lead-d" data-e="uslugi-lead">Od mycia elewacji po kompletną wymianę dachu — dobieramy technologię do podłoża, a nie odwrotnie. Pracujemy na systemach <img class="stoi" src="img/sto-logo-jasne.png" alt="Sto" width="411" height="70"> i innych sprawdzonych producentów oraz na sprawdzonych żywicach.</p>
   <div class="tiles">
     <a class="tile" href="#kontakt" data-service="Renowacja elewacji">
-      <div class="bgimg bg-fac"></div><div class="shade"></div>
+      <div class="bgimg bg-fac"></div><video class="bgvid" muted loop playsinline preload="none" poster="video/uslugi/elewacja.jpg" data-src="video/uslugi/elewacja.mp4" aria-hidden="true"></video><div class="shade"></div>
       <div class="tcont"><h3 data-e="kafel1-h3">Renowacja elewacji</h3><p data-e="kafel1-p">Naprawa pęknięć, nowa struktura tynku, mycie ciśnieniowe i dwukrotne malowanie farbą silikonową marki <img class="stoi" src="img/sto-logo-jasne.png" alt="Sto" width="411" height="70">. Przed pracami zabezpieczamy okna, drzwi i otoczenie budynku.</p><span class="go">Zapytaj o wycenę</span></div>
     </a>
     <a class="tile" href="#kontakt" data-service="Czyszczenie i malowanie dachów">
-      <div class="bgimg bg-roof"></div><div class="shade"></div>
+      <div class="bgimg bg-roof"></div><video class="bgvid" muted loop playsinline preload="none" poster="video/uslugi/dachy.jpg" data-src="video/uslugi/dachy.mp4" aria-hidden="true"></video><div class="shade"></div>
       <div class="tcont"><h3 data-e="kafel2-h3">Czyszczenie i malowanie dachów</h3><p data-e="kafel2-p">Dachówka ceramiczna, cementowa i blacha. Mycie ciśnieniowe, powłoka ochronna i nowy kolor z palety RAL — po ocenie stanu dachu często taniej niż wymiana pokrycia.</p><span class="go">Zapytaj o wycenę</span></div>
     </a>
     <a class="tile" href="#kontakt" data-service="Hydroizolacja dachu płaskiego">
-      <div class="bgimg bg-flat"></div><div class="shade"></div>
+      <div class="bgimg bg-flat"></div><video class="bgvid" muted loop playsinline preload="none" poster="video/uslugi/hydroizolacja.jpg" data-src="video/uslugi/hydroizolacja.mp4" aria-hidden="true"></video><div class="shade"></div>
       <div class="tcont"><h3 data-e="kafel3-h3">Hydroizolacja dachu płaskiego</h3><p data-e="kafel3-p">Bezspoinowa membrana z żywicy poliuretanowej — w wielu przypadkach bez zrywania starej papy, jeśli pozwala na to stan podłoża. Odporność na wodę, UV i mróz zależy od zastosowanego systemu.</p><span class="go">Zapytaj o wycenę</span></div>
     </a>
     <a class="tile" href="#kontakt" data-service="Wymiana pokrycia dachowego, w tym pokryć z eternitu">
-      <div class="bgimg bg-roof2"></div><div class="shade"></div>
+      <div class="bgimg bg-roof2"></div><video class="bgvid" muted loop playsinline preload="none" poster="video/uslugi/wymiana_dachu.jpg" data-src="video/uslugi/wymiana_dachu.mp4" aria-hidden="true"></video><div class="shade"></div>
       <div class="tcont"><h3 data-e="kafel4-h3">Wymiana pokrycia dachowego, w tym pokryć z eternitu</h3><p data-e="kafel4-p">Wymiana całej połaci: demontaż i utylizacja eternitu, więźba, membrana, łaty i nowe pokrycie.</p><span class="go">Zapytaj o wycenę</span></div>
     </a>
     <a class="tile" href="#kontakt" data-service="Posadzki żywiczne">
-      <div class="bgimg bg-floor"></div><div class="shade"></div>
+      <div class="bgimg bg-floor"></div><video class="bgvid" muted loop playsinline preload="none" poster="video/uslugi/garaz.jpg" data-src="video/uslugi/garaz.mp4" aria-hidden="true"></video><div class="shade"></div>
       <div class="tcont"><h3 data-e="kafel5-h3">Posadzki żywiczne</h3><p data-e="kafel5-p">Posadzki do garażu w wybranym kolorze, łatwe w utrzymaniu. Odporność na ścieranie, oleje, paliwa i chemię zależy od zastosowanego systemu żywicy.</p><span class="go">Zapytaj o wycenę</span></div>
     </a>
     <a class="tile" href="#kontakt" data-service="Taras i schody">
-      <div class="bgimg bg-stone"></div><div class="shade"></div>
+      <div class="bgimg bg-stone"></div><video class="bgvid" muted loop playsinline preload="none" poster="video/uslugi/taras.jpg" data-src="video/uslugi/taras.mp4" aria-hidden="true"></video><div class="shade"></div>
       <div class="tcont"><h3 data-e="kafel6-h3">Taras i schody</h3><p data-e="kafel6-p">Kamienny dywan i żywice na tarasy, balkony i schody — wykończenie antypoślizgowe. Hydroizolację i odporność na mróz oraz UV dobieramy do podłoża i systemu.</p><span class="go">Zapytaj o wycenę</span></div>
     </a>
     <a class="tile" href="#kontakt" data-service="Termomodernizacja">
-      <div class="bgimg bg-insul"></div><div class="shade"></div>
+      <div class="bgimg bg-insul"></div><video class="bgvid" muted loop playsinline preload="none" poster="video/uslugi/termo.jpg" data-src="video/uslugi/termo.mp4" aria-hidden="true"></video><div class="shade"></div>
       <div class="tcont"><h3 data-e="kafel7-h3">Termomodernizacja</h3><p data-e="kafel7-p">Ocieplenie ścian w systemie <img class="stoi" src="img/sto-logo-jasne.png" alt="Sto" width="411" height="70"> — od kleju i płyt, przez siatkę i grunt, po tynk i farbę.</p><span class="go">Zapytaj o wycenę</span></div>
     </a>
     <a class="tile" href="#kontakt" data-service="Naprawa poddasza po kunach i zabezpieczenie przed ich powrotem">
-      <div class="bgimg bg-claim"></div><div class="shade"></div>
+      <div class="bgimg bg-claim"></div><video class="bgvid" muted loop playsinline preload="none" poster="video/uslugi/kuna.jpg" data-src="video/uslugi/kuna.mp4" aria-hidden="true"></video><div class="shade"></div>
       <div class="tcont"><h3 data-e="kafel8-h3">Naprawa poddasza po kunach i zabezpieczenie przed ich powrotem</h3><p data-e="kafel8-p">Usuwamy skutki bytowania kuny: zniszczoną wełnę i membranę, naprawiamy poddasze i zabezpieczamy okapy.</p><span class="go">Zapytaj o wycenę</span></div>
     </a>
   </div>
@@ -904,6 +906,18 @@ document.getElementById('quoteForm').addEventListener('submit',async e=>{
   });},{threshold:[0,.3]});
   ioA.observe(sec); ioB.observe(sec);
   window.PaoProces={ustaw:ustaw,graj:graj,powtorz:powtorz,stan:function(){return stan}};
+})();
+</script>
+<script>
+/* Filmiki w kafelkach usług: ładowane dopiero przy kafelku, grają tylko gdy widoczne */
+(function(){
+  var v=[].slice.call(document.querySelectorAll('.tile .bgvid'));
+  if(!v.length||!('IntersectionObserver' in window))return;
+  if(window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches)return;
+  var io=new IntersectionObserver(function(es){es.forEach(function(e){var x=e.target;
+    if(e.isIntersecting){if(!x.src){x.src=x.dataset.src}var p=x.play();if(p&&p.catch)p.catch(function(){})}
+    else if(!x.paused)x.pause();});},{rootMargin:'150px 0px'});
+  v.forEach(function(x){io.observe(x)});
 })();
 </script>
 </body>

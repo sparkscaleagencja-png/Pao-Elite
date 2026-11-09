@@ -390,7 +390,7 @@ footer b{color:var(--ink)}
 /* animacja sekcji „Jak pracujemy": brudna ściana zamalowywana na biało wałkiem, potem punkty pojawiają się po kolei */
 .why{position:relative;overflow-x:clip}
 .pt-wall{position:absolute;inset:0;z-index:6;pointer-events:none}
-.pt-clean{position:absolute;inset:0;background:#fff;transition:opacity .45s ease}
+.pt-clean{position:absolute;inset:0;background:url(img/baranek.webp) 0 0/256px 256px,#ee7a2c;background-blend-mode:soft-light,normal;transition:opacity .45s ease}
 .pt-band{position:absolute;left:0;right:0;overflow:hidden}
 .pt-img{position:absolute;left:0;right:0;background:url(img/sciana-brudna.webp) center/cover #8b8b87}
 .pt-roller{position:absolute;left:-4%;top:0;width:0;z-index:2;transition:top .26s ease}
@@ -483,9 +483,9 @@ footer b{color:var(--ink)}
       <div class="tint"></div>
       <div class="vov final">
         <div class="vtag" id="vtagpp" aria-hidden="true">Przed</div>
-        <div class="word" data-e="hero2-word">Widać różnicę<br><b>po jednym dniu pracy.</b></div>
+        <div class="word" data-e="hero2-word">Efekt widać<br><b>na pierwszy rzut oka.</b></div>
         <div class="rule"></div>
-        <div class="sub" data-e="hero2-sub">Oleśnica i cały Dolny Śląsk</div>
+        <div class="sub" data-e="hero2-sub">Dolny Śląsk i Wielkopolska</div>
         <a class="vcta" data-e="hero2-btn" href="#kontakt">Bezpłatna wycena</a>
       </div>
     </section>
@@ -562,11 +562,11 @@ footer b{color:var(--ink)}
     </div>
     <div>
       <div class="eyebrow" data-e="dlaczego-eyebrow">Dlaczego PAO Elite</div>
-      <h2 class="sec" data-e="dlaczego-h2">Widać różnicę po jednym dniu pracy.</h2>
+      <h2 class="sec" data-e="dlaczego-h2">Efekt widać na pierwszy rzut oka.</h2>
       <div class="badges">
         <div class="badge"><b data-e="plus1-b">Systemy <img class="stoi" src="img/sto-logo.png" alt="Sto" width="411" height="70"></b><span data-e="plus1-s">Renomowane materiały elewacyjne — trwałość i odporność na algi oraz UV.</span></div>
         <div class="badge"><b data-e="plus2-b">Pisemna gwarancja</b><span data-e="plus2-s">Na wykonanie prac. Gwarancja producenta materiałów ma osobne warunki — poznasz je przed podpisaniem umowy.</span></div>
-        <div class="badge"><b data-e="plus3-b">Oleśnica i Dolny Śląsk</b><span data-e="plus3-s">Działamy lokalnie — dojazd i oględziny bez kosztów.</span></div>
+        <div class="badge"><b data-e="plus3-b">Dolny Śląsk i Wielkopolska</b><span data-e="plus3-s">Dojazd i oględziny bez kosztów.</span></div>
         <div class="badge"><b data-e="plus4-b">Żywice do zadań specjalnych</b><span data-e="plus4-s">Dachy płaskie, tarasy, balkony, schody i garaże — bez spoin, odporne na mróz i UV.</span></div>
       </div>
     </div>
@@ -836,9 +836,9 @@ document.getElementById('quoteForm').addEventListener('submit',async e=>{
   items.forEach(function(e){e.classList.add('pt-i')});
   var wall=null, stan='idle', btn=null;
   var ROLLER='<div class="pt-roller"><svg width="190" aria-hidden="true"><defs>'+
-    '<linearGradient id="ptn" x1="0" x2="1" y1="0" y2="0"><stop offset="0" stop-color="#c4cad1"/><stop offset=".28" stop-color="#fff"/><stop offset=".62" stop-color="#f1f3f5"/><stop offset="1" stop-color="#b3bac3"/></linearGradient>'+
+    '<linearGradient id="ptn" x1="0" x2="1" y1="0" y2="0"><stop offset="0" stop-color="#c25a14"/><stop offset=".28" stop-color="#ff9a4d"/><stop offset=".62" stop-color="#ee7a2c"/><stop offset="1" stop-color="#b8530f"/></linearGradient>'+
     '<pattern id="ptp" width="7" height="7" patternUnits="userSpaceOnUse"><circle cx="2" cy="2" r="1.1" fill="rgba(0,0,0,.07)"/><circle cx="5.5" cy="5.5" r="1" fill="rgba(0,0,0,.05)"/></pattern></defs>'+
-    '<rect x="18" y="0" width="50" height="100%" rx="11" fill="url(#ptn)" stroke="#a9b0b8" stroke-width="1"/>'+
+    '<rect x="18" y="0" width="50" height="100%" rx="11" fill="url(#ptn)" stroke="#9a4414" stroke-width="1"/>'+
     '<rect x="18" y="0" width="50" height="100%" rx="11" fill="url(#ptp)"/>'+
     '<rect x="38" y="-5" width="10" height="6" rx="2" fill="#3b4148"/><rect x="38" y="100%" width="10" height="6" rx="2" fill="#3b4148"/>'+
     '<path d="M43 -2 V-16 Q43 -26 55 -26 H104" fill="none" stroke="#3b4148" stroke-width="4" stroke-linecap="round"/>'+

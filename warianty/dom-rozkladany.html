@@ -247,7 +247,7 @@ ul.layers li small{margin-left:auto;color:var(--muted);font-size:.7rem}
 .lb img,.lb video{max-width:100%;max-height:100%;border-radius:6px;background:#000}
 .lb button{position:absolute;border:none;background:rgba(255,255,255,.14);color:#fff;width:44px;height:44px;border-radius:50%;font-size:1.3rem;cursor:pointer}
 .lb button:hover{background:var(--accent)}
-.lb .lbx{right:18px;top:16px}.lb .lbp{left:16px;top:50%}.lb .lbn{right:16px;top:50%}
+.lb .lbx{right:18px;top:16px}.lb .lbp{left:16px;top:50%;transform:translateY(-50%);z-index:2}.lb .lbn{right:16px;top:50%;transform:translateY(-50%);z-index:2}
 .lb .lbc{position:absolute;left:0;right:0;bottom:16px;text-align:center;color:#fff;font-size:.85rem}
 .note{font-size:.7rem;color:var(--muted);margin-top:14px;line-height:1.45}
 </style>
@@ -1521,7 +1521,15 @@ let lbI = 0;
 const lb = $("#lb"), lbBody = $("#lbBody"), lbCap = $("#lbCap");
 function pokazLb(){ const it = galItems[lbI]; if (!it) return;
   lbBody.innerHTML = it.typ === "wideo" ? `<video src="${galSrc(it.src)}" controls autoplay playsinline></video>` : `<img src="${galSrc(it.src)}" alt="">`;
-  lbCap.textContent = (it.podpis ? it.podpis + " · " : "") + (lbI + 1) + " / " + galItems.length; }
+  lbCap.textContent = (it.podpis ? it.podpis + " · " : "") + (lbI + 1) + " / " + galItems.length;
+  const m = lbBody.firstElementChild; if (m){ lbStrzalki(); m.addEventListener(it.typ === "wideo" ? "loadedmetadata" : "load", lbStrzalki, {once:true}); } }
+/* strzalki tuz przy zdjeciu, nie przy krawedziach ekranu */
+function lbStrzalki(){ const m = lbBody.firstElementChild; if (!m || lb.hidden) return;
+  const r = m.getBoundingClientRect(), W = innerWidth, sz = 44, gap = 12;
+  const l = Math.max(8, r.left - sz - gap), pr = Math.min(W - sz - 8, r.right + gap);
+  const p = lb.querySelector(".lbp"), n = lb.querySelector(".lbn");
+  p.style.left = l + "px"; n.style.left = pr + "px"; n.style.right = "auto"; }
+addEventListener("resize", lbStrzalki);
 function otworzLb(i){ lbI = i; lb.hidden = false; pokazLb(); }
 function zamknijLb(){ lb.hidden = true; lbBody.innerHTML = ""; }
 lb.querySelector(".lbx").onclick = zamknijLb;

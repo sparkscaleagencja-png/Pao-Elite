@@ -458,11 +458,11 @@ footer b{color:var(--ink)}
 <div id="vjourney" aria-roledescription="karuzela" aria-label="Prezentacja PAO Elite">
   <div id="vstage">
 
-    <!-- slajd 1: dron nad dachami -->
+    <!-- slajd 1: montaż z filmików usług -->
     <section class="vscene" id="v1" aria-label="PAO Elite — renowacja elewacji i dachów">
       <video muted loop playsinline preload="auto"
-        poster="video/dron-dachy.jpg">
-        <source src="video/dron-dachy.mp4" type="video/mp4">
+        poster="video/hero-uslugi.jpg">
+        <source src="video/hero-uslugi.mp4" type="video/mp4">
       </video>
       <div class="tint"></div>
       <div class="vov">
@@ -473,15 +473,15 @@ footer b{color:var(--ink)}
       </div>
     </section>
 
-    <!-- slajd 2: PO — dron nad zadbanym domem -->
+    <!-- slajd 2: prawdziwe realizacje przed/po -->
     <section class="vscene" id="v3" aria-label="Efekt po renowacji">
       <video muted loop playsinline preload="metadata"
-        poster="video/dom-po.jpg">
-        <source src="video/dom-po.mp4" type="video/mp4">
+        poster="video/hero-przedpo.jpg">
+        <source src="video/hero-przedpo.mp4" type="video/mp4">
       </video>
       <div class="tint"></div>
       <div class="vov final">
-        <div class="vtag po">Po</div>
+        <div class="vtag" id="vtagpp" aria-hidden="true">Przed</div>
         <div class="word" data-e="hero2-word">Widać różnicę<br><b>po jednym dniu pracy.</b></div>
         <div class="rule"></div>
         <div class="sub" data-e="hero2-sub">Oleśnica i cały Dolny Śląsk</div>
@@ -493,7 +493,6 @@ footer b{color:var(--ink)}
     <button class="varr r" id="vnext" type="button" aria-label="Następny slajd">›</button>
     <div class="vdots" id="vdots"><button type="button" aria-label="Slajd 1"><i></i></button><button type="button" aria-label="Slajd 2"><i></i></button></div>
     <div class="vhint">przewiń w dół</div>
-    <div class="vcredit">wideo: Pexels (Kindel Media · Matthias Groeneveld · Hamza Awan) — wersja demo</div>
     <div id="vfade"></div>
   </div>
 </div>
@@ -928,6 +927,12 @@ document.getElementById('quoteForm').addEventListener('submit',async e=>{
     v.forEach(function(x){io2.observe(x)});
   }
 })();
+</script>
+<script>
+/* Slajd 2 (prawdziwe realizacje): etykieta PRZED/PO zgodna z filmem — każda para trwa 5,8 s, kurtyna kończy się po 2,7 s */
+(function(){var v=document.querySelector('#v3 video'),t=document.getElementById('vtagpp');if(!v||!t)return;
+  function u(){var po=(v.currentTime%5.8)>2.7;t.textContent=po?'Po':'Przed';t.classList.toggle('po',po)}
+  v.addEventListener('timeupdate',u);v.addEventListener('seeked',u);})();
 </script>
 </body>
 </html>

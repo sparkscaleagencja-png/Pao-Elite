@@ -1032,7 +1032,7 @@ const TEX_GOTOWA = {
   "dachowka-detal": () => redraw(texCover, drawCover),
   "dachowka-normal": im => dodajN([M.pokrycie], texN(im, 1024, 256, 128, true), COVER_N[coverState.typ] ?? .5)
 };
-Object.keys(TEX_GOTOWA).forEach(n => { const im = new Image(); im.onload = () => { TEXP[n] = im; TEX_GOTOWA[n](im); }; im.src = "tex/" + n + ".webp?v=9"; });
+Object.keys(TEX_GOTOWA).forEach(n => { const im = new Image(); im.onload = () => { TEXP[n] = im; TEX_GOTOWA[n](im); }; im.src = "tex/" + n + ".webp?v=10"; });
 // rzygacz przez attyke + rynna wzdluz prawego boku + rura spustowa
 { const ry = reg("garaz-dach", ink(box(.42, .1, .26, M.rynna))); ry.position.set(GX1 + .3, BASE - .1, GCZ); scene.add(ry);
   const half = new THREE.CylinderGeometry(.11, .11, GD + .3, 18, 1, true, Math.PI / 2, Math.PI);
@@ -1067,7 +1067,8 @@ const PRESETS = {
   garazPrzed:{tx:DOOR_X, ty:1.15, tz:GZ1, r:10, yaw:0, pitch:.12, fov:36},
   garaz:     {tx:DOOR_X - .2, ty:.85, tz:GZ0 + 1.0, r:6.05, yaw:0, pitch:.17, fov:62},
   podbitka:  {tx:-2.1, ty:5.7, tz:FZ + .3, r:8.2, yaw:-.32, pitch:-.46},
-  taras:     {tx:-.2, ty:.5, tz:FZ + 1.2, r:19, yaw:.32, pitch:.46}
+  taras:     {tx:-.2, ty:.5, tz:FZ + 1.2, r:19, yaw:.32, pitch:.46},
+  tarasZoom: {tx:(TX0 + TX1) / 2, ty:TH, tz:(TZ0 + TZ1) / 2 + .2, r:5.2, yaw:.38, pitch:.66}   // zbliżenie na kamyczki po dojeździe
 };
 Object.assign(cam, PRESETS.dom);
 const camTw = {from:null, to:null, t0:0, dur:1, on:false};
@@ -1243,8 +1244,10 @@ MODES.posadzka = {part:"garaz", krotko:"Posadzki", kicker:"Garaż · posadzka ż
 MODES.taras = {part:"taras", krotko:"Kamienny dywan", kicker:"Taras i schody", cam:"taras",
   tytul:"Taras i schody — kamienny dywan",
   lead:"Kruszywo naturalne związane żywicą. Wybierz mieszankę pod sceną — taras i schody zmienią się od razu.",
-  enter(){ tw("glow", 1, 600); },
-  exit(){ tw("glow", 0, 600); },
+  enter(){ tw("glow", 1, 600);
+    // po dojeździe kamery: zbliżenie na taras, żeby było widać kamyczki (podświetlenie gaśnie, zostaje sama faktura)
+    clearTimeout(this._zoom); this._zoom = setTimeout(() => { if (mode !== "taras") return; tw("glow", 0, 900); camGo("tarasZoom", 2600); }, 1900); },
+  exit(){ clearTimeout(this._zoom); tw("glow", 0, 600); },
   panel(){ return head(this) +
     steps(["Przygotowanie i oczyszczenie podłoża", "Gruntowanie", "Ułożenie mieszanki kruszywa z żywicą", "Wykończenie krawędzi i stopni"]) +
     why(["Antypoślizgowa nawierzchnia, także na schodach", "Woda nie stoi na powierzchni", "Dziesiątki kolorów kruszywa do wyboru"]) + CTA; },

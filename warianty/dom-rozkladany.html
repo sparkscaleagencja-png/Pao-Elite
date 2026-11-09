@@ -232,7 +232,14 @@ ul.layers li small{margin-left:auto;color:var(--muted);font-size:.7rem}
 .gal-head .arr{margin-left:auto;display:flex;gap:8px}
 .gal-head .arr button{width:40px;height:40px;border:none;border-radius:50%;background:rgba(255,255,255,.16);cursor:pointer;font-size:1.2rem;color:#fff}
 .gal-head .arr button:hover{background:#ff8a3d;color:#1d2126}
-.gal-strip{display:flex;gap:14px;overflow-x:auto;scroll-snap-type:x proximity;padding-bottom:12px;scrollbar-width:thin;scrollbar-color:#ff8a3d rgba(255,255,255,.12)}
+.gal-strip{display:flex;gap:14px;overflow-x:auto;scroll-snap-type:x proximity;padding-bottom:18px}
+/* duzy pasek przewijania galerii (Chrome/Edge/Safari); Firefox: standardowy szeroki */
+.gal-strip::-webkit-scrollbar{height:18px}
+.gal-strip::-webkit-scrollbar-track{background:rgba(255,255,255,.14);border-radius:99px;margin:0 4px}
+.gal-strip::-webkit-scrollbar-thumb{background:#ff8a3d;border-radius:99px;border:3px solid rgba(0,0,0,.25);background-clip:padding-box;min-width:60px}
+.gal-strip::-webkit-scrollbar-thumb:hover{background:#ffa463;background-clip:padding-box}
+.gal-strip::-webkit-scrollbar-button{display:none}
+@supports not selector(::-webkit-scrollbar){.gal-strip{scrollbar-width:auto;scrollbar-color:#ff8a3d rgba(255,255,255,.14)}}
 @media(max-width:700px){.gal-cats{flex-wrap:nowrap;overflow-x:auto;justify-content:flex-start;padding:12px 16px;scrollbar-width:none}.gal-cat{flex:none;font-size:.78rem;padding:.7rem 1rem}.gal-in{padding:16px 16px 0}}
 .gi{flex:none;width:clamp(210px,19vw,300px);aspect-ratio:4/3;border:none;padding:0;border-radius:8px;overflow:hidden;position:relative;cursor:pointer;scroll-snap-align:start;
   background:#efede8;box-shadow:inset 0 0 0 1px var(--line);transition:transform .2s var(--ease), box-shadow .2s}

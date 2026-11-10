@@ -218,11 +218,11 @@ ul.layers li small{margin-left:auto;color:var(--muted);font-size:.7rem}
   box-shadow:0 0 10px 2px rgba(255,138,61,.6),0 -7px 32px 8px rgba(255,138,61,.27);animation:ledPulse 4s ease-in-out infinite}
 .gal-sec::after{content:"";position:absolute;left:0;right:0;bottom:7px;height:49px;pointer-events:none;background:linear-gradient(0deg,rgba(255,138,61,.21),rgba(255,138,61,0))}
 @media(prefers-reduced-motion:reduce){.gal-sec::before{animation:none}}
-.gal-cats{position:relative;z-index:1;display:flex;gap:8px;flex-wrap:wrap;justify-content:center;padding:18px var(--gp);background:rgba(10,8,6,.62);border-bottom:2px solid #ff8a3d;box-shadow:0 10px 26px rgba(0,0,0,.35)}
-.gal-cat{--c:12px;border:2px solid rgba(255,255,255,.28);background:rgba(255,255,255,.06);color:#fff;cursor:pointer;font-family:inherit;font-weight:800;font-size:.8rem;letter-spacing:.04em;text-transform:uppercase;white-space:nowrap;
-  padding:.7rem .8rem;display:inline-flex;align-items:center;gap:.45rem;transition:background .2s,color .2s,transform .2s;
+.gal-cats{position:relative;z-index:1;display:flex;gap:6px;flex-wrap:wrap;justify-content:center;padding:18px var(--gp);background:rgba(10,8,6,.62);border-bottom:2px solid #ff8a3d;box-shadow:0 10px 26px rgba(0,0,0,.35)}
+.gal-cat{--c:12px;border:2px solid rgba(255,255,255,.28);background:rgba(255,255,255,.06);color:#fff;cursor:pointer;font-family:inherit;font-weight:800;font-size:.76rem;letter-spacing:.02em;text-transform:uppercase;white-space:nowrap;
+  padding:.68rem .72rem;display:inline-flex;align-items:center;gap:.45rem;transition:background .2s,color .2s,transform .2s;
   clip-path:polygon(var(--c) 0,100% 0,100% calc(100% - var(--c)),calc(100% - var(--c)) 100%,0 100%,0 var(--c))}
-.gal-cat small{font-size:.72rem;font-weight:800;background:rgba(255,255,255,.18);padding:.12rem .5rem;border-radius:99px;letter-spacing:.02em}
+.gal-cat small{font-size:.7rem;font-weight:800;background:rgba(255,255,255,.18);padding:.1rem .42rem;border-radius:99px;letter-spacing:.02em}
 .gal-cat:hover{background:rgba(255,138,61,.35);transform:translateY(-2px)}
 .gal-cat.on{background:#ff8a3d;border-color:#ff8a3d;color:#1d2126}
 .gal-cat.on small{background:rgba(29,33,38,.2)}
@@ -1484,31 +1484,48 @@ function updateLead(){
 }
 const galEl = $("#galSec");
 let galItems = [];
-const KAT_ORDER = ["Realizacje", "Stan przed", "Aplikacja", "Dachówka ceramiczna", "Dachówka cementowa", "Blacha", "Mycie", "Prace tynkarskie", "Akrylowanie", "Zabezpieczanie", "Rusztowania", "Dachy", "Inne"];
+const KAT_ORDER = ["Elewacja", "Dachówka ceramiczna", "Dachówka cementowa", "Blacha", "Dachy", "Dach płaski", "Taras i schody", "Posadzki", "Inne"];
+/* kategoria = usługa (z folderu zdjęcia); dachy dzielone na rodzaj pokrycia */
 function katOf(it){
+  const f = String(it.src).toLowerCase(), t = f + " " + String(it.podpis || "").toLowerCase(), dir = f.split("/")[0];
+  if (dir === "odnowa") return "Elewacja";
+  if (dir === "hydro") return "Dach płaski";
+  if (dir === "taras") return "Taras i schody";
+  if (dir === "posadzka") return "Posadzki";
+  if (dir === "dachowka"){
+    if (/ceramicz/.test(f)) return "Dachówka ceramiczna";
+    if (/cement/.test(f)) return "Dachówka cementowa";
+    if (/blach/.test(t)) return "Blacha";
+    return "Dachy";
+  }
+  return "Inne";
+}
+/* etap pracy: 0 = przed i po na jednym zdjęciu, 1 = stan przed, 2 = w trakcie, 3 = efekt */
+function etapOf(it){
+  const n = String(it.src).toLowerCase().split("/").pop().replace(/^[\d-]+_/, "_");
+  if (/przed-i-po/.test(n)) return 0;
+  if (/przed|poczatkow|mech|porost|zmatow|luszcz|odpadaj|pekniecie|styk-/.test(n)) return 1;
+  if (/(^|[_-])po([_.-]|$)|efekt|polysk/.test(n)) return 3;
+  if (/mycie|walek|probka|trakcie|zabezp|rusztowan|napraw|akryl|natrysk|stanowisko|slup/.test(n)) return 2;
+  return 3;
+}
+/* rodzaj prac w elewacji — używany do zawężenia zdjęć dla ocieplenia i podbitki */
+function rodzajOf(it){
   const f = String(it.src).toLowerCase(), t = f + " " + String(it.podpis || "").toLowerCase();
-  if (/ceramicz/.test(f)) return "Dachówka ceramiczna";
-  if (/cement/.test(f)) return "Dachówka cementowa";
-  if (/blach/.test(f)) return "Blacha";
-  if (/poczatkow/.test(f)) return "Stan przed";
-  if (/walek|probka/.test(f)) return "Aplikacja";
-  if (/(^|[\/_-])(przed-i-po|przed-|po-|efekt)/.test(f.split("/").pop().replace(/^[\d-]+_/, "_"))) return "Realizacje";
-  if (/mycie/.test(f)) return "Mycie";
-  if (/dachowk|blach|\bdach/.test(f)) return "Dachy";
-  if (/akryl|pekniecie|styk/.test(f) || /akryl/.test(t)) return "Akrylowanie";
+  if (etapOf(it) === 3 || /(^|[\/_-])(przed-|efekt)/.test(f.split("/").pop().replace(/^[\d-]+_/, "_"))) return "Realizacje";
   if (/zabezpiecz/.test(t)) return "Zabezpieczanie";
   if (/rusztowan|stanowisko/.test(t)) return "Rusztowania";
   if (/napraw|odspoj|odpadaj|tynk|natrysk|grunt|ubyt/.test(t)) return "Prace tynkarskie";
   return "Inne";
 }
+const posortuj = arr => arr.map((it, i) => [it, i]).sort((x, y) => etapOf(x[0]) - etapOf(y[0]) || x[1] - y[1]).map(x => x[0]);
 let galCat = "Wszystkie";
 /* przedzialka w pasku "Wszystkie": jeden kafel z opisem przed kazda grupa zdjec */
-const KAT_OPIS = {"Realizacje":"Efekty końcowe — jak wyglądało przed i jak wygląda po", "Stan przed":"Stan budynku przed rozpoczęciem prac",
-  "Aplikacja":"Nakładanie materiału, próbki kolorów", "Dachówka ceramiczna":"Mycie i malowanie dachówki ceramicznej",
-  "Dachówka cementowa":"Mycie i malowanie dachówki cementowej", "Blacha":"Odnowa dachów z blachy: mycie i malowanie",
-  "Mycie":"Mycie ciśnieniowe z glonów i brudu", "Prace tynkarskie":"Naprawa ubytków i pęknięć tynku",
-  "Akrylowanie":"Uszczelnienie styku ram okien i drzwi z tynkiem", "Zabezpieczanie":"Zabezpieczenie okien, drzwi i otoczenia przed pracami",
-  "Rusztowania":"Stanowisko pracy i rusztowania", "Dachy":"Dachy — różne realizacje", "Inne":"Pozostałe materiały z realizacji"};
+const KAT_OPIS = {"Elewacja":"Mycie, naprawy tynku, zabezpieczenie i malowanie — od stanu przed do efektu",
+  "Dachówka ceramiczna":"Mycie i malowanie dachówki ceramicznej", "Dachówka cementowa":"Mycie i malowanie dachówki cementowej",
+  "Blacha":"Odnowa dachów z blachy: mycie i malowanie", "Dachy":"Całe domy po renowacji dachu, także z drona",
+  "Dach płaski":"Hydroizolacja żywicą na starej papie", "Taras i schody":"Kamienny dywan na tarasach, schodach i chodnikach",
+  "Posadzki":"Posadzki żywiczne w garażach i na tarasach", "Inne":"Pozostałe materiały z realizacji"};
 const przedzialka = (k, c) => `<button class="gi przedz" type="button" data-kat="${k}" aria-label="Pokaż tylko: ${k}"><span class="pz-nr">${c} ${c === 1 ? "materiał" : c < 5 ? "materiały" : "materiałów"}</span><b>${k}</b><span class="pz-op">${KAT_OPIS[k] || ""}</span><span class="pz-go">tylko ta kategoria →</span></button>`;
 /* ktore rodzaje zdjec pasuja do uslugi (gdy zdjecia sa wspolne z inna usluga) */
 const SERWIS_KAT = {docieplanie:["Realizacje", "Prace tynkarskie", "Zabezpieczanie", "Rusztowania"], podbitka:["Realizacje", "Zabezpieczanie", "Rusztowania"]};
@@ -1517,7 +1534,7 @@ const FOKUS_DOL = /slup-i-podbitka|natrysk-przy-cokole/;
 const fokus = it => FOKUS_DOL.test(String(it.src)) ? ' style="object-position:50% 100%"' : "";
 function renderGal(){
   const mk = sel ? sel.key : (mode === "dom" ? "ogolne" : mode);
-  let items = GAL_DATA[mk] || [], tytul = sel ? (OPISY[sel.key] || [sel.id])[0] : (mode === "dom" ? "Realizacje" : MODES[mode].krotko);
+  let items = GAL_DATA[mk] || [], tytul = sel ? (OPISY[sel.key] || [sel.id])[0] : (mode === "dom" ? "" : MODES[mode].krotko);
   if (sel && !items.length && GAL_DATA[mode] && GAL_DATA[mode].length){ items = GAL_DATA[mode]; tytul = MODES[mode].krotko; }
   const wszystkie = () => { const seen = new Set(), out = [];
     for (const k of ["odnowa"].concat(Object.keys(GAL_DATA))){ if (!Array.isArray(GAL_DATA[k])) continue;
@@ -1526,18 +1543,18 @@ function renderGal(){
   let inne = false;
   if (!items.length){
     if (!sel && mode === "dom") items = wszystkie();                       // widok calego domu: wszystko, zeby galeria nigdy nie byla pusta
-    else { items = (GAL_DATA.odnowa || []).filter(it => katOf(it) === "Realizacje"); inne = items.length > 0; }   // usluga bez wlasnych zdjec: pokaz gotowe realizacje
-  } else if (SERWIS_KAT[mode]) items = items.filter(it => SERWIS_KAT[mode].includes(katOf(it)));   // kazda usluga ma swoje rodzaje folderow
+    else { items = (GAL_DATA.odnowa || []).filter(it => rodzajOf(it) === "Realizacje"); inne = items.length > 0; }   // usluga bez wlasnych zdjec: pokaz gotowe realizacje
+  } else if (SERWIS_KAT[mode]) items = items.filter(it => SERWIS_KAT[mode].includes(rodzajOf(it)));   // kazda usluga ma swoje rodzaje folderow
   const counts = {}; items.forEach(it => { const k = katOf(it); counts[k] = (counts[k] || 0) + 1; });
   const cats = KAT_ORDER.filter(k => counts[k]);
   if (galCat !== "Wszystkie" && !counts[galCat]) galCat = "Wszystkie";
   const grupuj = galCat === "Wszystkie" && cats.length > 1;
-  const shown = galCat === "Wszystkie" ? (grupuj ? cats.flatMap(k => items.filter(it => katOf(it) === k)) : items) : items.filter(it => katOf(it) === galCat);
+  const shown = galCat === "Wszystkie" ? (grupuj ? cats.flatMap(k => posortuj(items.filter(it => katOf(it) === k))) : posortuj(items)) : posortuj(items.filter(it => katOf(it) === galCat));
   galItems = shown;
   const n = shown.length;
   galEl.innerHTML = (cats.length > 1 ? `<div class="gal-cats" role="tablist" aria-label="Kategorie zdjęć">` +
       [["Wszystkie", items.length]].concat(cats.map(k => [k, counts[k]])).map(([k, c]) => `<button class="gal-cat${k === galCat ? " on" : ""}" type="button" role="tab" data-kat="${k}">${k}<small>${c}</small></button>`).join("") + `</div>` : "") +
-    `<div class="gal-in"><div class="gal-head"><b>Zdjęcia i filmy z realizacji — ${galCat !== "Wszystkie" && mode === "dom" && !sel ? "" : tytul + (inne ? " · przykładowe realizacje" : "")}${galCat !== "Wszystkie" ? (mode === "dom" && !sel ? "" : " · ") + galCat : ""}</b><small>${n ? n + " materiałów" : "wkrótce"}</small>` +
+    `<div class="gal-in"><div class="gal-head"><b>${["Zdjęcia i filmy z realizacji", [tytul + (inne ? " · przykładowe realizacje" : ""), galCat !== "Wszystkie" ? galCat : ""].filter(Boolean).join(" · ")].filter(Boolean).join(" — ")}</b><small>${n ? n + " materiałów" : "wkrótce"}</small>` +
     `<span class="arr"><button type="button" data-d="p" aria-label="Wstecz">‹</button><button type="button" data-d="n" aria-label="Dalej">›</button></span></div>` +
     `<div class="gal-strip" id="galStrip">` + shown.map((it, i) => (grupuj && (i === 0 || katOf(shown[i - 1]) !== katOf(it)) ? przedzialka(katOf(it), counts[katOf(it)]) : "") + (it.typ === "wideo"
       ? `<button class="gi" type="button" data-i="${i}"><video muted preload="metadata" src="${galSrc(it.src)}#t=0.4"${it.poster ? ` poster="${galSrc(it.poster)}"` : ""}></video><span class="play">▶</span>${it.podpis ? `<span class="cap">${esc(it.podpis)}</span>` : ""}</button>`

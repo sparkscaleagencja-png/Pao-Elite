@@ -272,30 +272,29 @@ body.touch .fallback{display:flex}
 /* ================= SEKCJE ================= */
 .tiles-sec{padding:2.8rem 1.6rem 2.6rem;max-width:1300px;margin:0 auto}
 /* sekcja Uslugi: belka w kolorach loga PAO Elite (antracyt #3d3d3d, biel, jasnoszary #d3d3d3) na cala szerokosc ekranu */
-/* STOPKA (2026-11-13: ciemna, wyraźna) */
-footer{background:#16191d;color:#c9ccd0;padding:3rem 1.6rem 1.6rem;text-align:center;border-top:3px solid var(--accent)}
+/* STOPKA (2026-11-13: jasna jak wcześniej, duże logo, kolorowe sociale) */
+footer{background:var(--bg);color:var(--muted);padding:3rem 1.6rem 1.8rem;text-align:center;border-top:1px solid var(--line)}
 footer a{color:inherit;text-decoration:none;font-weight:700}
-footer a:hover{color:var(--accent-l)}
-.fwrap{max-width:1000px;margin:0 auto}
-.ftop{display:flex;align-items:center;justify-content:center;gap:1.4rem 2.2rem;flex-wrap:wrap}
-.fbrand{display:flex;flex-direction:column;align-items:center;gap:.25rem}
-.fbrand b{color:#fff;font-size:1.5rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase}
-.fbrand span{font-size:.92rem;color:#aab0b6}
-.ftel{color:#fff;font-size:1.3rem;font-weight:800;padding:.55rem 1.3rem;border:2px solid var(--accent);border-radius:4px;transition:background .2s,color .2s}
-.ftel:hover{background:var(--accent);color:#fff!important}
-.fsoc{margin-top:1.6rem;display:flex;gap:.7rem;justify-content:center;flex-wrap:wrap}
-.fsoc a{font-size:.92rem;padding:.55rem 1.15rem;border:1px solid rgba(255,255,255,.22);border-radius:4px;color:#fff;transition:border-color .2s,color .2s}
-.fsoc a:hover{border-color:var(--accent-l)}
-.ffirma{margin-top:1.8rem;font-size:.86rem;line-height:1.7;color:#aab0b6}
-.ffirma a{color:#fff;text-decoration:underline;text-underline-offset:3px}
-.fpartner{margin-top:.7rem;font-size:.8rem;color:#8d949b}
-.fdol{margin-top:2rem;padding-top:1.4rem;border-top:1px solid rgba(255,255,255,.1)}
-.fspark{display:inline-flex;align-items:center;gap:.6rem;color:#fff;opacity:.9;transition:opacity .2s,transform .2s}
-.fspark:hover{opacity:1;color:#fff!important;transform:translateY(-1px)}
-.fspark small{font-size:.74rem;font-weight:500;color:#8d949b;letter-spacing:.04em}
+footer a:hover{color:var(--accent)}
+.fwrap{max-width:1000px;margin:0 auto;display:flex;flex-direction:column;align-items:center}
+.flogo{width:170px;height:auto;border-radius:10px;box-shadow:0 12px 30px rgba(20,24,30,.18)}
+.fbrand{margin-top:1.2rem;font-size:.95rem}
+.fbrand b{color:var(--ink)}
+.ftel{margin-top:.5rem;color:var(--ink);font-size:clamp(1.9rem,4.5vw,2.8rem);font-weight:800;letter-spacing:.14em;line-height:1.1;white-space:nowrap}
+.fsoc{margin-top:1.3rem;display:flex;gap:1rem;justify-content:center}
+.fsoc a{display:block;width:44px;height:44px;transition:transform .2s}
+.fsoc a:hover{transform:translateY(-3px) scale(1.06)}
+.fsoc svg{width:100%;height:100%;display:block}
+.ffirma{margin-top:1.6rem;font-size:.84rem;line-height:1.7}
+.ffirma a{color:var(--ink)}
+.fpartner{margin-top:.6rem;font-size:.78rem;opacity:.85}
+.fdol{margin-top:1.8rem;padding-top:1.3rem;border-top:1px solid var(--line);align-self:stretch}
+.fspark{display:inline-flex;align-items:center;gap:.6rem;color:var(--ink)!important;transition:opacity .2s}
+.fspark:hover{opacity:.75}
+.fspark small{font-size:.74rem;font-weight:500;color:var(--muted);letter-spacing:.04em}
 .fspark img{height:36px;width:auto;display:block}
 .fspark span{font-size:.82rem;font-weight:800;letter-spacing:.3em}
-@media(max-width:560px){.fbrand b{font-size:1.3rem}.ftel{font-size:1.15rem}.ffirma{font-size:.8rem}}
+@media(max-width:560px){.flogo{width:140px}.ftel{letter-spacing:.08em}.ffirma{font-size:.8rem}}
 .uslugi-band{width:100%;background:linear-gradient(rgba(20,22,25,.28),rgba(20,22,25,.28)),url(img/beton-tlo.webp) center top/696px 900px repeat #2c2f33;color:#fff}
 .uslugi-band .eyebrow{color:#d3d3d3}
 .uslugi-band h2.sec{color:#fff}
@@ -698,15 +697,18 @@ textarea{min-height:110px;resize:vertical}
 
 <footer>
   <div class="fwrap">
-    <div class="ftop">
-      <div class="fbrand"><b id="pe-trig">PAO Elite</b><span data-e="stopka-obszar">Oleśnica i Dolny Śląsk</span></div>
-      <a class="ftel" href="tel:+48608355327">608 355 327</a>
+    <img class="flogo" src="img/logo-pao-elite-tlo.svg" alt="PAO Elite — Perfekcja" width="170" height="163" loading="lazy">
+    <div class="fbrand"><b id="pe-trig">PAO Elite</b> · <span data-e="stopka-obszar">Oleśnica i Dolny Śląsk</span></div>
+    <a class="ftel" href="tel:+48608355327">608 355 327</a>
+    <div class="fsoc">
+      <a href="https://www.instagram.com/paoelite/" target="_blank" rel="noopener" aria-label="Instagram"><svg viewBox="0 0 24 24"><defs><radialGradient id="igg" cx="30%" cy="107%" r="150%"><stop offset="0" stop-color="#fdf497"/><stop offset=".05" stop-color="#fdf497"/><stop offset=".45" stop-color="#fd5949"/><stop offset=".6" stop-color="#d6249f"/><stop offset=".9" stop-color="#285AEB"/></radialGradient></defs><rect width="24" height="24" rx="6" fill="url(#igg)"/><rect x="5" y="5" width="14" height="14" rx="4" fill="none" stroke="#fff" stroke-width="1.8"/><circle cx="12" cy="12" r="3.3" fill="none" stroke="#fff" stroke-width="1.8"/><circle cx="16.4" cy="7.6" r="1.1" fill="#fff"/></svg></a>
+      <a href="https://www.facebook.com/profile.php?id=61561366204165" target="_blank" rel="noopener" aria-label="Facebook"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="12" fill="#1877F2"/><path fill="#fff" d="M13.4 24v-8.4h2.8l.4-3.3h-3.2v-2.1c0-.95.27-1.6 1.63-1.6h1.74V5.65c-.3-.04-1.33-.13-2.53-.13-2.5 0-4.2 1.53-4.2 4.33v2.43H7.2v3.3h2.84V24z"/></svg></a>
+      <a href="https://www.tiktok.com/@paoelitepl" target="_blank" rel="noopener" aria-label="TikTok"><svg viewBox="0 0 24 24"><rect width="24" height="24" rx="6" fill="#010101"/><g transform="translate(1.6 1.6) scale(.86)"><path fill="#25F4EE" transform="translate(-.6 -.6)" d="M16.6 5.8a4.3 4.3 0 0 1-1-2.8h-3.1v12.4a2.6 2.6 0 1 1-1.8-2.5V9.7a5.7 5.7 0 1 0 4.9 5.7V9.1a7.3 7.3 0 0 0 4.3 1.4V7.4a4.3 4.3 0 0 1-3.3-1.6z"/><path fill="#FE2C55" transform="translate(.6 .6)" d="M16.6 5.8a4.3 4.3 0 0 1-1-2.8h-3.1v12.4a2.6 2.6 0 1 1-1.8-2.5V9.7a5.7 5.7 0 1 0 4.9 5.7V9.1a7.3 7.3 0 0 0 4.3 1.4V7.4a4.3 4.3 0 0 1-3.3-1.6z"/><path fill="#fff" d="M16.6 5.8a4.3 4.3 0 0 1-1-2.8h-3.1v12.4a2.6 2.6 0 1 1-1.8-2.5V9.7a5.7 5.7 0 1 0 4.9 5.7V9.1a7.3 7.3 0 0 0 4.3 1.4V7.4a4.3 4.3 0 0 1-3.3-1.6z"/></g></svg></a>
     </div>
-    <div class="fsoc"><a href="https://www.instagram.com/paoelite/" target="_blank" rel="noopener">Instagram</a><a href="https://www.facebook.com/profile.php?id=61561366204165" target="_blank" rel="noopener">Facebook</a><a href="https://www.tiktok.com/@paoelitepl" target="_blank" rel="noopener">TikTok</a><a href="realizacje.html">Realizacje</a></div>
-    <div class="ffirma">PAO Elite Przemysław Obruśnik · ul. Wschodnia 29, 56-400 Oleśnica · NIP 9111043483 · REGON 020112120 · <a href="polityka-prywatnosci.html">Polityka prywatności</a></div>
+    <div class="ffirma">PAO Elite Przemysław Obruśnik · ul. Wschodnia 29, 56-400 Oleśnica · NIP 9111043483 · REGON 020112120 · <a href="realizacje.html">Realizacje</a> · <a href="polityka-prywatnosci.html">Polityka prywatności</a></div>
     <div class="fpartner" data-e="stopka-partner">Oficjalny Partner Firmy Revo PrimeTech</div>
     <div class="fpartner" data-e="stopka-manager">Przemysław Obruśnik jest managerem w firmie Revo PrimeTech. Usługi budowlane świadczy firma Revo PrimeTech.</div>
-    <div class="fdol"><a class="fspark" href="https://spark-scale.pl" target="_blank" rel="noopener" aria-label="Strona wykonana przez Spark Scale"><small>Strona i aplikacja:</small><img src="img/spark-logo-kolor.svg" alt="" width="18" height="30"><span>SPARK SCALE</span></a></div>
+    <div class="fdol"><a class="fspark" href="https://spark-scale.pl" target="_blank" rel="noopener" aria-label="Strona wykonana przez Spark Scale"><small>Strona i aplikacja:</small><img src="img/spark-logo-kolor-ciemne.svg" alt="" width="18" height="30"><span>SPARK SCALE</span></a></div>
   </div>
 </footer>
 

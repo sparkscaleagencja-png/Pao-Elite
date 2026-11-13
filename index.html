@@ -6,6 +6,8 @@
 <title>PAO Elite — czyszczenie, malowanie i renowacja elewacji oraz dachów · Oleśnica i Dolny Śląsk</title>
 <link rel="icon" type="image/svg+xml" href="img/znak-p.svg">
 <link rel="apple-touch-icon" href="img/znak-p-1200.png">
+<link rel="preload" href="fonts/bespoke-slab-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="fonts/bespoke-slab.css">
 <meta name="description" content="PAO Elite: elewacje i tynki Sto, czyszczenie i malowanie dachów, prace dekarskie, dachy płaskie w żywicy, kamienny dywan. Bezpłatna wycena, realizacje w całej Polsce.">
 <link rel="canonical" href="https://pao-elite.pl/">
 <meta property="og:type" content="website"><meta property="og:locale" content="pl_PL"><meta property="og:site_name" content="PAO Elite">
@@ -27,7 +29,7 @@
 }
 *{margin:0;padding:0;box-sizing:border-box}
 html{scroll-behavior:smooth;scrollbar-gutter:stable}
-body{font-family:"Inter","Segoe UI",system-ui,-apple-system,sans-serif;background:var(--bg);color:var(--ink);-webkit-font-smoothing:antialiased;overflow-x:hidden}
+body{font-family:"Bespoke Slab","Inter","Segoe UI",system-ui,-apple-system,sans-serif;background:var(--bg);color:var(--ink);-webkit-font-smoothing:antialiased;overflow-x:hidden}
 ::selection{background:var(--accent);color:#fff}
 img,svg,video{display:block}
 button{font-family:inherit}
@@ -76,6 +78,10 @@ header.onpage .head-phone:hover{color:var(--accent)}
 .btn-ghost:hover{background:var(--ink);border-color:var(--ink);color:#fff}
 .btn-glass{border:1px solid rgba(255,255,255,.5);color:#fff;background:rgba(255,255,255,.1);backdrop-filter:blur(6px)}
 .btn-glass:hover{background:#fff;color:var(--ink)}
+/* Bespoke Slab jest szerszy od Inter — nagłówek nie może się łamać */
+.mainnav a,.head-phone,header .btn,.brand .bt{white-space:nowrap}
+@media(max-width:1320px){header{gap:1.4rem}.mainnav{gap:1.25rem}.head-right{gap:.9rem}}
+@media(max-width:1180px){.head-phone span{display:none}.brand .bt small{display:none}}
 @media(max-width:1020px){.mainnav{display:none}}
 @media(max-width:960px){.head-phone span{display:none}}
 .menu-btn{display:none;width:42px;height:42px;border:1px solid rgba(255,255,255,.5);background:rgba(255,255,255,.1);border-radius:6px;cursor:pointer;padding:0;flex-direction:column;align-items:center;justify-content:center;gap:5px}
@@ -116,7 +122,7 @@ header.onpage .menu-btn span{background:var(--ink)}
 .vscene.on .vov > *{opacity:1;transform:none}
 .vscene.on .vov > *:nth-child(1){transition-delay:.45s}.vscene.on .vov > *:nth-child(2){transition-delay:.6s}
 .vscene.on .vov > *:nth-child(3){transition-delay:.75s}.vscene.on .vov > *:nth-child(4){transition-delay:.9s}
-.vov .word{font-family:Georgia,"Times New Roman",serif;font-weight:400;font-size:clamp(2.6rem,9vw,7.4rem);
+.vov .word{font-family:"Bespoke Slab",Georgia,serif;font-weight:400;font-size:clamp(2.6rem,9vw,7.4rem);
   letter-spacing:.28em;text-transform:uppercase;line-height:1.06;text-indent:.28em;
   text-shadow:0 3px 18px rgba(5,8,12,.85),0 10px 70px rgba(5,8,12,.55)}
 .vtag{display:inline-block;margin-bottom:1.2rem;padding:.42rem 1rem;border:1px solid #ffffff99;border-radius:2px;
@@ -349,7 +355,7 @@ summary::after{content:"+";font-size:1.3rem;color:var(--accent);font-weight:400;
 details[open] summary::after{transform:rotate(45deg)}
 details .a{padding:0 .2rem 1.2rem;color:var(--muted);font-size:.9rem;line-height:1.65;max-width:700px}
 .ctaband{background:linear-gradient(120deg,#1a1e24,#2a2119);padding:5rem 1.6rem;text-align:center;color:#fff}
-.ctaband .word{font-family:Georgia,serif;font-size:clamp(1.6rem,4vw,2.8rem);font-weight:400;line-height:1.25}
+.ctaband .word{font-family:"Bespoke Slab",Georgia,serif;font-size:clamp(1.6rem,4vw,2.8rem);font-weight:400;line-height:1.25}
 .ctaband .word b{color:var(--accent-l)}
 .ctaband .btns{margin-top:2rem;display:flex;gap:.9rem;justify-content:center;flex-wrap:wrap}
 .ctaband .jakosc{margin:2.4rem auto 0;max-width:760px;padding-top:1.3rem;border-top:1px solid rgba(255,255,255,.14);display:flex;flex-direction:column;align-items:center;gap:.7rem}

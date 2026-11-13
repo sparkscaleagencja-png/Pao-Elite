@@ -4,8 +4,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>PAO Elite — dom na części pierwsze</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="preload" href="../fonts/bespoke-slab-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="../fonts/bespoke-slab.css">
 <style>
 :root{
   --bg:#f5f4f1; --ink:#1d2126; --muted:#6d7278; --line:#e2dfd9;
@@ -15,7 +15,7 @@
 }
 *{box-sizing:border-box}
 html,body{margin:0}
-body{font-family:"Inter","Segoe UI",system-ui,sans-serif;background:var(--bg);color:var(--ink);-webkit-font-smoothing:antialiased}
+body{font-family:"Bespoke Slab","Inter","Segoe UI",system-ui,sans-serif;background:var(--bg);color:var(--ink);-webkit-font-smoothing:antialiased}
 button{font-family:inherit}
 
 .dom3d{max-width:1400px;margin:0 auto;padding:28px 24px 40px}
@@ -440,7 +440,7 @@ const texMembrane = ctex(512, 256, (g, w, h) => {
   g.fillStyle = "#3f6e98"; g.fillRect(0, 0, w, h);
   g.strokeStyle = "rgba(255,255,255,.35)"; g.lineWidth = 2;
   for (let y = 40; y < h; y += 80){ g.beginPath(); g.moveTo(0, y); g.lineTo(w, y); g.stroke(); }
-  g.fillStyle = "rgba(255,255,255,.4)"; g.font = "bold 18px Inter, sans-serif";
+  g.fillStyle = "rgba(255,255,255,.4)"; g.font = "bold 18px 'Bespoke Slab', Inter, sans-serif";
   for (let y = 70; y < h; y += 80) for (let x = 20; x < w; x += 200) g.fillText("MEMBRANA", x, y);
 }, true);
 

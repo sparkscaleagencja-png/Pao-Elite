@@ -43,7 +43,7 @@ button{font-family:inherit}
 .stage canvas{display:block;width:100%;height:100%;cursor:grab;touch-action:pan-y}
 .stage canvas.hov{cursor:pointer}
 .stage canvas.drag{cursor:grabbing}
-.stage-tip{position:absolute;left:14px;bottom:6px;font-size:1.15rem;font-weight:800;letter-spacing:.005em;color:#4a4f56;background:rgba(255,255,255,.85);
+.stage-tip{position:relative;display:inline-block;margin:10px 0 0 14px;font-size:1.15rem;font-weight:800;letter-spacing:.005em;color:#4a4f56;background:rgba(255,255,255,.85);
   padding:.5rem .95rem;border-radius:26px;backdrop-filter:blur(6px);pointer-events:none;z-index:5}
 @media(max-width:700px){.stage-tip{font-size:.95rem;padding:.4rem .75rem;max-width:calc(100% - 28px)}}
 .mode-title{position:absolute;left:0;right:0;top:14px;text-align:center;pointer-events:none;transition:opacity .4s var(--ease)}
@@ -200,7 +200,8 @@ ul.layers li small{margin-left:auto;color:var(--muted);font-size:.7rem}
 .q-spec.show{transform:none;opacity:1}
 .q-x{position:absolute;right:-8px;top:-8px;width:24px;height:24px;border:none;border-radius:50%;background:var(--ink);color:#fff;cursor:pointer;font-size:.9rem;line-height:1;z-index:1}
 .q-x:hover{background:var(--accent)}
-@media(max-width:700px){.quick{width:170px;top:58px}.q-in{padding:7px 7px 9px}.q-txt{font-size:.68rem}.q-spec{font-size:.66rem;padding:.5rem .7rem .5rem 1.3rem}.q-tyt{font-size:.85rem}.qba{aspect-ratio:1/1}}
+@media(min-width:701px) and (max-height:860px){.quick{width:196px;top:60px}.qba{aspect-ratio:5/4}.q-in{padding:7px 7px 9px}.q-tyt{font-size:.88rem;margin:.45rem 0 .2rem}.q-txt{font-size:.74rem}}
+@media(max-width:700px){.quick{width:150px;top:auto;bottom:10px}.q-in{padding:7px 7px 9px}.q-txt{font-size:.68rem}.q-spec{font-size:.66rem;padding:.5rem .7rem .5rem 1.3rem}.q-tyt{font-size:.85rem}.qba{aspect-ratio:1/1}}
 @media(prefers-reduced-motion:reduce){.quick,.q-spec{transition:opacity .2s}.q-spec{transform:none}}
 /* szerokie ekrany: panel przed/po stoi w wolnym polu po lewej, a strzalka wstecz w lewym gornym rogu poza scena */
 @media(min-width:1650px){.stage{overflow:visible}#cv{border-radius:14px}.quick{left:-150px;top:0;width:262px;gap:6px}.qba{aspect-ratio:11/6}.q-in,.embed .q-in{max-height:none;padding:8px 8px 10px}.q-tyt{margin:.5rem 0 .2rem;font-size:.95rem}.q-txt{font-size:.74rem;line-height:1.4}.q-spec{padding:.5rem 1rem .5rem 1.7rem}.nav-back{left:-205px;top:-105px}}
@@ -265,6 +266,17 @@ ul.layers li small{margin-left:auto;color:var(--muted);font-size:.7rem}
 .lb .lbx{right:18px;top:16px}.lb .lbp{left:16px;top:50%;transform:translateY(-50%);z-index:2}.lb .lbn{right:16px;top:50%;transform:translateY(-50%);z-index:2}
 .lb .lbc{position:absolute;left:0;right:0;bottom:16px;text-align:center;color:#fff;font-size:.85rem}
 .note{font-size:.7rem;color:var(--muted);margin-top:14px;line-height:1.45}
+/* PASEK KOLORÓW (2026-11-23): wyśrodkowany, kolory w rzędach zamiast suwaka, duża nazwa koloru */
+.bar{justify-content:center;text-align:center}
+.bar-grp{justify-content:center}
+.bar .sw{flex-wrap:wrap;justify-content:center;overflow:visible;padding:4px;margin:0;max-width:none}
+.bar .sw button span{display:none}
+.bar-grp:has(>.sw){flex:0 1 auto}
+.sw-nazwa{flex:1 0 100%;text-align:center;font-size:1.05rem;font-weight:800;color:var(--ink);min-height:1.4em;margin-top:-4px}
+.sw-nazwa.nad{color:#5a5f66}
+.bar-lbl{font-size:.78rem;color:#4a4f56}
+.tabs button{font-size:.88rem}
+@media(max-width:600px){.bar .tabs{max-width:100%}.bar .tabs button{padding:.42rem .5rem;font-size:.8rem}}
 /* RAMKI: TWARDY STYL (2026-11-23) — ostre rogi, gruba linia, twardy cień bez rozmycia */
 /* rama z ciemnych desek (img/rama-deski.png, narzedzia/rama_deski.py) */
 .bar,.panel,.q-card{border-radius:0;border:22px solid #3a281c;border-image:url(../img/rama-deski.png) 54 stretch;box-shadow:0 10px 24px rgba(20,14,8,.28)}
@@ -291,8 +303,8 @@ ul.layers li small{margin-left:auto;color:var(--muted);font-size:.7rem}
         <div class="quick" id="quick" aria-live="polite"></div>
         <div class="mode-title" id="modeTitle"></div>
         <button class="nav-back off" id="navBack" type="button" aria-label="Wstecz — poprzedni widok" title="Wstecz">←</button>
-        <div class="stage-tip" id="tip">przeciągnij, aby obrócić · kliknij część domu</div>
       </div>
+      <div class="stage-tip" id="tip">przeciągnij, aby obrócić · kliknij część domu</div>
     </div>
     <aside class="panel" id="panel" aria-live="polite"></aside>
   </div>
@@ -1294,7 +1306,14 @@ function renderBar(){
     h += '<div class="bar-grp"><span class="bar-lbl">Usługi</span>' + SVC_LIST.map(([id, t]) => `<button class="chipsvc" data-go="${id}">${t}</button>`).join("") + "</div>";
   }
   barEl.innerHTML = h;
+  if (barEl.querySelector(".sw")){ const n = document.createElement("div"); n.className = "sw-nazwa"; barEl.querySelector(".sw").closest(".bar-grp").after(n); nazwaKoloru(); }
 }
+/* nazwa koloru pod paletą: wybrany, a po najechaniu ten pod kursorem */
+function nazwaKoloru(nad){ const el = barEl.querySelector(".sw-nazwa"); if (!el) return;
+  const b = nad || barEl.querySelector(".sw button.on"); el.textContent = b ? (b.title || "") : ""; el.classList.toggle("nad", !!nad); }
+barEl.addEventListener("mouseover", e => { const b = e.target.closest(".sw button"); if (b) nazwaKoloru(b); });
+barEl.addEventListener("mouseleave", () => nazwaKoloru());
+barEl.addEventListener("click", () => setTimeout(() => nazwaKoloru(), 0));
 
 function renderPanel(){ panelEl.innerHTML = '<div class="in">' + (mode === "dom" ? panelHome() : MODES[mode].panel()) + "</div>";
   const logo = panelEl.querySelector("#stoLogo");
@@ -1654,6 +1673,7 @@ function frame(now){
     h.el.classList.toggle("off", mode !== "dom" || !p.vis); }
   // etykiety warstw dachu (przednia polac) i sciany
   const front = roofSlopes[0];
+  const doRozsuniecia = [];   // etykiety warstw: rozsuwane w pionie, zeby sie nie nakladaly (male ekrany, powiekszenie)
   for (const o of LY){
     let show = false, wp = null;
     if (o.kind === "roof" && rt > .35 && (mode === "wymiana" || (mode === "kuna" && o.idx < 4))){
@@ -1663,7 +1683,7 @@ function frame(now){
     if (o.kind === "wall" && S.wallT > .35 && mode === "docieplanie"){
       const g = wallLayers[o.idx]; wp = new THREE.Vector3(W / 2, H + GABLE * .15 - o.idx * .55, WALL_LAYERS[o.idx].th / 2); g.localToWorld(wp); show = true;
     }
-    if (show){ const p = project(wp); o.el.style.left = (p.x + 10) + "px"; o.el.style.top = p.y + "px"; }
+    if (show){ const p = project(wp); o.el.style.left = (p.x + 10) + "px"; doRozsuniecia.push([o.el, p.y]); }
     o.el.style.opacity = show ? Math.min(1, (o.kind === "roof" ? rt : S.wallT) * 1.6 - .5) : 0;
     o.el.style.pointerEvents = show ? "auto" : "none"; o.el.style.visibility = show ? "visible" : "hidden";
     if (o.kind === "roof" && o.idx === 6) o.el.innerHTML = `<em>7</em>Pokrycie — ${COVER[coverState.typ].nazwa.toLowerCase()}`;
@@ -1672,6 +1692,17 @@ function frame(now){
     const p = project(RYNNA_ETYK); rynnaLbl.style.left = (p.x + 10) + "px"; rynnaLbl.style.top = p.y + "px";
     rynnaLbl.style.opacity = on && p.vis ? 1 : 0; rynnaLbl.style.visibility = on ? "visible" : "hidden";
     M.rynnaWym.emissiveIntensity = on ? .35 + .25 * Math.sin(now * .004) : 0; }
+  if (rynnaLbl.style.visibility === "visible" && rynnaLbl.style.opacity !== "0") doRozsuniecia.push([rynnaLbl, parseFloat(rynnaLbl.style.top)]);
+  if (doRozsuniecia.length){
+    doRozsuniecia.sort((x, y) => x[1] - y[1]);
+    const gap = (doRozsuniecia[0][0].offsetHeight || 22) + 3;
+    const sr0 = doRozsuniecia.reduce((s, x) => s + x[1], 0) / doRozsuniecia.length;
+    for (let i = 1; i < doRozsuniecia.length; i++) if (doRozsuniecia[i][1] < doRozsuniecia[i - 1][1] + gap) doRozsuniecia[i][1] = doRozsuniecia[i - 1][1] + gap;
+    const sr1 = doRozsuniecia.reduce((s, x) => s + x[1], 0) / doRozsuniecia.length, dy = sr1 - sr0;
+    const sw = stage.clientWidth;
+    for (const [el, y] of doRozsuniecia){ el.style.top = (y - dy) + "px";
+      const lx = parseFloat(el.style.left), w = el.offsetWidth; if (lx + w > sw - 4) el.style.left = Math.max(4, sw - 4 - w) + "px"; }
+  }
   updateLead();
   requestAnimationFrame(frame);
 }

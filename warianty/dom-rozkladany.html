@@ -266,10 +266,11 @@ ul.layers li small{margin-left:auto;color:var(--muted);font-size:.7rem}
 .lb .lbc{position:absolute;left:0;right:0;bottom:16px;text-align:center;color:#fff;font-size:.85rem}
 .note{font-size:.7rem;color:var(--muted);margin-top:14px;line-height:1.45}
 /* RAMKI: TWARDY STYL (2026-11-23) — ostre rogi, gruba linia, twardy cień bez rozmycia */
-.bar,.panel{border-radius:0;box-shadow:inset 0 0 0 2px #1d2126,6px 6px 0 rgba(29,33,38,.16)}
-.q-card{border-radius:0;border:2px solid #1d2126;box-shadow:6px 6px 0 rgba(29,33,38,.16)}
+/* rama z ciemnych desek (img/rama-deski.png, narzedzia/rama_deski.py) */
+.bar,.panel,.q-card{border-radius:0;border:22px solid #3a281c;border-image:url(../img/rama-deski.png) 54 stretch;box-shadow:0 10px 24px rgba(20,14,8,.28)}
 .q-in,.qba,.ptitle{border-radius:0}
-.ptitle{box-shadow:none;background:#1d2126}
+@media(max-width:600px){.bar,.panel,.q-card{border-width:14px}}
+.ptitle{box-shadow:none;background:#3a281c}
 .stage,#cv{border-radius:0}
 .mode-title button,.chipsvc,.sibs button,.svc button,.tabs,.tabs button{border-radius:0}
 .qba .ql,.qba .qr{border-radius:0}

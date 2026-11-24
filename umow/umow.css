@@ -1,0 +1,52 @@
+.um-tlo{position:fixed;inset:0;z-index:9990;background:rgba(15,17,20,.72);display:flex;align-items:center;justify-content:center;padding:18px;font-family:"Bespoke Slab","Segoe UI",system-ui,sans-serif}
+.um{background:#fff;color:#1d2126;width:min(760px,100%);max-height:calc(100vh - 36px);max-height:calc(100dvh - 36px);display:flex;flex-direction:column;border-top:6px solid #c05a3c;box-shadow:0 30px 80px rgba(0,0,0,.45)}
+.um *{box-sizing:border-box}
+.um [hidden]{display:none!important}
+.um-g{display:flex;align-items:center;gap:14px;padding:16px 22px;border-bottom:1px solid #e2dfd9}
+.um-g h2{flex:1;margin:0;font-size:26px;line-height:1.2;font-weight:800;color:#1d2126}
+.um-x{flex:none;width:48px;height:48px;border:none;background:#f1efeb;color:#1d2126;font-size:28px;line-height:1;cursor:pointer}
+.um-x:hover{background:#e2dfd9}
+.um-t{padding:18px 22px 26px;overflow:auto;-webkit-overflow-scrolling:touch}
+.um p{margin:0 0 12px;font-size:18px;line-height:1.5;color:#33383e}
+.um h3{margin:22px 0 10px;font-size:21px;font-weight:800;color:#1d2126}
+.um label{display:block;font-size:17px;font-weight:700;margin:12px 0 5px;color:#1d2126;text-transform:none;letter-spacing:0}
+.um label small{font-weight:500;font-size:16px;color:#4a4f56}
+.um input:not([type=checkbox]):not([type=file]),.um select,.um textarea{width:100%;min-height:52px;padding:10px 14px;font:500 18px "Bespoke Slab","Segoe UI",sans-serif;color:#1d2126;background:#fff;border:2px solid #b9b5ad;border-radius:0}
+.um textarea{min-height:90px;resize:vertical}
+.um input:focus,.um select:focus,.um textarea:focus{outline:3px solid rgba(192,90,60,.35);border-color:#c05a3c}
+.um-2{display:grid;grid-template-columns:1fr 1fr;gap:0 16px}
+.um-k{display:grid;grid-template-columns:150px 1fr;gap:0 16px}
+.um-b{display:inline-flex;align-items:center;justify-content:center;min-height:56px;padding:10px 26px;border:none;background:#c05a3c;color:#fff;font:800 19px "Bespoke Slab","Segoe UI",sans-serif;cursor:pointer;text-decoration:none;text-align:center}
+.um-b:hover{background:#a34a30}.um-b:disabled{opacity:.55;cursor:default}
+.um-b.s{background:#1d2126}.um-b.s:hover{background:#000}.um-b.j{background:#f1efeb;color:#1d2126}.um-b.j:hover{background:#e2dfd9}
+.um-rz{display:flex;gap:12px;flex-wrap:wrap;margin-top:18px}
+.um-dni{display:grid;grid-template-columns:repeat(auto-fill,minmax(104px,1fr));gap:8px}
+.um-dni button,.um-godz button{min-height:56px;padding:6px 4px;border:2px solid #b9b5ad;background:#fff;color:#1d2126;font:700 18px "Bespoke Slab","Segoe UI",sans-serif;cursor:pointer;line-height:1.2}
+.um-dni button small{display:block;font-size:15px;font-weight:600;color:#4a4f56}
+.um-godz{display:grid;grid-template-columns:repeat(auto-fill,minmax(92px,1fr));gap:8px}
+.um-dni button:hover,.um-godz button:hover{border-color:#c05a3c}
+.um-pora{display:flex;gap:8px;flex-wrap:wrap}
+.um-pora button{min-height:52px;padding:8px 18px;border:2px solid #b9b5ad;background:#fff;color:#1d2126;font:700 17px "Bespoke Slab","Segoe UI",sans-serif;cursor:pointer}
+.um button[aria-pressed=true]{background:#c05a3c;border-color:#c05a3c;color:#fff}
+.um button[aria-pressed=true] small{color:#fff}
+.um-info{padding:14px 16px;background:#f5f4f1;border-left:5px solid #c05a3c;margin:14px 0}
+.um-info p:last-child{margin:0}
+.um-err{display:none;margin-top:14px;padding:12px 16px;background:#fdecea;border-left:5px solid #b3261e;color:#7a1a14;font-size:18px;font-weight:700}
+.um label.um-zg{display:flex;gap:12px;align-items:flex-start;font-weight:500;font-size:16px;line-height:1.45;margin-top:18px}
+.um-zg input{flex:none;width:26px;height:26px;margin:2px 0 0;accent-color:#c05a3c}
+.um-zg a{color:#a34a30}
+.um-foto{display:flex;gap:10px;flex-wrap:wrap;margin-top:8px}
+.um-foto span{position:relative;width:92px;height:92px;background:#eee center/cover}
+.um-foto button{position:absolute;right:0;top:0;width:34px;height:34px;border:none;background:rgba(29,33,38,.85);color:#fff;font-size:20px;cursor:pointer}
+.um p.um-ok{font-size:22px;font-weight:800;color:#1d2126}
+html.um-stop,html.um-stop body{overflow:hidden}
+@media(max-width:640px){
+  .um-tlo{padding:0;align-items:stretch}
+  .um{max-height:none;height:100vh;height:100dvh;width:100%}
+  .um-g{padding:10px 14px}.um-g h2{font-size:22px}
+  .um-t{padding:14px 16px calc(30px + env(safe-area-inset-bottom))}
+  .um-2{grid-template-columns:1fr}.um-k{grid-template-columns:146px 1fr}
+  .um-rz .um-b{flex:1 1 100%}
+  .um-dni{grid-template-columns:repeat(3,1fr)}.um-godz{grid-template-columns:repeat(4,1fr)}
+  .um-pora button{flex:1 1 45%}
+}

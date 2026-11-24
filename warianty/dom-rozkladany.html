@@ -277,6 +277,23 @@ ul.layers li small{margin-left:auto;color:var(--muted);font-size:.7rem}
 .bar-lbl{font-size:.78rem;color:#4a4f56}
 .tabs button{font-size:.88rem}
 @media(max-width:600px){.bar .tabs{max-width:100%}.bar .tabs button{padding:.42rem .5rem;font-size:.8rem}}
+/* TELEFON: na domku tylko numery warstw, nazwy w legendzie pod scena; karta przed/po i opis tez pod scena (nic nie zaslania domku) */
+.legenda{display:none}
+@media(max-width:700px){
+  .ly{font-size:0;padding:0;border:none;width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:#1d2126}
+  .ly em{margin:0;color:#fff;font-size:15px;font-weight:800}
+  .pod-scena{display:flex;flex-direction:column;gap:12px;padding:0 12px}
+  .legenda:not([hidden]){display:grid;grid-template-columns:1fr;gap:6px;list-style:none;margin:0;padding:0}
+  .legenda button{width:100%;display:flex;align-items:center;gap:12px;text-align:left;min-height:46px;padding:6px 12px;border:1px solid var(--line);background:#fff;color:#1d2126;font:inherit;font-size:17px;font-weight:600;cursor:pointer}
+  .legenda button b{flex:none;width:30px;height:30px;border-radius:50%;background:#1d2126;color:#fff;display:flex;align-items:center;justify-content:center;font-size:15px}
+  .legenda .stoi{height:1em;vertical-align:-.1em}.legenda button.on{background:var(--accent);border-color:var(--accent);color:#fff}.legenda button.on b{background:#fff;color:#1d2126}
+  .pod-scena .quick,.pod-scena .callout{position:relative;left:auto;right:auto;top:auto;bottom:auto;width:100%;transform:none}
+  .pod-scena .quick:not(.on){display:none}
+  .pod-scena .qba{aspect-ratio:4/3}.pod-scena .q-in{max-height:none;padding:10px}
+  .pod-scena .q-tyt{font-size:1.25rem}.pod-scena .q-txt,.pod-scena .co-txt,.pod-scena .q-spec{font-size:1.05rem;line-height:1.5;color:#33383e}
+  .pod-scena .co-foto{display:block}.pod-scena .co-tyt{font-size:1.2rem}
+  .lead-line{display:none}
+}
 /* RAMKI: TWARDY STYL (2026-11-23) — ostre rogi, gruba linia, twardy cień bez rozmycia */
 /* rama z ciemnych desek (img/rama-deski.png, narzedzia/rama_deski.py) */
 .bar,.panel,.q-card{border-radius:0;border:22px solid #3a281c;border-image:url(../img/rama-deski.png) 54 stretch;box-shadow:0 10px 24px rgba(20,14,8,.28)}
@@ -304,6 +321,7 @@ ul.layers li small{margin-left:auto;color:var(--muted);font-size:.7rem}
         <div class="mode-title" id="modeTitle"></div>
         <button class="nav-back off" id="navBack" type="button" aria-label="Wstecz — poprzedni widok" title="Wstecz">←</button>
       </div>
+      <div class="pod-scena" id="podScena"><ol class="legenda" id="legenda" hidden></ol></div>
       <div class="stage-tip" id="tip">przeciągnij, aby obrócić · kliknij część domu</div>
     </div>
     <aside class="panel" id="panel" aria-live="polite"></aside>
@@ -1161,7 +1179,7 @@ const FAKTY = {
   odnowa: [["Zakres", "cała elewacja, bez skuwania starego tynku"], ["Malowanie", "farba silikonowa marki " + STOI + ", 2 warstwy"], ["Specjalność", "akrylowanie okien i drzwi"], ["Wycena", WYCENA], ["Termin", "zapisany w umowie"]],
   docieplanie: [["Zakres", "ocieplenie ścian w systemie " + STOI], ["Warstwy", "klej, płyty, siatka, grunt, tynk, farba"], ["Wycena", WYCENA], ["Termin", "zapisany w umowie"]],
   podbitka: [["Zakres", "wymiana desek i deski czołowej"], ["Wykończenie", "impregnacja w jednym kolorze"], ["Wycena", WYCENA], ["Termin", "osobno lub razem z elewacją"]],
-  wymiana: [["Zakres", "od więźby po rynny"], ["Eternit", "demontaż i utylizacja zgodnie z przepisami"], ["Azbest", "termin usunięcia: 31 grudnia 2032"], ["Wycena", WYCENA]],
+  wymiana: [["Zakres", "od więźby po rynny"], ["Eternit", "demontaż i utylizacja zgodnie z przepisami"], ["Azbest", "wyroby z azbestem można użytkować do 31.12.2032 (Dz.U. 2011 nr 8 poz. 31)"], ["Wycena", WYCENA]],
   dachowka: [["Zakres", "mycie, gruntowanie, 2 warstwy powłoki"], ["Kolor", "paleta RAL"], ["Pokrycia", "dachówka ceramiczna, cementowa, blacha"], ["Wycena", WYCENA]],
   kuna: [["Zakres", "naprawa ocieplenia i membrany"], ["Zabezpieczenie", "okapy i szczeliny"], ["Wycena", WYCENA]],
   hydro: [["Materiał", "membrana epoksydowo-poliuretanowa, bez łączeń"], ["Podłoże", "często bez zrywania starej papy"], ["Obróbki", "attyki, kominy, wywiewki"], ["Wycena", WYCENA]],
@@ -1174,7 +1192,7 @@ function steps(a){ return '<div class="sec"><h4>Na czym polega</h4><ol class="st
 function why(a){ return faktyHtml(mode) + '<div class="sec"><h4>Dlaczego warto</h4><ul class="why">' + a.map(s => `<li>${s}</li>`).join("") + "</ul></div>"; }
 function layersList(arr, tytul){ return `<div class="sec"><h4>${tytul}</h4><ul class="layers">` + arr.map((L, i) => `<li data-layer="${L.id}"><b style="background:${L.kol}"></b>${L.nazwa}<small>${i + 1}</small></li>`).join("") + "</ul></div>"; }
 function baSlider(id, val){ return `<div class="sec ba"><div class="ba-row"><span>Przed</span><span>Po</span></div><input type="range" id="${id}" min="0" max="100" value="${val}"></div>`; }
-const CTA = '<div class="act"><a class="btn btn-a" href="../index.html#kontakt" target="_top">Bezpłatna wycena</a></div>';
+const CTA = '<div class="act"><a class="btn btn-a" href="../index.html#umow" target="_top" data-umow>Umów bezpłatną wycenę</a></div>';
 
 function roofLayersData(){ const r = ROOF_LAYERS.map(l => ({...l})); r[6].nazwa = "Pokrycie — " + COVER[coverState.typ].nazwa.toLowerCase(); r[6].kol = coverState.kolor; return r; }
 
@@ -1405,6 +1423,23 @@ function mkLy(kind, idx, nazwa, right){ const el = document.createElement("div")
   labelsEl.appendChild(el); const o = {kind, idx, el}; LY.push(o); return o; }
 ROOF_LAYERS.forEach((L, i) => mkLy("roof", i, L.nazwa, true));
 WALL_LAYERS.forEach((L, i) => mkLy("wall", i, L.nazwa, true));
+
+/* telefon: karta przed/po i opis warstwy pod scena + legenda numerow */
+const podScenaEl = $("#podScena"), legendaEl = $("#legenda"), mqTel = matchMedia("(max-width:700px)");
+function ulozTel(){ const q = $("#quick"), c = $("#callout"), cel = mqTel.matches ? podScenaEl : stage, przed = mqTel.matches ? null : $("#modeTitle");
+  [c, q].forEach(e => { if (e.parentNode !== cel) cel.insertBefore(e, przed); }); }
+ulozTel(); mqTel.addEventListener("change", ulozTel);
+let legendaKlucz = "";
+function legendaOdswiez(widoczne){
+  const k = mqTel.matches ? widoczne.map(o => o.el.dataset.layer + (o.idx === 6 ? coverState.typ : "")).join(",") : "";
+  if (k === legendaKlucz) return; legendaKlucz = k; legendaEl.hidden = !k; legendaEl.textContent = "";
+  if (!k) return;
+  widoczne.forEach(o => { const li = document.createElement("li"), b = document.createElement("button"), n = document.createElement("b"); b.type = "button"; b.dataset.layer = o.el.dataset.layer;
+    n.textContent = o.idx + 1; const t = document.createElement("span"); [].slice.call(o.el.childNodes, 1).forEach(x => t.appendChild(x.cloneNode(true))); b.append(n, t);
+    b.addEventListener("click", () => { const byl = b.classList.contains("on");
+      highlightLayer(byl ? null : o.el.dataset.layer); });
+    li.append(b); legendaEl.append(li); });
+}
 
 /* ---------- wskazanie mysza (raycast) + obrot */
 const ray = new THREE.Raycaster(), mouse = new THREE.Vector2();
@@ -1673,7 +1708,7 @@ function frame(now){
     h.el.classList.toggle("off", mode !== "dom" || !p.vis); }
   // etykiety warstw dachu (przednia polac) i sciany
   const front = roofSlopes[0];
-  const doRozsuniecia = [];   // etykiety warstw: rozsuwane w pionie, zeby sie nie nakladaly (male ekrany, powiekszenie)
+  const doRozsuniecia = [], wLegendzie = [];   // etykiety warstw: rozsuwane w pionie, zeby sie nie nakladaly (male ekrany, powiekszenie)
   for (const o of LY){
     let show = false, wp = null;
     if (o.kind === "roof" && rt > .35 && (mode === "wymiana" || (mode === "kuna" && o.idx < 4))){
@@ -1683,14 +1718,14 @@ function frame(now){
     if (o.kind === "wall" && S.wallT > .35 && mode === "docieplanie"){
       const g = wallLayers[o.idx]; wp = new THREE.Vector3(W / 2, H + GABLE * .15 - o.idx * .55, WALL_LAYERS[o.idx].th / 2); g.localToWorld(wp); show = true;
     }
-    if (show){ const p = project(wp); o.el.style.left = (p.x + 10) + "px"; doRozsuniecia.push([o.el, p.y]); }
+    if (show){ const p = project(wp); o.el.style.left = (p.x + 10) + "px"; doRozsuniecia.push([o.el, p.y]); wLegendzie.push(o); }
     o.el.style.opacity = show ? Math.min(1, (o.kind === "roof" ? rt : S.wallT) * 1.6 - .5) : 0;
     o.el.style.pointerEvents = show ? "auto" : "none"; o.el.style.visibility = show ? "visible" : "hidden";
     if (o.kind === "roof" && o.idx === 6) o.el.innerHTML = `<em>7</em>Pokrycie — ${COVER[coverState.typ].nazwa.toLowerCase()}`;
   }
   { const on = mode === "wymiana" || mode === "dachowka" || mode === "kuna";
     const p = project(RYNNA_ETYK); rynnaLbl.style.left = (p.x + 10) + "px"; rynnaLbl.style.top = p.y + "px";
-    rynnaLbl.style.opacity = on && p.vis ? 1 : 0; rynnaLbl.style.visibility = on ? "visible" : "hidden";
+    const onR = on && !mqTel.matches; rynnaLbl.style.opacity = onR && p.vis ? 1 : 0; rynnaLbl.style.visibility = onR ? "visible" : "hidden";
     M.rynnaWym.emissiveIntensity = on ? .35 + .25 * Math.sin(now * .004) : 0; }
   if (rynnaLbl.style.visibility === "visible" && rynnaLbl.style.opacity !== "0") doRozsuniecia.push([rynnaLbl, parseFloat(rynnaLbl.style.top)]);
   if (doRozsuniecia.length){
@@ -1703,6 +1738,7 @@ function frame(now){
     for (const [el, y] of doRozsuniecia){ el.style.top = (y - dy) + "px";
       const lx = parseFloat(el.style.left), w = el.offsetWidth; if (lx + w > sw - 4) el.style.left = Math.max(4, sw - 4 - w) + "px"; }
   }
+  legendaOdswiez(wLegendzie);
   updateLead();
   requestAnimationFrame(frame);
 }
@@ -1710,6 +1746,12 @@ function frame(now){
 setCover("blacha", COVER.blacha.kolory[0][1]);
 renderPanel(); renderBar(); renderGal();
 requestAnimationFrame(frame);
+
+/* przycisk wyceny: okno umawiania otwiera strona glowna (z wybrana usluga) */
+const UMOW_USL = {odnowa:"Renowacja elewacji", docieplanie:"Termomodernizacja", podbitka:"Renowacja elewacji", wymiana:"Wymiana pokrycia dachowego, w tym pokryć z eternitu", dachowka:"Czyszczenie i malowanie dachów",
+  kuna:"Naprawa poddasza po kunach i zabezpieczenie przed ich powrotem", hydro:"Hydroizolacja dachu płaskiego", posadzka:"Posadzki żywiczne", taras:"Taras i schody"};
+document.addEventListener("click", e => { const a = e.target.closest("[data-umow]"); if (!a || window.parent === window) return;
+  e.preventDefault(); parent.postMessage({type:"umow", usluga:UMOW_USL[mode] || ""}, location.origin); });
 
 /* osadzenie na stronie glownej (iframe): podaj rodzicowi wysokosc tresci */
 if (window.parent !== window){

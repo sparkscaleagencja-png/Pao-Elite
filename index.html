@@ -409,14 +409,14 @@ details[open] .fq-ik,summary:hover .fq-ik{background:var(--accent)}
 .contact .direct{margin-top:1.8rem;display:flex;flex-direction:column;gap:.7rem;font-size:.95rem}
 .contact .direct a{color:#fff;text-decoration:none;font-weight:700}
 .contact .direct a:hover{color:#ffb397}
-.contact .direct small{display:block;color:#ffffff77;font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;margin-bottom:.15rem;font-weight:400}
+.contact .direct small{display:block;color:#ffffffb0;font-size:.98rem;letter-spacing:.02em;margin-bottom:.15rem;font-weight:400}
 form{display:flex;flex-direction:column;gap:.9rem}
 .frow{display:grid;grid-template-columns:1fr 1fr;gap:.9rem}
-.fierr{color:#ffb397;font-size:.82rem;margin-top:.6rem;display:none}
+.fierr{color:#ffb397;font-size:1.05rem;margin-top:.6rem;display:none}
 label .opc{text-transform:none;letter-spacing:0;font-weight:500;opacity:.7}
-label{font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;color:#ffffff90;font-weight:700;display:block;margin-bottom:.35rem}
+label{font-size:1.05rem;letter-spacing:0;color:#fff;font-weight:700;display:block;margin-bottom:.35rem}
 input,select,textarea{width:100%;padding:.8rem .9rem;background:#272d34;border:1px solid #3a424b;border-radius:4px;color:#fff;
-  font-size:.92rem;font-family:inherit;transition:border-color .25s}
+  font-size:1.08rem;font-family:inherit;transition:border-color .25s}
 input:focus,select:focus,textarea:focus{outline:none;border-color:var(--accent)}
 textarea{min-height:110px;resize:vertical}
 .rodo{display:flex;gap:.6rem;align-items:flex-start;font-size:.72rem;color:#ffffff85;line-height:1.5}
@@ -454,6 +454,20 @@ textarea{min-height:110px;resize:vertical}
 }
 </style>
 <script defer src="/_s/s.js"></script>
+<style>
+/* pasek umawiania na telefonie (zawsze pod ręką) */
+.umpasek{display:none}
+@media(max-width:760px){
+  .umpasek{position:fixed;left:0;right:0;bottom:0;z-index:60;display:flex;gap:8px;padding:8px 10px calc(8px + env(safe-area-inset-bottom));background:rgba(255,255,255,.97);box-shadow:0 -4px 18px rgba(20,24,30,.18)}
+  .umpasek a{display:flex;align-items:center;justify-content:center;min-height:52px;text-decoration:none;font-weight:800;font-size:17px;color:#fff;background:#c05a3c}
+  .umpasek .g{flex:1}
+  .umpasek .i{flex:none;width:56px;background:#1d2126}.umpasek .w{background:#1fa855}
+  .umpasek svg,.umpasek img{width:26px;height:26px;fill:#fff}
+  body{padding-bottom:calc(68px + env(safe-area-inset-bottom))}
+  html.pe-on .umpasek{display:none}
+}
+</style>
+<script defer src="umow/start.js?v=1"></script>
 </head>
 <body>
 
@@ -475,11 +489,12 @@ textarea{min-height:110px;resize:vertical}
       <span>608 355 327</span>
     </a>
     <a class="head-login" href="https://pao.164.132.243.94.sslip.io/login">Zaloguj się</a>
-    <a class="btn btn-accent" href="#kontakt"><span class="bd">Bezpłatna wycena</span><span class="bm">Wycena</span></a>
+    <a class="btn btn-accent" href="#kontakt" data-umow=""><span class="bd">Umów bezpłatną wycenę</span><span class="bm">Wycena</span></a>
     <button class="menu-btn" id="menuBtn" type="button" aria-label="Menu" aria-expanded="false" aria-controls="mobMenu"><span></span><span></span><span></span></button>
   </div>
 </header>
 <nav class="mobmenu" id="mobMenu" aria-label="Menu mobilne">
+  <a href="#kontakt" data-umow="">Umów bezpłatną wycenę</a>
   <a href="#uslugi">Usługi</a>
   <a href="realizacje.html">Realizacje</a>
   <a href="#proces">Jak pracujemy</a>
@@ -505,7 +520,7 @@ textarea{min-height:110px;resize:vertical}
         <div class="word logo"><img src="img/napis-pao-elite.svg" alt="PAO ELITE"></div>
         <div class="rule"></div>
         <h1 class="sub" data-e="hero-h1">Czyszczenie i malowanie elewacji oraz dachów</h1>
-        <div class="vbtns"><a class="vcta" data-e="hero-btn1" href="#kontakt">Umów bezpłatną wycenę</a><a class="vcta ghost" data-e="hero-btn2" href="https://wa.me/48608355327?text=Dzie%C5%84%20dobry%2C%20chc%C4%99%20zapyta%C4%87%20o%20wycen%C4%99.%20Wysy%C5%82am%20zdj%C4%99cia%3A" target="_blank" rel="noopener">Wyślij zdjęcia na WhatsApp</a></div>
+        <div class="vbtns"><a class="vcta" data-e="hero-btn1" href="#kontakt" data-umow="">Umów bezpłatną wycenę</a><a class="vcta ghost" data-e="hero-btn2" href="https://wa.me/48608355327?text=Dzie%C5%84%20dobry%2C%20chc%C4%99%20zapyta%C4%87%20o%20wycen%C4%99.%20Wysy%C5%82am%20zdj%C4%99cia%3A" target="_blank" rel="noopener">Wyślij zdjęcia na WhatsApp</a></div>
       </div>
     </section>
 
@@ -521,7 +536,7 @@ textarea{min-height:110px;resize:vertical}
         <div class="word" data-e="hero2-word">Efekt widać<br><b>na pierwszy rzut oka.</b></div>
         <div class="rule"></div>
         <div class="sub" data-e="hero2-sub">Dolny Śląsk i Wielkopolska</div>
-        <a class="vcta" data-e="hero2-btn" href="#kontakt">Bezpłatna wycena</a>
+        <a class="vcta" data-e="hero2-btn" href="#kontakt" data-umow="">Umów bezpłatną wycenę</a>
       </div>
     </section>
 
@@ -542,35 +557,35 @@ textarea{min-height:110px;resize:vertical}
   <div class="tiles">
     <div class="tile" data-service="Renowacja elewacji">
       <div class="bgimg bg-fac"></div><video class="bgvid" muted loop playsinline preload="none" poster="video/uslugi/elewacja.jpg" data-src="video/uslugi/elewacja.mp4" aria-hidden="true"></video><div class="shade"></div>
-      <div class="tcont"><h3 data-e="kafel1-h3">Renowacja elewacji</h3><p data-e="kafel1-p">Naprawa pęknięć, nowa struktura tynku, mycie ciśnieniowe i dwukrotne malowanie farbą silikonową marki <img class="stoi" src="img/sto-logo-jasne.png" alt="Sto" width="411" height="70">. Przed pracami zabezpieczamy okna, drzwi i otoczenie budynku.</p><a class="go" href="#kontakt">Zapytaj o wycenę</a></div>
+      <div class="tcont"><h3 data-e="kafel1-h3">Renowacja elewacji</h3><p data-e="kafel1-p">Naprawa pęknięć, nowa struktura tynku, mycie ciśnieniowe i dwukrotne malowanie farbą silikonową marki <img class="stoi" src="img/sto-logo-jasne.png" alt="Sto" width="411" height="70">. Przed pracami zabezpieczamy okna, drzwi i otoczenie budynku.</p><a class="go" href="#kontakt" data-umow="Renowacja elewacji">Umów bezpłatną wycenę</a></div>
     </div>
     <div class="tile" data-service="Czyszczenie i malowanie dachów">
       <div class="bgimg bg-roof"></div><video class="bgvid" muted loop playsinline preload="none" poster="video/uslugi/dachy.jpg" data-src="video/uslugi/dachy.mp4" aria-hidden="true"></video><div class="shade"></div>
-      <div class="tcont"><h3 data-e="kafel2-h3">Czyszczenie i malowanie dachów</h3><p data-e="kafel2-p">Dachówka ceramiczna, cementowa i blacha. Mycie ciśnieniowe, powłoka ochronna i nowy kolor z palety RAL — po ocenie stanu dachu często taniej niż wymiana pokrycia.</p><a class="go" href="#kontakt">Zapytaj o wycenę</a></div>
+      <div class="tcont"><h3 data-e="kafel2-h3">Czyszczenie i malowanie dachów</h3><p data-e="kafel2-p">Dachówka ceramiczna, cementowa i blacha. Mycie ciśnieniowe, powłoka ochronna i nowy kolor z palety RAL — po ocenie stanu dachu często taniej niż wymiana pokrycia.</p><a class="go" href="#kontakt" data-umow="Czyszczenie i malowanie dachów">Umów bezpłatną wycenę</a></div>
     </div>
     <div class="tile" data-service="Hydroizolacja dachu płaskiego">
       <div class="bgimg bg-flat"></div><video class="bgvid" muted loop playsinline preload="none" poster="video/uslugi/hydroizolacja.jpg" data-src="video/uslugi/hydroizolacja.mp4" aria-hidden="true"></video><div class="shade"></div>
-      <div class="tcont"><h3 data-e="kafel3-h3">Hydroizolacja dachu płaskiego</h3><p data-e="kafel3-p">Bezspoinowa membrana z żywicy poliuretanowej — w wielu przypadkach bez zrywania starej papy, jeśli pozwala na to stan podłoża. Odporność na wodę, UV i mróz zależy od zastosowanego systemu.</p><a class="go" href="#kontakt">Zapytaj o wycenę</a></div>
+      <div class="tcont"><h3 data-e="kafel3-h3">Hydroizolacja dachu płaskiego</h3><p data-e="kafel3-p">Bezspoinowa membrana z żywicy poliuretanowej — w wielu przypadkach bez zrywania starej papy, jeśli pozwala na to stan podłoża. Odporność na wodę, UV i mróz zależy od zastosowanego systemu.</p><a class="go" href="#kontakt" data-umow="Hydroizolacja dachu płaskiego">Umów bezpłatną wycenę</a></div>
     </div>
     <div class="tile" data-service="Wymiana pokrycia dachowego, w tym pokryć z eternitu">
       <div class="bgimg bg-roof2"></div><video class="bgvid" muted loop playsinline preload="none" poster="video/uslugi/wymiana_dachu.jpg" data-src="video/uslugi/wymiana_dachu.mp4" aria-hidden="true"></video><div class="shade"></div>
-      <div class="tcont"><h3 data-e="kafel4-h3">Wymiana pokrycia dachowego, w tym pokryć z eternitu</h3><p data-e="kafel4-p">Wymiana całej połaci: demontaż i utylizacja eternitu, więźba, membrana, łaty i nowe pokrycie.</p><a class="go" href="#kontakt">Zapytaj o wycenę</a></div>
+      <div class="tcont"><h3 data-e="kafel4-h3">Wymiana pokrycia dachowego, w tym pokryć z eternitu</h3><p data-e="kafel4-p">Wymiana całej połaci: demontaż i utylizacja eternitu, więźba, membrana, łaty i nowe pokrycie.</p><a class="go" href="#kontakt" data-umow="Wymiana pokrycia dachowego, w tym pokryć z eternitu">Umów bezpłatną wycenę</a></div>
     </div>
     <div class="tile" data-service="Posadzki żywiczne">
       <div class="bgimg bg-floor"></div><video class="bgvid" muted loop playsinline preload="none" poster="video/uslugi/garaz.jpg" data-src="video/uslugi/garaz.mp4" aria-hidden="true"></video><div class="shade"></div>
-      <div class="tcont"><h3 data-e="kafel5-h3">Posadzki żywiczne</h3><p data-e="kafel5-p">Posadzki do garażu w wybranym kolorze, łatwe w utrzymaniu. Odporność na ścieranie, oleje, paliwa i chemię zależy od zastosowanego systemu żywicy.</p><a class="go" href="#kontakt">Zapytaj o wycenę</a></div>
+      <div class="tcont"><h3 data-e="kafel5-h3">Posadzki żywiczne</h3><p data-e="kafel5-p">Posadzki do garażu w wybranym kolorze, łatwe w utrzymaniu. Odporność na ścieranie, oleje, paliwa i chemię zależy od zastosowanego systemu żywicy.</p><a class="go" href="#kontakt" data-umow="Posadzki żywiczne">Umów bezpłatną wycenę</a></div>
     </div>
     <div class="tile" data-service="Taras i schody">
       <div class="bgimg bg-stone"></div><video class="bgvid" muted loop playsinline preload="none" poster="video/uslugi/taras.jpg" data-src="video/uslugi/taras.mp4" aria-hidden="true"></video><div class="shade"></div>
-      <div class="tcont"><h3 data-e="kafel6-h3">Taras i schody</h3><p data-e="kafel6-p">Kamienny dywan i żywice na tarasy, balkony i schody — wykończenie antypoślizgowe. Hydroizolację i odporność na mróz oraz UV dobieramy do podłoża i systemu.</p><a class="go" href="#kontakt">Zapytaj o wycenę</a></div>
+      <div class="tcont"><h3 data-e="kafel6-h3">Taras i schody</h3><p data-e="kafel6-p">Kamienny dywan i żywice na tarasy, balkony i schody — wykończenie antypoślizgowe. Hydroizolację i odporność na mróz oraz UV dobieramy do podłoża i systemu.</p><a class="go" href="#kontakt" data-umow="Taras i schody">Umów bezpłatną wycenę</a></div>
     </div>
     <div class="tile" data-service="Termomodernizacja">
       <div class="bgimg bg-insul"></div><video class="bgvid" muted loop playsinline preload="none" poster="video/uslugi/termo.jpg" data-src="video/uslugi/termo.mp4" aria-hidden="true"></video><div class="shade"></div>
-      <div class="tcont"><h3 data-e="kafel7-h3">Termomodernizacja</h3><p data-e="kafel7-p">Ocieplenie ścian w systemie <img class="stoi" src="img/sto-logo-jasne.png" alt="Sto" width="411" height="70"> — od kleju i płyt, przez siatkę i grunt, po tynk i farbę.</p><a class="go" href="#kontakt">Zapytaj o wycenę</a></div>
+      <div class="tcont"><h3 data-e="kafel7-h3">Termomodernizacja</h3><p data-e="kafel7-p">Ocieplenie ścian w systemie <img class="stoi" src="img/sto-logo-jasne.png" alt="Sto" width="411" height="70"> — od kleju i płyt, przez siatkę i grunt, po tynk i farbę.</p><a class="go" href="#kontakt" data-umow="Termomodernizacja">Umów bezpłatną wycenę</a></div>
     </div>
     <div class="tile" data-service="Naprawa poddasza po kunach i zabezpieczenie przed ich powrotem">
       <div class="bgimg bg-claim"></div><video class="bgvid" muted loop playsinline preload="none" poster="video/uslugi/kuna.jpg" data-src="video/uslugi/kuna.mp4" aria-hidden="true"></video><div class="shade"></div>
-      <div class="tcont"><h3 data-e="kafel8-h3">Naprawa poddasza po kunach i zabezpieczenie przed ich powrotem</h3><p data-e="kafel8-p">Usuwamy skutki bytowania kuny: zniszczoną wełnę i membranę, naprawiamy poddasze i zabezpieczamy okapy.</p><a class="go" href="#kontakt">Zapytaj o wycenę</a></div>
+      <div class="tcont"><h3 data-e="kafel8-h3">Naprawa poddasza po kunach i zabezpieczenie przed ich powrotem</h3><p data-e="kafel8-p">Usuwamy skutki bytowania kuny: zniszczoną wełnę i membranę, naprawiamy poddasze i zabezpieczamy okapy.</p><a class="go" href="#kontakt" data-umow="Naprawa poddasza po kunach i zabezpieczenie przed ich powrotem">Umów bezpłatną wycenę</a></div>
     </div>
   </div>
 </div>
@@ -617,7 +632,7 @@ textarea{min-height:110px;resize:vertical}
       <details open><summary><i class="fq-ik" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 4h13v5H4z"/><path d="M17 6.5h2.5V12H11v3"/><path d="M9.5 15h3v6h-3z"/></svg></i><span data-e="faq1-q">Ile kosztuje malowanie dachu lub elewacji?</span></summary>
         <div class="a" data-e="faq1-a">Cena zależy od powierzchni, stanu podłoża i wybranego systemu, dlatego nie podajemy stawek „na oko”. Najszybciej: wyślij kilka zdjęć na WhatsApp — oddzwonimy w ciągu 24 godzin w dni robocze z orientacyjnym przedziałem cenowym. Po bezpłatnych oględzinach dostajesz wiążącą wycenę, bez dopisków na koniec.</div></details>
       <details><summary><i class="fq-ik" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M2 12 12 4l10 8"/><path d="M5 10v10h14V10"/><path d="M10 20v-5h4v5"/><path d="M16 5.5V3h2.5v4.5"/></svg></i><span data-e="faq2-q">Czy malowanie dachu ma sens zamiast wymiany?</span></summary>
-        <div class="a" data-e="faq2-a">To zależy od stanu pokrycia — oceniamy go podczas oględzin. Jeśli dachówka lub blacha są technicznie sprawne, renowacja daje dużo za mniejsze pieniądze:<br>• kosztuje zwykle wyraźnie mniej niż wymiana pokrycia,<br>• trwa kilka dni, bez zrywania dachówek i odkrywania domu,<br>• powłoka ochronna ogranicza nasiąkanie wodą oraz odrastanie mchu i porostów,<br>• blacha zyskuje ochronę przed korozją, a cały dach — nowy, równy kolor,<br>• przedłuża żywotność pokrycia o kolejne lata.<br>Uczciwie powiemy, kiedy renowacja się nie opłaca i lepsza będzie wymiana.</div></details>
+        <div class="a" data-e="faq2-a">To zależy od stanu pokrycia — oceniamy go podczas oględzin. Jeśli dachówka lub blacha są technicznie sprawne, renowacja ma sens:<br>• zwykle kosztuje mniej niż wymiana pokrycia (porównamy to w wycenie),<br>• nie trzeba zrywać pokrycia ani odkrywać domu,<br>• powłoka ochronna ogranicza nasiąkanie wodą oraz odrastanie mchu i porostów,<br>• blacha zyskuje ochronę przed korozją, a cały dach — nowy, równy kolor,<br>• zabezpiecza pokrycie przed dalszym niszczeniem.<br>Uczciwie powiemy, kiedy renowacja się nie opłaca i lepsza będzie wymiana.</div></details>
       <details><summary><i class="fq-ik" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="3.5" y="5" width="17" height="15" rx="1.5"/><path d="M3.5 10h17M8 3v4M16 3v4"/><path d="m9 14.5 2 2 4-4"/></svg></i><span data-e="faq3-q">Jak długo trwa realizacja?</span></summary>
         <div class="a" data-e="faq3-a">Mycie i malowanie elewacji lub dachu standardowego domu jednorodzinnego trwa zwykle 3–5 dni roboczych. Najwięcej zależy od pogody: malujemy tylko przy suchej aurze i odpowiedniej temperaturze, a deszcz wydłuża przerwy technologiczne. Znaczenie mają też metraż i zakres napraw. Termin realizacji ustalamy i zapisujemy w umowie.</div></details>
       <details><summary><i class="fq-ik" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 3 4.5 6v5.5c0 4.6 3.2 8.2 7.5 9.5 4.3-1.3 7.5-4.9 7.5-9.5V6z"/><path d="m8.8 12 2.2 2.2 4.3-4.4"/></svg></i><span data-e="faq4-q">Jaką gwarancję otrzymam?</span></summary>
@@ -634,7 +649,7 @@ textarea{min-height:110px;resize:vertical}
 <div class="ctaband">
   <div class="word" data-e="cta-word">Twój dom zasługuje na <b>więcej</b>.<br>Zacznij od bezpłatnej wyceny.</div>
   <div class="btns">
-    <a class="btn btn-accent" data-e="cta-btn1" href="#kontakt">Wyceń swój projekt</a>
+    <a class="btn btn-accent" data-e="cta-btn1" href="#kontakt" data-umow="">Wyceń swój projekt</a>
     <a class="btn btn-glass" href="tel:+48608355327">Zadzwoń: 608 355 327</a>
   </div>
   <div class="jakosc">
@@ -667,6 +682,8 @@ textarea{min-height:110px;resize:vertical}
       </div>
     </div>
     <form id="quoteForm" novalidate>
+      <a class="btn btn-accent um-form" href="#umow" data-umow="" style="display:block;font-size:1.15rem;padding:1rem">Umów bezpłatną wycenę</a>
+      <p class="fnote" style="font-size:1rem">Wybierasz dzień i porę. Możesz też po prostu wysłać zapytanie poniżej.</p>
       <input type="text" name="firma" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;opacity:0">
       <div class="frow">
         <div><label for="fName">Imię *</label><input id="fName" name="name" required autocomplete="name"></div>
@@ -701,6 +718,11 @@ textarea{min-height:110px;resize:vertical}
   </div>
 </section>
 
+<nav class="umpasek" aria-label="Szybki kontakt">
+  <a class="g" href="#kontakt" data-umow="">Umów bezpłatną wycenę</a>
+  <a class="i" href="tel:+48608355327" aria-label="Zadzwoń: 608 355 327"><svg viewBox="0 0 24 24"><path d="M6.6 10.8c1.4 2.8 3.8 5.1 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1C10.6 21 3 13.4 3 4c0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.2.2 2.4.6 3.6.1.3 0 .7-.2 1l-2.3 2.2z"/></svg></a>
+  <a class="i w" href="https://wa.me/48608355327?text=Dzie%C5%84%20dobry%2C%20chc%C4%99%20zapyta%C4%87%20o%20wycen%C4%99.%20Wysy%C5%82am%20zdj%C4%99cia%3A" target="_blank" rel="noopener" aria-label="Napisz na WhatsApp"><img src="img/whatsapp-bialy.svg" alt="" width="26" height="26"></a>
+</nav>
 <footer>
   <div class="fwrap">
     <img class="flogo" src="img/logo-pao-elite-tlo.svg" alt="PAO Elite — Perfekcja" width="170" height="163" loading="lazy">
@@ -846,7 +868,7 @@ addEventListener('message',e=>{
   });
 })();
 
-const WYCENA_API='https://pao.164.132.243.94.sslip.io/api/wycena';
+const WYCENA_API=/(^|\.)pao-elite\.pl$/.test(location.hostname)?'/_a/api/wycena':'https://pao.164.132.243.94.sslip.io/api/wycena';
 document.getElementById('quoteForm').addEventListener('submit',async e=>{
   e.preventDefault();
   const f=e.target, btn=f.querySelector('button[type=submit]'), ok=document.getElementById('formOk'), er=document.getElementById('formErr');
@@ -860,10 +882,10 @@ document.getElementById('quoteForm').addEventListener('submit',async e=>{
   btn.disabled=true; const tekst=btn.textContent; btn.textContent='Wysyłam…'; ok.style.display='none';
   try{
     const r=await fetch(WYCENA_API,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({
-      imie:f.name.value,telefon:f.phone.value,email:f.email.value,miejscowosc:f.city.value,usluga:f.service.value,wiadomosc:f.message.value+(f.area.value.trim()?'\n[Orientacyjna powierzchnia: '+f.area.value.trim()+' m²]':''),rodo:true,firma:f.firma?f.firma.value:''})});
+      imie:f.name.value,telefon:f.phone.value,email:f.email.value,miejscowosc:f.city.value,usluga:f.service.value,wiadomosc:f.message.value+(f.area.value.trim()?'\n[Orientacyjna powierzchnia: '+f.area.value.trim()+' m²]':''),rodo:true,firma:f.firma?f.firma.value:'',zrodlo:window.PaoUmow?window.PaoUmow.zrodlo():{}})});
     const d=await r.json().catch(()=>({}));
     if(!r.ok||!d.ok)throw new Error(d.blad||'błąd');
-    ok.textContent='Dziękujemy! Oddzwonimy w ciągu 24 godzin w dni robocze.'; ok.style.display='block'; btn.textContent='Wysłano ✓';
+    ok.textContent='Dziękujemy! Oddzwonimy w ciągu 24 godzin w dni robocze.'; ok.style.display='block'; btn.textContent='Wysłano ✓'; try{window.pegazStat&&window.pegazStat('klik','WYCENA: zapytanie wysłane')}catch(_){}
   }catch(err){
     blad('Nie udało się wysłać zgłoszenia. Zadzwoń: 608 355 327.'); btn.disabled=false; btn.textContent=tekst;
   }

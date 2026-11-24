@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="pl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<meta name="referrer" content="no-referrer">
+<title>Moja wycena — PAO Elite</title>
+<link rel="icon" type="image/svg+xml" href="img/znak-p.svg">
+<link rel="stylesheet" href="fonts/bespoke-slab.css">
+<link rel="stylesheet" href="umow/umow.css?v=1">
+<style>
+body{margin:0;background:#f5f4f1;font-family:"Bespoke Slab","Segoe UI",system-ui,sans-serif;color:#1d2126}
+.str{max-width:760px;margin:0 auto;padding:22px 16px 60px}
+.str>a img{display:block;width:120px;height:auto;margin:0 auto 18px}
+.str .um{width:100%;max-height:none;height:auto;box-shadow:0 10px 30px rgba(20,24,30,.12)}
+.um-t{overflow:visible}
+.st{display:inline-block;padding:6px 14px;font-size:18px;font-weight:800;color:#fff;background:#8a6d1f}
+.st.potwierdzona{background:#2c7a3f}.st.odwolana{background:#8c2a22}.st.odbyta{background:#33506f}
+</style>
+</head>
+<body>
+<main class="str"><a href="/"><img src="img/logo-pao-elite-tlo.svg" alt="PAO Elite"></a>
+<div class="um"><div class="um-g"><h2>Moja wycena</h2></div><div class="um-t" id="t"><p>Wczytuję…</p></div></div></main>
+<script>window.PaoUmow={zrodlo:function(){return {}}};</script>
+<script src="umow/umow.js?v=1"></script>
+<script>
+(function(){
+  var O = window.PaoOkno, E = O._E, box = document.getElementById('t'), tok = (location.hash.match(/t=([\w-]+)/) || [])[1];
+  var ST = {wstepna:'czeka na potwierdzenie', potwierdzona:'potwierdzona', odwolana:'odwołana', odbyta:'odbyta'};
+  function p(t){ return E('p', {text:t}); }
+  function blad(m){ var b = box.querySelector('.um-err'); if (!b) { b = E('div', {'class':'um-err', role:'alert'}); box.append(b); } b.textContent = m; b.style.display = 'block'; }
+  function guzik(klasa, tekst, fn){ var b = E('button', {'class':'um-b ' + klasa, type:'button', text:tekst}); b.addEventListener('click', function(){ fn(b); }); return b; }
+  function rysuj(d, kom){
+    box.textContent = '';
+    if (kom) box.append(E('div', {'class':'um-info'}, [p(kom)]));
+    box.append(E('p', {}, [E('span', {'class':'st ' + d.status, text:ST[d.status] || d.status})]), E('p', {'class':'um-ok', text:d.termin.charAt(0).toUpperCase() + d.termin.slice(1)}), p(d.usluga), p(d.adres + ', ' + d.kod + ' ' + d.miejscowosc));
+    if ((d.status === 'wstepna' || d.status === 'potwierdzona') && !d.minela) {
+      var zm = E('div');
+      box.append(E('div', {'class':'um-rz'}, [guzik('s', 'Dodaj do kalendarza', function(){ O._ics(d); }), guzik('j', 'Zmień termin', function(){ zmiana(zm); }),
+        guzik('j', 'Odwołaj wycenę', function(b){ if (!confirm('Na pewno odwołać wycenę?')) return; b.disabled = true;
+          O._api('/termin/odwolaj', {t:tok}).then(function(x){ rysuj(x, 'Wycena odwołana. Dziękujemy za informację.'); }, function(e){ b.disabled = false; blad(e.message); }); })]), zm);
+    } else box.append(E('div', {'class':'um-rz'}, [E('a', {'class':'um-b', href:'/#umow', text:'Umów nowy termin'})]));
+    box.append(E('p', {style:'margin-top:22px'}, ['Pytania: ', E('a', {href:'tel:+48608355327', text:'608 355 327', style:'color:#a34a30;font-weight:700'})]));
+  }
+  function zmiana(zm, kom){
+    zm.textContent = ''; zm.append(p('Sprawdzam wolne terminy…'));
+    O._api('/termin/moje-wolne', {t:tok}).then(function(w){
+      zm.textContent = '';
+      if (!Object.keys(w.dni).length) { zm.append(E('div', {'class':'um-info'}, [p('Nie ma teraz wolnych godzin. Zadzwoń, ustalimy termin: 608 355 327.')])); return; }
+      var S = {}, b = guzik('', 'Zapisz nowy termin', function(){ b.disabled = true;
+        O._api('/termin/przeloz', {t:tok, dzien:S.dzien, godz:S.godz}).then(function(x){ rysuj(x, x.status === 'wstepna' ? 'Termin zmieniony, czeka na potwierdzenie.' : 'Termin zmieniony.'); scrollTo(0, 0); },
+          function(e){ if (e.zajety) zmiana(zm, e.message); else { b.disabled = false; blad(e.message); } }); });
+      b.disabled = true;
+      O._wyborDnia(zm, w.dni, S, function(ok){ b.disabled = !ok; }, kom); zm.append(E('div', {'class':'um-rz'}, [b])); zm.scrollIntoView({block:'nearest'});
+    }, function(e){ zm.textContent = ''; blad(e.message); });
+  }
+  if (!tok) { box.textContent = ''; box.append(p('Ten link jest niepełny. Skopiuj go jeszcze raz albo zadzwoń: 608 355 327.')); return; }
+  O._api('/termin/moj', {t:tok}).then(function(d){ rysuj(d); }, function(e){ box.textContent = ''; box.append(p(e.message)); });
+})();
+</script>
+</body>
+</html>
